@@ -1,0 +1,51 @@
+div.budget { position: relative; font-family: 'vw',sans-serif; width: 100%; }
+
+.budget .quarter-tabs { position: relative; z-index: 100; margin: 9px -4px 1px; }
+.budget .quarter-tabs:after { display: block; clear: both; content: ''; }
+.budget .quarter-tabs .tab { float: left; width: 25%; padding: 0 4px; position: relative; margin-right: 0px; cursor: pointer; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.budget .quarter-tabs .tab-header { position: relative; padding: 5px 10px; background: #e7ecef; border-bottom: 1px solid #fff; font-weight: bold; font-size: 14px; line-height: 1; color: #4e5152; border-radius: 4px 4px 0 0; }
+.budget .quarter-tabs .tab-header span { font-size: 17px; }
+.budget .quarter-tabs .tab-header .required-activities { position: absolute; top: 5px; right: 7px; }
+.budget .quarter-tabs .tab-header .required-activities img { padding-left: 2px; }
+.budget .quarter-tabs .tab-body { padding: 5px 10px; background: #e7ecef; font-size: 14px; }
+.budget .quarter-tabs .tab-select { position: relative; background: #e7ecef; border-bottom: 1px solid #fff; font-size: 14px; }
+.budget .quarter-tabs .tab-select__value { position: relative; padding: 4px 10px; border: 1px solid transparent; font-weight: 700; }
+.budget .quarter-tabs .tab-select__value:after { position: absolute; top: 50%; right: 8px; margin-top: -2px; border: 4px solid transparent; border-top-color: #2970a1; content: ''; }
+.budget .quarter-tabs .tab-select ul { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; }
+.budget .quarter-tabs .tab-select ul li { position: relative; margin-top: 1px; padding: 4px 30px 4px 10px; background-position: 98% 50%; background-repeat: no-repeat; background-size: 16px; border: 1px solid #dfe1e3; }
+.budget .quarter-tabs .tab-select ul li.is-alert { background-image: url(../images/warning.png); background-position: 99% 50%; background-size: 16px; }
+.budget .quarter-tabs .tab-select ul li.is-passed { background-image: url(../images/check.png); }
+.budget .quarter-tabs .tab-select ul li.mandatory-activity-item-completed { font-size: 12px; padding-left: 35px; display: block; background-image: url(../images/check.png); background-position: 5% 50%; background-size: 14px; }
+.budget .quarter-tabs .tab-select ul li.mandatory-activity-item-in-work { font-size: 12px; padding-left: 35px; display: block; background-image: url(../images/warning.png); background-position: 5% 50%; background-size: 14px; }
+.budget .quarter-tabs .tab-select ul li span { position: relative; right: 0px; top: 1px;}
+.budget .quarter-tabs .tab-select:hover .tab-select__value { background: #fff; border-color: #dfe1e3; }
+.budget .quarter-tabs .tab-select:hover .tab-select__value:after { margin-top: -6px; border-top-color: transparent; border-bottom-color: #2970a1; }
+.budget .quarter-tabs .tab-select:hover ul { display: block; }
+.budget .quarter-tabs .tab.active .tab-header { background: #a9cae0; color: #000; }
+.budget .quarter-tabs .tab.active .tab-body, .budget .quarter-tabs .tab.active .tab-select { background: #cfd7d9; }
+
+.quarter-pane__progress { position: relative; margin-bottom: 1px; padding: 12px 12px 12px 50px; min-height: 20px; background-color: #cfd7d9; background-position: 10px 8px; background-repeat: no-repeat; background-size: 28px auto; }
+.quarter-pane__progress:after { display: block; clear: both; content: ''; }
+.quarter-pane__progress__bar { position: relative; height: 15px; background: #eaefee; overflow: hidden; border-radius: 4px; box-shadow: inset 0 2px 5px rgba(0,0,0,.25); }
+.quarter-pane__progress__track { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: url('../images/progressbar-bg-blue.png') 0 50% repeat-x; border-radius: 4px; }
+.quarter-pane__progress__caption { position: absolute; top: 38px; left: 0; width: 50px; font-size: 10px; color: #4e5152; text-align: center; }
+.quarter-pane__progress.is-time { background-image: url('../images/clock-icon.png'); }
+.quarter-pane__progress.is-time .quarter-pane__progress__track { background-image: url('../images/progressbar-bg-green.png'); }
+.quarter-pane__progress.is-time .quarter-pane__progress__bar:before, .budget .quarter-pane__progress.is-time .quarter-pane__progress__bar:after { position: absolute; z-index: 5; top: 0; bottom: 0; margin: 0 -2px; width: 4px; background: #cfd7d9; content: ''; }
+.quarter-pane__progress.is-time .quarter-pane__progress__bar:before { left: 33.33%; }
+.quarter-pane__progress.is-time .quarter-pane__progress__bar:after { right: 33.33%; }
+.quarter-pane__progress.is-sum { background-image: url('../images/sum-icon.png'); }
+.quarter-pane__progress.is-email { background-image: url('../images/mail_icon.png'); }
+.quarter-pane__progress.is-sum-diag { background-image: url('../images/diag-icon.png'); }
+
+.budget .labels-by-points { margin-bottom: -.75em; font-weight: bold; font-size: 10px; color: #4e5152; }
+.budget .labels-by-points:after { display: block; clear: both; content: ''; }
+.budget .label-by-points { float: left; width: 33.333%; text-align: center; margin-right: 0px; }
+
+.caption_done { float: left; margin-top: .5em; font-size: 14px; }
+.caption_overdraft { margin-top: .5em; font-size: 14px; text-align: right; }
+.caption_quart { position: absolute; bottom: 12px; left: 50%; }
+
+.budget .quarter-pane-points {
+
+}

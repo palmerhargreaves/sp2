@@ -1,0 +1,115 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Activity
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          activity
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        name: { label: Название }
+        start_date: { label: Дата начала }
+        end_date: { label: Дата окончания }
+        custom_date: { label: Произвольная дата }
+        description: { label: Подробное описание }
+        efficiency_description: { label: Описание эффективности }
+        brief: { label: Краткое описание }
+        materials_url: { label: Ссылка на материалы }
+        finished: { label: Завершено }
+        importance: { label: Влияние на получение бонуса, help: Выполнение данной активности влияет на получение бонуса по маркетингу сервиса }
+        full_info: { label: Информация }
+        files: { label: Файлы }
+        tasks: { label: Задачи }
+        has_concept: { label: Активность с концепцией }
+        is_concept_complete: { label: Выполнение концепции, help: Активность считается выполненной после согласования концепции }
+        modules_list: { label: Модули }
+        dealers_list: { label: Дилеры }
+        sort: { label: Сортировка }
+        hide: { label: Скрыто }
+        select_activity: { label: Выделить активность }
+        is_limit_run: { label: Выполнение активности, help : Разрешить выполнять активность только раз в году }
+        allow_to_all_dealers: { label: Все дилеры, help : Доступ к активности имеют все дилеры }
+        fields: { label : Статистика }
+        video_records_stats: { label : Статистика (Video) }
+        stat_periods: { label: Стат.(период) }
+        stats_description: { label: Описание статистики }
+        is_own: { label: Не учитывать в бюджете }
+        many_concepts: { label: Разрешить несколько концепций }
+        allow_extended_statistic: { label: Разрешить расширенную статистику }
+        allow_certificate: { label: Разрешить использование сертификатов }
+        dealers: { label : Дилеры }
+        allow_share_name: { label: Название акции }
+        type_company_id: { label: Тип кампании }
+        own_activity: { label: Собственные }
+        required_activity: { label: Импортерские }
+        mandatory_activity: { label: Обязательная активность }
+        event_name: { label: Мероприятие }
+        allow_special_agreement: { label: Активность со спец. согласованием }
+        orig_image: { label: Превью }
+      list:    
+        title: Активности
+        batch_actions:
+         _delete: ~
+         copy:    ~
+         _show_all: ~
+        display: [ _id, _name, _full_info, _files, _tasks, _fields, _video_records_stats, _stat_periods, _dealers, hide ]
+        max_per_page: 25
+      filter:  
+        fields: 
+          importance: { help: ~ }
+        display: [ name, start_date, end_date, finished, importance, hide ]
+      form:
+        display:
+          Основные:
+            - name
+            - brief
+            - description
+            - modules_list
+            - dealers_list
+          Даты:
+            - start_date
+            - end_date
+            - custom_date
+          Концепции:
+            - has_concept
+            - many_concepts
+            - is_concept_complete
+            - allow_certificate
+            #- allow_special_agreement
+          Параметры статистики:
+            - stats_description
+            - allow_extended_statistic
+          Эффективность:
+            - efficiency_description
+          Бонусы:
+            - importance
+          Копании:
+            - type_company_id
+          Параметры:
+            - finished
+            - hide
+            - select_activity
+            - is_limit_run
+            - allow_to_all_dealers
+            - is_own
+            - allow_share_name
+            - own_activity
+            - required_activity
+            - mandatory_activity
+          Дополнительно:
+            - event_name
+          Сортировка:
+            - allow_special_agreement
+          Превью:
+            - image_file
+      edit:
+        title: Активность "%%name%% (%%id%%)"
+      new:     
+        title: Новая активность

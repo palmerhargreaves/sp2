@@ -1,0 +1,25 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           MandatoryActivityQuarters
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          mandatory_activity_quarters
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        year: { label: Год }
+        quarters: { label: Кварталы }
+      list:    ~
+      filter:  ~
+      form:    ~
+      edit:
+        title: Кварталы для обязательной активности
+      new:
+        title: Кварталы для обязательной активности

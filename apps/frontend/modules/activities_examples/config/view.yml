@@ -1,0 +1,6 @@
+all:
+  stylesheets: [manager] 
+  javascripts:
+    - activity/activity_examples.js
+    - libs/jquery.mixitup.min.js
+

@@ -1,0 +1,33 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           ActivityExamplesMaterialsCategories
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          activity_examples_materials_categories
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    with_wildcard_routes:  true
+
+    config:
+      actions: ~
+      fields:  
+        name: { label: Название }
+        description: { label: Описание }
+        parent_category_id: { label: Базовая категория }
+        parent_category: { label: Базовая категория }
+        status: { label: Статус }
+      list:
+        title: Список категорий примеров
+        display: [ id, name, _parent_category ]
+        max_per_page: 25
+      filter:
+       class: false
+      form:    ~
+      edit:    
+        title: Параметры категории "%%name%%"
+      new:     
+        title: Новая категория

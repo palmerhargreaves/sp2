@@ -1,0 +1,10 @@
+all:
+  stylesheets: 
+    - history
+    - manager
+  javascripts: 
+    - auto_pager/auto_pager
+    - auto_pager/searcher
+  
+pageSuccess:
+  has_layout: false

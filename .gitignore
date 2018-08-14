@@ -1,0 +1,16 @@
+/node_modules/*
+/config/*
+/apps/frontend/config/*
+/apps/backend/config/*
+/cache/*
+/lib/dompdf/*
+/lib/PHPExcel/*
+/lib/vendor/*
+/symfony/*
+/webstat/*
+/data/*
+/Maildir/*
+/nbproject/*
+/test/*
+/www/uploads/*
+/www/webstat/*

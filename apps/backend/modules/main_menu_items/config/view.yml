@@ -1,0 +1,2 @@
+all:
+  javascripts: [ jquery.tablednd.0.8.min.js, menus/reorder, menus/rules, menus/extra_rules, menus/departments_rules, menus/dealers_types_rules ]

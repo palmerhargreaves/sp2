@@ -1,0 +1,4 @@
+all:
+  stylesheets: [ contacts ]
+  javascripts:
+    - contacts

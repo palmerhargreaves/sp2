@@ -1,0 +1,56 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           AgreementModelField
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          agreement_model_field
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: { label: Название }
+        parent_category_id: { label: Категория }
+        type: { label: Тип поля }
+        list: { label: Список опций, help: При выборе Тип поля - select необходимо ввести данные (через ;) }
+        units: { label: Еденицы изм. }
+        format_hint: { label: Подсказка по формату }
+        format_expression: { label: Формат данных в поле , help: Регулярное выражение }
+        required: { label: Обязательное }
+        right_format: { label: Формат заполнения }
+        def_value: { label: Значение по умолчанию }
+        editable: { label: Редактируемое }
+        child_field: { label: Разрешить добавлять поля }
+        hide: { label: Скрыто }
+        identifier: { label: Идентификатор, help: Системная переменная }
+      list:
+        title: Список полей
+      filter:
+        class: false
+      form:
+        display:
+          Основные:
+            - name
+            - parent_category_id
+            - type
+            - identifier
+          Данные:
+            - units
+            - format_hint
+            - format_expression
+            - right_format
+            - def_value
+          Доолнительно:
+            - editable
+            - child_field
+            - hide
+            - required
+      edit:
+        title: Поле "%%name%%"
+      new:
+        title: Новое поле

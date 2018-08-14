@@ -1,0 +1,30 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           DealersGroups
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          dealers_groups
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        header: { label: Название }
+        description: { label: Описание }
+        binded_dealers: { label: Привязанных дилеров }
+        status: { label: Доступна }
+      list:
+        title: Группы дилеров
+        display: [ header, _binded_dealers, status ]
+      filter:
+        class: false
+      form:    ~
+      edit:
+        title: Группа "%%header%%"
+      new:
+        title: Новая группа

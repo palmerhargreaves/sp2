@@ -1,0 +1,32 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           UsersDepartments
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          users_departments
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: { label: Название отдела }
+        parent_department: { label: Базовый отдел }
+        allow_emails: { label: Разрешить рассылку }
+        users: { label: Пользователей }
+      list:
+        display: [ name, _parent_department, allow_emails, _users ]
+        title: Отделы компании
+        max_per_page: 25
+      filter:
+        class: false
+      form:    ~
+      edit:
+        title: "%%name%%"
+      new:
+        title: Добавить новый отдел
+

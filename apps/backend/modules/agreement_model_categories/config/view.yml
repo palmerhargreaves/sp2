@@ -1,0 +1,2 @@
+all:
+  javascripts: [ jquery.tablednd.last.js, jquery-sortable-min.js, activity/backend/agreement_model_categories/reorder_types, activity/backend/agreement_model_categories/category_fields, activity/backend/agreement_model_categories/mime_types ]

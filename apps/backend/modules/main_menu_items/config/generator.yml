@@ -1,0 +1,36 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           MainMenuItems
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          main_menu_items
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: { label: Название }
+        url: { label: Ссылка }
+        url_name: { label: Ссылка (название) }
+        image: { label: Изображение }
+        status: { label: Опубликовано }
+        rules: { label: Права доступа }
+        departments: { label: Права доступа (Отделы) }
+        dealers_types: { label: Типы дилеров }
+        custom_code_access: { label: Код для достуа к меню, help: В случае если основных правил недостаточно пишем код на php для расширенных возможностей управления доступом }
+        custom_code_url: { label: Код формирования ссылки, help: Формирование ссылки меню }
+      list:
+        title: Главное меню
+        display: [ name, _url, url_name, _image, _rules, _departments, _dealers_types, status ]
+      filter:
+        class: false
+      form:    ~
+      edit:
+        title: Редактирование "%%name%%"
+      new:
+        title: Новое меню

@@ -1,0 +1,43 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           News
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          news
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: { label: Название }
+        announcement: { label: Анонс }
+        img_small: { label: Маленькая картинка }
+        img_big: { label: Большая картинка }
+        text: { label: Текст новости }
+        status: { label: Опубликовать }
+        is_important: { label: Важная }
+        is_mailing: { label: Почтовая рассылка }
+        sended: { label: Разослано }
+        created_at: { label: Дата }
+      list:
+        title: Новости
+        batch_actions:
+         _delete: ~
+         copy: ~
+         _show_all: ~
+        display: [ name, announcement, is_mailing, _is_mailing, _sended, _status, created_at ]
+        max_per_page: 50
+        fields: 
+          group: { credentials: [admin] }
+      filter:
+        display: [ name ]
+      form:    ~
+      edit:
+        title: Параметры новости "%%name%%"
+      new:
+        title: Новая новость

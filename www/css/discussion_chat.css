@@ -1,0 +1,199 @@
+/* ---------- LIVE-CHAT ---------- */
+
+#discussion-live-chat {
+    bottom: -60px;
+    font-size: 12px;
+    right: 24px;
+    position: fixed;
+    width: 500px;
+    z-index: 9999;
+    display: none;
+}
+
+#discussion-live-chat header {
+    background: #293239;
+    border-radius: 5px 5px 0 0;
+    color: #fff;
+    cursor: pointer;
+    padding: 16px 24px;
+}
+
+#discussion-live-chat h4:before {
+    background: #1a8a34;
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    height: 8px;
+    margin: 0 8px 0 0;
+    width: 8px;
+}
+
+#discussion-live-chat h4 {
+    font-size: 12px;
+}
+
+#discussion-live-chat h5 {
+    font-size: 10px;
+}
+
+#discussion-live-chat form {
+    padding: 24px;
+}
+
+#discussion-live-chat input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 8px;
+    outline: none;
+    width: 234px;
+}
+
+#discussion-live-chat ::-webkit-scrollbar{width:5px;height:0;border-radius:3px;}
+#discussion-live-chat ::-webkit-scrollbar-track{background:rgba(163,163,163,.25);border-radius:3px}
+#discussion-live-chat ::-webkit-scrollbar-thumb{background:#a3a3a3;border-radius:3px}
+
+.chat-message-counter {
+    background: #e62727;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: none;
+    font-size: 12px;
+    font-weight: bold;
+    height: 40px;
+    right: -32px;
+    line-height: 41px;
+    margin: -15px 0 0 -15px;
+    position: absolute;
+    text-align: center;
+    top: -17px;
+    width: 40px;
+}
+
+.chat-close {
+    background: #1b2126;
+    border-radius: 50%;
+    color: #fff;
+    display: block;
+    float: right;
+    font-size: 10px;
+    height: 16px;
+    line-height: 16px;
+    margin: 2px 0 0 0;
+    text-align: center;
+    width: 16px;
+}
+
+.discussion-chat {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+.chat-history {
+    height: 352px;
+    padding: 8px 24px;
+    overflow-y: scroll;
+}
+
+.chat-message {
+    margin: 16px 0;
+}
+
+.chat-message img {
+    border-radius: 50%;
+    float: left;
+}
+
+.chat-message-content {
+    margin-left: 1px;
+}
+
+.chat-history .chat-message-content {
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 10px;
+}
+
+.chat-message-content .comment {
+    margin-left: 35px;
+}
+
+.chat-time {
+    float: right;
+    font-size: 10px;
+}
+
+.chat-feedback {
+    font-style: italic;
+    margin: 0 0 0 80px;
+    display: none;
+}
+
+#discussion-live-chat textarea {
+    width: 100%;
+}
+
+.discussion-chat-users {
+    width: 30%;
+    float: left;
+    display: block;
+    background: #fff;
+    height: 370px;
+    overflow-y: scroll;
+}
+
+#discussion-live-chat .discussion-chat-user-item {
+    display: block;
+    position: relative;
+    padding: 8px 10px;
+    border-bottom: 1px solid #cfd7d9;
+    cursor: pointer;
+    margin-bottom: 10px;
+    float: left;
+    width: 125px;
+    min-height: 20px;
+}
+
+#discussion-live-chat .active-chat-user-item {
+    background: #d9eaf3 !important;
+    cursor: default;
+}
+
+.chat-user-close {
+    background: #1b2126;
+    border-radius: 50%;
+    color: #fff;
+    display: block;
+    float: right;
+    font-size: 8px;
+    height: 14px;
+    line-height: 14px;
+    margin: -5px -7px 0 0;
+    text-align: center;
+    width: 14px;
+}
+
+.chat-message-user-counter {
+    background: #e62727;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    height: 14px;
+    width: 14px;
+    left: 0;
+    line-height: 14px;
+    margin: -7px 0 0 2px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+
+}
+
+.chat-message-user-model {
+    font-size: 10px;
+    float: right;
+    margin-top: 5px;
+    font-weight: bold;
+}

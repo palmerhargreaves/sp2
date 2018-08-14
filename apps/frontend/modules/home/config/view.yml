@@ -1,0 +1,9 @@
+all:
+  stylesheets: [manager]
+  javascripts:
+    - intro/intro.main.js  
+    - news.js
+    - registration/post.js
+    - activity/company_types/activities_company_types.js
+    - //code.highcharts.com/highcharts.js
+    - //code.highcharts.com/modules/exporting.js

@@ -1,0 +1,3 @@
+all:
+  javascripts: [plugins/loaders/blockui.min.js, plugins/loaders/pace.min.js, https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js, plugins/medium/node_modules/undo.js/undo.js, plugins/medium/node_modules/rangy/lib/rangy-core.js, plugins/medium/node_modules/rangy/lib/rangy-classapplier.js,  medium.min.js ]
+  stylesheets: [pace/pace-theme-minimal.css, https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css, medium.css, sidebar]

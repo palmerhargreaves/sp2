@@ -1,0 +1,36 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           AgreementModelCategories
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          agreement_model_categories
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: { label: Название }
+        description: { label: Краткое описание }
+        work_type: { label: Пользователь }
+        types_list: { label: Список привязанных типов }
+        fields_list: { label: Список полей }
+        mime_types: { label: Формат файлов }
+        days_to_agreement: { label: Дней на согласование }
+        days_to_agreement_report: { label: Дней на согласование (отчет) }
+        status: { label: Статус }
+      list:
+        title: Категории заявок
+        display: [ name, _work_type, _types_list, _fields_list, _mime_types, status ]
+        max_per_page: 25
+      filter:
+        class: false
+      form:    ~
+      edit:
+        title: Категория "%%name%%"
+      new:
+        title: Новая категория

@@ -1,0 +1,37 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           ActivityExamplesMaterials
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          activity_examples_materials
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    with_wildcard_routes:  true
+
+    config:
+      actions: ~
+      fields:  
+        name: { label: Название }
+        dealer_id: { label: Номер дилера }
+        description: { label: Краткое описание }
+        category_id: { label: Категория }
+        preview_file: { label: Превью }
+        material_file: { label: Файл }
+        dealer: { label: Дилер }
+        category: { label: Категория }
+        year: { label: Год }
+      list:
+        title: Примеры материалов
+        display: [ id, name, _dealer, _category, _preview_file, _material_file ]
+        max_per_page: 25
+      filter:
+       class: false
+      form:    ~
+      edit:    
+        title: Пример "%%name%%"
+      new:     
+        title: Добавить новый пример

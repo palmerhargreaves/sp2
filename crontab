@@ -1,0 +1,10 @@
+* * * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony sp:process-dealer-discussions
+* * * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony sp:process-model-discussions
+*/10 * * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony sp:send-model-messages >> ~/log/model-messages.log
+*/13 * * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony sp:send-dealer-messages >> ~/log/dealer-messages.log
+15 14 * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony sp:clean-temp-files
+16 14 * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony sp:auto-finish-actvities >> ~/log/auto-finish-activities.log
+* * * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony project:send-emails --message-limit=40 --time-limit=60
+*/5 * * * * /var/www/vwgroup/data/www/dm.vw-servicepool.ru/symfony sp:agreement-update-activity-status >> ~/log/update-activity-status.log
+
+

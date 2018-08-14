@@ -1,0 +1,25 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           ActivityModelsTypesNecessarily
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          activity_models_types_necessarily
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        model_type_id: { label: Тип заявки }
+        activity_task_id: { label: Задача, help: Привязка задачи к выбранному типу заявки }
+      list:    ~
+      filter:  ~
+      form:    ~
+      edit:   
+        title:  "Обязательная заявка"
+      new:     
+        title: Обязательная заявка

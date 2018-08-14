@@ -1,0 +1,12 @@
+all:
+  stylesheets: [manager, user_management]
+
+modelSuccess:
+  has_layout: false
+modelError:
+  has_layout: false
+reportSuccess:
+  has_layout: false
+reportError:
+  has_layout: false
+  

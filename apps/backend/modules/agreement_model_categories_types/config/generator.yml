@@ -1,0 +1,36 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           AgreementModelType
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          agreement_model_categories_types
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: { label: Название }
+        description: { label: Краткое описание }
+        field_description: { label: Описание типа заявки, help: Заголовок типа заявки, вводить через ; }
+        parent_category_id: { label: Категория }
+        identifier: { label: Идентификатор, help: Системная переменная }
+        agreement_type: { label: Способ согласования }
+        concept: { label: Концепция }
+        is_photo_report: { label: Фотоотчет, help: Разрешить добавлять данные этого типа в избранное }
+        status: { label: Статус }
+      list:
+        title: Типы категорий заявок
+        display: [ id, name, status ]
+        max_per_page: 25
+      filter:
+        class: false
+      form:    ~
+      edit:
+        title: Тип "%%name%%"
+      new:
+        title: Новый тип

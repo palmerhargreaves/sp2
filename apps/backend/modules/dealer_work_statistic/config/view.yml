@@ -1,0 +1,2 @@
+all:
+  javascripts: [ activity/budgets_dealer_info ]

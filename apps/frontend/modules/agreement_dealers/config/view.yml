@@ -1,0 +1,5 @@
+all:
+  stylesheets: [manager]
+  
+indexSuccess:
+  javascripts: [filter/filter]

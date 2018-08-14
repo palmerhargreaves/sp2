@@ -1,0 +1,28 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           MaterialCategory
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          material_category
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        name: { label: Название }
+        orders: { label: Порядок }
+        show_in_new_material_request: { label: Отображение в списке, help: Выводить в форме запроса нового материала пользователем }
+        new_material: { label: Отображение в списке }
+      list:    
+        title: Категории материалов
+        display: [ _name, _new_material ]
+      filter:  
+        display: [ name ]
+      form:    ~
+      edit:    ~
+      new:     ~
