@@ -32,25 +32,43 @@
             <?php if ($activity->getActivityVideoStatistics()): ?>
                 <?php $description = $activity->getActivityVideoStatistics()->getFirst()->getStatisticDescription(); ?>
                 <?php if (!empty($description)): ?>
-                    <div class="alert alert-callout alert-info" role="alert" style="display: block; margin-bottom: 0px;">
+                    <div class="alert alert-callout alert-info" role="alert"
+                         style="display: block; margin-bottom: 0px;">
                         <strong><?php echo $description; ?></strong>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
 
             <div id="approvement" class="active">
+                <?php if ($activity->getAllowSpecialAgreement() && Utils::allowedIps()): ?>
+                    <?php if ($sf_user->getAuthUser()->isAdmin() || $sf_user->getAuthUser()->isImporter()): ?>
+                        <div class="concepts-information-block">
+                            <?php if ($sf_user->getAuthUser()->isAdmin()): ?>
+                            <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
+                                <strong>Выберите концепцию для добавления / редактирования цели.</strong>
+                            </div>
+                            <?php endif; ?>
+
+                            <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
+                                <strong>Выберите концепцию для заполнения статистики.</strong>
+                            </div>
+
+                            <select id="sb_concept_targets"
+                                    style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 22px; padding: 0 0 0 10px; margin-top: 0px;">
+                                <option value="-1">Выберите концепцию</option>
+                                <?php foreach (AgreementModelTable::getInstance()->createQuery()->where('dealer_id = ? and model_type_id = ?', array($sf_user->getAuthUser()->getDealer()->getId(), AgreementModel::CONCEPT_TYPE_ID))->execute() as $concept): ?>
+                                    <option value="<?php echo $concept->getId(); ?>"><?php echo $concept->getId(); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endif;
+                endif;
+                ?>
+
                 <div id="materials" style="float: left; width: 99%;">
                     <div id="accommodation" class="active">
                         <?php if ($activity->getAllowSpecialAgreement()): ?>
                             <?php if ($sf_user->getAuthUser()->isAdmin() || $sf_user->getAuthUser()->isImporter()): ?>
-                                <div class="concepts-information-block">
-                                    <select id="sb_concept_targets" style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 22px; padding: 0 0 0 10px; margin-top: 15px;">
-                                        <option value="-1">Выберите концепцию</option>
-                                        <?php foreach (AgreementModelTable::getInstance()->createQuery()->where('dealer_id = ? and model_type_id = ?', array($sf_user->getAuthUser()->getDealer()->getId(), AgreementModel::CONCEPT_TYPE_ID))->execute() as $concept): ?>
-                                            <option value="<?php echo $concept->getId(); ?>"><?php echo $concept->getId(); ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
 
                                 <div class="group open">
                                     <div class="group-header">
@@ -63,10 +81,10 @@
                                                 <tr>
                                                     <td class="content-column">
                                                         <div style="margin: 15px 0px 10px 15px;">
-                                                        <?php
-                                                        if ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())): ?>
-                                                            <?php echo html_entity_decode($activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())); ?>
-                                                        <?php endif; ?>
+                                                            <?php
+                                                            if ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())): ?>
+                                                                <?php echo html_entity_decode($activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())); ?>
+                                                            <?php endif; ?>
                                                         </div>
 
                                                         <textarea id="activity-information-text">
