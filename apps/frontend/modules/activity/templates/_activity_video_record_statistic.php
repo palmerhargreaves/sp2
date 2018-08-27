@@ -38,11 +38,13 @@
                 <?php endif; ?>
             <?php endif; ?>
 
-            <div id="approvement" class="active">
+            <div id="approvement" class="active" style="float:left; width: 100%;">
                 <div id="materials" style="float: left; width: 99%;">
                     <div id="accommodation" class="active">
                         <?php if ($activity->getAllowSpecialAgreement()): ?>
                             <?php if ($sf_user->getAuthUser()->isAdmin() || $sf_user->getAuthUser()->isImporter()): ?>
+
+
                                 <div class="concepts-information-block">
                                     <select id="sb_concept_targets" style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 22px; padding: 0 0 0 10px; margin-top: 15px;">
                                         <option value="-1">Выберите концепцию</option>
