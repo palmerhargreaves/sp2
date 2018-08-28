@@ -277,6 +277,8 @@ class agreement_activity_model_specialistActions extends ActionsWithJsonForm
             array()//$this->getCommentFiles($request)
         );
 
+
+
         if ($form->isValid()) {
             $accept_utils = new AgreementModelAcceptBySpecialist(array(
                 'model' => $model,
