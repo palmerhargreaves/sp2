@@ -9,6 +9,7 @@ all:
     - activity/efficiency/activity_efficiency_graph_arrow.js
     - libs/jquery.animateNumber.min.js
     - activity/dealer_information_block.js
+    - activity/special_agreement_concept_bind_target_and_statistic.js
     - plugins/tinymce/tinymce.min.js
     - fancybox/jquery.fancybox.min.js
 

@@ -1,5 +1,7 @@
 <?php
 /* @var Activity $activity */
+
+
 ?>
 
 <div class="activities-list" style="margin-top: 5px; <?php echo empty($description) ? 'padding-top: 1px;' : '' ?>">

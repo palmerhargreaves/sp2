@@ -1191,4 +1191,19 @@ class activityActions extends BaseActivityActions
 
         return $this->sendJson(array('success' => true));
     }
+
+    /**
+     * Обработка события смены концепции
+     * @param sfWebRequest $request
+     */
+    public function executeOnSpecialAgreementChangeConceptBindTargetAndStatistic(sfWebRequest $request) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
+
+        $activity = $this->getActivity($request);
+
+        return $this->sendJson(array(
+            'concept_target' => get_partial('special_agreement_concept_target', array('activity' => $activity)),
+            'concept_statistic' => get_partial('special_agreement_concept_statistic', array('activity' => $activity))
+        ));
+    }
 }
