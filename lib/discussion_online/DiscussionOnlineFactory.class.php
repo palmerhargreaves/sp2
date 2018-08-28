@@ -41,7 +41,7 @@ class DiscussionOnlineFactory {
             return 'dealer';
         }
 
-        if ($user->isImporter()) {
+        if ($user->isImporter() || $user->isSpecialist())  {
             return 'importer';
         }
     }

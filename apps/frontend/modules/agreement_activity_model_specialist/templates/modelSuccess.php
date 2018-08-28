@@ -1,6 +1,6 @@
 <?php $totalFiles = sfConfig::get('app_max_files_upload_count'); ?>
-<?php if (getenv('REMOTE_ADDR') == '46.175.166.61'): ?>
-<form action="/" method="post" enctype="multipart/form-data" id="agreement-model-specialist-form">
+<?php if (Utils::allowedIps()): ?>
+<form action="/" method="post" enctype="multipart/form-data" target="accept-frame"  id="agreement-model-specialist-form">
     <?php else: ?>
     <form action="/" method="post" enctype="multipart/form-data" target="accept-frame" id="agreement-model-specialist-form">
     <?php endif; ?>
@@ -241,10 +241,10 @@
                 <?php if ($sf_user->isSpecialist()): ?>
                     <div class="buttons" style="width: 300px;">
                         <div style="width: 105px;"
-                             class="accept green button float-left modal-form-button send-btn accept-accept-btn submit-btn">
+                             class="accept green button float-left modal-form-button send-btn accept-accept-btn submit-btn" data-model-type="model_simple">
                             Утвердить
                         </div>
-                        <div style="width: 105px;" class="decline gray button float-right modal-form-button cancel-btn">
+                        <div style="width: 105px;" class="decline gray button float-right modal-form-button cancel-btn" data-model-type="model_simple">
                             Отколнить
                         </div>
                         <div class="clear"></div>

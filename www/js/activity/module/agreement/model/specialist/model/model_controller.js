@@ -246,14 +246,14 @@ utils.extend(AgreementModelSpecialistController, utils.Observable, {
         this.getAcceptModelField().val(this.id);
     },
 
-    onDecline: function () {
+    onDecline: function (e) {
         var step = $(e.target).data('step');
 
         if (step == undefined) {
             step = $(e.target).parent().data('step')
         }
 
-        if (this.confimAcceptDeclineModel($(e.target), 'отклонить')) {
+        if (this.confirmAcceptDeclineModel($(e.target), 'отклонить')) {
             this.getActionType().val(this.decline_type);
             this.getDeclineModelStepField().val(step);
 
@@ -263,7 +263,7 @@ utils.extend(AgreementModelSpecialistController, utils.Observable, {
         return false;
     },
 
-    onAccept: function () {
+    onAccept: function (e) {
         if (this.confirmAcceptDeclineModel($(e.target), 'согласовать')) {
             this.getActionType().val('accept');
             this.getAcceptDeclineForm().send();
