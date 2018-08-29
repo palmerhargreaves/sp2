@@ -155,6 +155,10 @@ class discussion_onlineActions extends ActionsWithJsonForm
         sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
 
         $discussions = $this->getDiscussion($request);
+        if (!$discussions) {
+            return $this->sendJson(array('success' => false));
+        }
+
         $messages_list = $discussions->messagesList();
 
         return $this->sendJson(

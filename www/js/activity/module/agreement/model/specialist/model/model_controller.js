@@ -246,20 +246,64 @@ utils.extend(AgreementModelSpecialistController, utils.Observable, {
         this.getAcceptModelField().val(this.id);
     },
 
-    onDecline: function () {
-        this.getActionType().val(this.decline_type);
-        this.getAcceptDeclineForm().send();
-//        this.showDeclinePanel();
+    onDecline: function (e) {
+        var step = $(e.target).data('step');
+
+        if (step == undefined) {
+            step = $(e.target).parent().data('step')
+        }
+
+        if (this.confirmAcceptDeclineModel($(e.target), 'отклонить')) {
+            this.getActionType().val(this.decline_type);
+            this.getDeclineModelStepField().val(step);
+
+            this.getAcceptDeclineForm().send();
+        }
 
         return false;
     },
 
-    onAccept: function () {
-        this.getActionType().val('accept');
-        this.getAcceptDeclineForm().send();
-        //      this.showAcceptPanel();
+    onAccept: function (e) {
+        if (this.confirmAcceptDeclineModel($(e.target), 'согласовать')) {
+            this.getActionType().val('accept');
+            this.getAcceptDeclineForm().send();
+        }
 
         return false;
+    },
+
+    confirmAcceptDeclineModel: function($el, text) {
+        var model_type = $el.data('model-type'), allow = false;
+
+        if (model_type == undefined) {
+            model_type = $el.parent().data('model-type');
+        }
+
+        if (model_type == 'model_record' || model_type == 'model_scenario') {
+            if (model_type == 'model_scenario') {
+                if (confirm('Вы действительно хотите ' + text + ' сценарий ?')) {
+                    allow = true;
+                }
+            } else if(model_type == 'model_record') {
+                if (confirm('Вы действительно хотите ' + text + ' запись ?')) {
+                    allow = true;
+                }
+            }
+        } else if (model_type == 'model_simple') {
+            if (confirm('Вы действительно хотите ' + text + ' макет ?')) {
+                allow = true;
+            }
+        } else if (model_type == 'report_accept') {
+            if (confirm('Вы действительно хотите ' + text + ' отчет ?')) {
+                allow = true;
+            }
+        } else if (model_type == 'report_decline') {
+            if (confirm('Вы действительно хотите ' + text + ' отчет ?')) {
+                allow = true;
+            }
+        }
+
+        return allow;
     },
 
     onCancelDecline: function () {
@@ -305,5 +349,9 @@ utils.extend(AgreementModelSpecialistController, utils.Observable, {
             parent_target = $parent.data('toggle');
 
         $('[data-toggled="' + parent_target + '"]').removeClass('is-list-mode is-grid-mode').addClass('is-' + view + '-mode');
-    }
+    },
+
+    getDeclineModelStepField: function () {
+        return $(':input[name=step]', this.getValuesBlock());
+    },
 });

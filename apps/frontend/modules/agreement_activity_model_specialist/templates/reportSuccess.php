@@ -154,10 +154,10 @@ if ($report):
                 <div class="buttons">
                     <?php $comment = $report->getSpecialistComment($sf_user->getAuthUser()->getRawValue()); ?>
                     <?php if ($comment && $comment->getStatus() == 'wait'): ?>
-                        <div style="width: 180px;" class="accept button float-left modal-form-button"><a href="#"
+                        <div style="width: 180px;" class="accept button float-left modal-form-button" data-model-type="report_accept"><a href="#"
                                                                                                          class="accept">Согласовать</a>
                         </div>
-                        <div style="width: 180px;" class="decline gray button float-right modal-form-button"><a href="#"
+                        <div style="width: 180px;" class="decline gray button float-right modal-form-button" data-model-type="report_decline"><a href="#"
                                                                                                                 class="decline">Отклонить</a>
                         </div>
                     <?php endif; ?>
