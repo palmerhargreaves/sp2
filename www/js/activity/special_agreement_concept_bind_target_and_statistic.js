@@ -50,6 +50,7 @@ SpecialAgreementConceptBindTargetAndStatistic.prototype = {
                 $('html,body').animate({scrollTop: $(this).offset().top}, 500);
         });
 
+        tinymce.remove('#activity-information-text');
         tinymce.init(
             {
                 selector:'#activity-information-text',

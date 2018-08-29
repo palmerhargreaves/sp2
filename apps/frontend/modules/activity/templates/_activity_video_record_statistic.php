@@ -40,30 +40,28 @@
             <?php endif; ?>
 
             <div id="approvement" class="active">
-                <?php if ($activity->getAllowSpecialAgreement() && Utils::allowedIps()): ?>
+                <?php if ($activity->getAllowSpecialAgreement()): ?>
+                <div class="concepts-information-block">
+
                     <?php if ($sf_user->getAuthUser()->isAdmin() || $sf_user->getAuthUser()->isImporter()): ?>
-                        <div class="concepts-information-block">
-                            <?php if ($sf_user->getAuthUser()->isAdmin()): ?>
-                                <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
-                                    <strong>Выберите концепцию для добавления / редактирования цели.</strong>
-                                </div>
-                            <?php endif; ?>
-
-                            <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
-                                <strong>Выберите концепцию для заполнения статистики.</strong>
-                            </div>
-
-                            <select id="sb_concept_targets"
-                                    style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 22px; padding: 0 0 0 10px; margin-top: 0px;">
-                                <option value="-1">Выберите концепцию</option>
-                                <?php foreach (AgreementModelTable::getInstance()->createQuery()->where('dealer_id = ? and model_type_id = ?', array($sf_user->getAuthUser()->getDealer()->getId(), AgreementModel::CONCEPT_TYPE_ID))->execute() as $concept): ?>
-                                    <option value="<?php echo $concept->getId(); ?>"><?php echo $concept->getId(); ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                        <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
+                            <strong>Выберите концепцию для добавления / редактирования цели.</strong>
                         </div>
-                    <?php endif;
-                endif;
-                ?>
+                    <?php endif; ?>
+
+                    <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
+                        <strong>Выберите концепцию для заполнения статистики.</strong>
+                    </div>
+
+                    <select id="sb_concept_targets"
+                            style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 22px; padding: 0 0 0 10px; margin-top: 0px;">
+                        <option value="-1">Выберите концепцию</option>
+                        <?php foreach (AgreementModelTable::getInstance()->createQuery()->where('dealer_id = ? and model_type_id = ?', array($sf_user->getAuthUser()->getDealer()->getId(), AgreementModel::CONCEPT_TYPE_ID))->execute() as $concept): ?>
+                            <option value="<?php echo $concept->getId(); ?>"><?php echo $concept->getConceptTargetStatisticStatusText($sf_user->getAuthUser(), $activity->getId()); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <?php endif; ?>
 
                 <div id="materials" style="float: left; width: 99%;">
                     <div id="accommodation" class="active">
@@ -71,18 +69,22 @@
                             <div id="container_concept_targets">
 
                             </div>
-                        <?php endif; ?>
 
-                        <div class="container-for-activity-video-record-statistics-fields">
-                            <?php include_partial('activity_headers_fields_group_list',
-                                array(
-                                    'activity' => $activity,
-                                    'allow_to_edit' => $allow_to_edit,
-                                    'current_q' => $current_q,
-                                    'allow_to_cancel' => $allow_to_cancel
-                                )
-                            ); ?>
-                        </div>
+                            <div class="container-for-activity-video-record-statistics-fields">
+
+                            </div>
+                        <?php else: ?>
+                            <div class="container-for-activity-video-record-statistics-fields">
+                                <?php include_partial('activity_headers_fields_group_list',
+                                    array(
+                                        'activity' => $activity,
+                                        'allow_to_edit' => $allow_to_edit,
+                                        'current_q' => $current_q,
+                                        'allow_to_cancel' => $allow_to_cancel
+                                    )
+                                ); ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -91,8 +93,7 @@
                 <tbody></tbody>
             </table>
 
-            <div class="info-save-complete"
-                 style="display: none; width: 99%; margin: 10px; padding: 10px; color: red; text-align: center; font-weight: bold;"></div>
+            <div class="info-save-complete" style="display: none; width: 99%; margin: 10px; padding: 10px; color: red; text-align: center; font-weight: bold;"></div>
 
             <?php if (isset($pre_check_statistic) && !is_null($pre_check_statistic) && ($pre_check_statistic == ActivityStatisticPreCheckAbstract::CHECK_STATUS_IN_PROGRESS)
                 && ($sf_user->getAuthUser()->isImporter() || $sf_user->getAuthUser()->isManager())
@@ -145,6 +146,7 @@
         <input type="hidden" name="year" value="<?php echo $current_year; ?>"/>
         <input type="hidden" name="activity" value="<?php echo $activity->getId(); ?>"/>
         <input type="hidden" name="txt_frm_fields_data" id="txt_frm_fields_data"/>
+        <input type="hidden" name="concept_id" value="0" />
     </form>
 </div>
 

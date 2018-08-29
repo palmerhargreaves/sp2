@@ -1175,21 +1175,24 @@ class activityActions extends BaseActivityActions
     public function executeSaveDealerInformationBlock(sfWebRequest $request) {
         $activity_id = $request->getParameter('activity_id');
         $dealer_id = $request->getParameter('dealer_id');
+        $concept_id = $request->getParameter('concept_id', 0);
         $text = $request->getParameter('text');
 
-        $information_block = ActivityDealerInformationBlocksTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ?', array($activity_id, $dealer_id))->fetchOne();
+        $information_block = ActivityDealerInformationBlocksTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ? and concept_id = ?', array($activity_id, $dealer_id, $concept_id))->fetchOne();
         if (!$information_block) {
+
             $information_block = new ActivityDealerInformationBlocks();
             $information_block->setArray(array(
                 'activity_id' => $activity_id,
-                'dealer_id' => $dealer_id
+                'dealer_id' => $dealer_id,
+                'concept_id' => $concept_id
             ));
         }
 
         $information_block->setDescription($text);
         $information_block->save();
 
-        return $this->sendJson(array('success' => true));
+        return $this->sendJson(array('success' => true, 'text' => $text));
     }
 
     /**
@@ -1200,10 +1203,11 @@ class activityActions extends BaseActivityActions
         sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
 
         $activity = $this->getActivity($request);
+        $concept_id = $request->getParameter('concept_id');
 
         return $this->sendJson(array(
-            'concept_target' => get_partial('special_agreement_concept_target', array('activity' => $activity)),
-            'concept_statistic' => get_partial('special_agreement_concept_statistic', array('activity' => $activity))
+            'concept_target' => get_partial('special_agreement_concept_target', array('activity' => $activity, 'concept_id' => $concept_id)),
+            'concept_statistic' => get_partial('special_agreement_concept_statistic', array('activity' => $activity, 'concept_id' => $concept_id))
         ));
     }
 }

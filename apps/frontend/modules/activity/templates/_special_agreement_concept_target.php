@@ -19,19 +19,21 @@
                     <tr>
                         <td class="content-column">
                             <div style="margin: 15px 0px 10px 15px;">
-                                <?php
-                                if ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())): ?>
-                                    <?php echo html_entity_decode($activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())); ?>
+                                <?php if ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser(), $concept_id)): ?>
+                                    <div id="concept-target-description">
+                                        <?php echo $activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser(), $concept_id); ?>
+                                    </div>
                                 <?php endif; ?>
                             </div>
 
                             <textarea id="activity-information-text">
-                                                                <?php echo $activity->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser()); ?>
-                                                            </textarea>
+                                <?php echo $activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser(), $concept_id); ?>
+                            </textarea>
 
                             <button id="js-save-information-block"
                                     data-activity-id="<?php echo $activity->getId(); ?>"
                                     data-dealer-id="<?php echo $sf_user->getAuthUser()->getDealerUsers()->getFirst()->getDealerId(); ?>"
+                                    data-concept-id="<?php echo $concept_id; ?>"
                                     style="margin-top: 12px;"
                                     class="float-right button modal-zoom-button modal-form-button modal-form-submit-button submit-btn"
                                     type="submit">
@@ -43,7 +45,7 @@
             </div>
         </div>
     </div>
-<?php elseif ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())): ?>
+<?php elseif ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser(), $concept_id)): ?>
     <div class="group open">
         <div class="group-header">
             <span class="title">Цели</span>
@@ -54,7 +56,7 @@
                 <tr>
                     <td class="content-column">
                         <div style="margin: 15px 0px 10px 15px;">
-                            <?php echo html_entity_decode($activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())); ?>
+                            <?php echo html_entity_decode($activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser(), $concept_id)); ?>
                         </div>
                     </td>
                 </tr>
