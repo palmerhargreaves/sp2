@@ -7,7 +7,7 @@ DealerInformationBlock = function(config) {
 
     $.extend(this, config);
 
-
+    this.messages = new Messages().start();
 }
 
 DealerInformationBlock.prototype = {
@@ -53,11 +53,18 @@ DealerInformationBlock.prototype = {
         $.post(this.on_save_data, {
             activity_id: button.data('activity-id'),
             dealer_id: button.data('dealer-id'),
+            concept_id: button.data('concept-id'),
             text: htmlText
         }, $.proxy(this.onSaveInformationBlockResult, this) );
     },
 
     onSaveInformationBlockResult: function(result) {
-        window.location.reload();
+        //window.location.reload();
+        this.messages.showSuccess('Данные успешно сохранены.');
+        this.getConceptTargetDescription().html(result.text);
+    },
+
+    getConceptTargetDescription: function() {
+        return $('#concept-target-description');
     }
 }

@@ -1638,29 +1638,41 @@ class Activity extends BaseActivity
     /**
      * Проверка на наличие информационного блока у активности для дилера
      * @param $user
+     * @param int $concept_id
      * @return bool
      */
-    public function haveSpecialAgreementActivityInformationBlock($user) {
+    public function haveSpecialAgreementActivityInformationBlock($user, $concept_id = 0) {
         $dealer = $user->getDealerUsers()->getFirst();
         if (!$dealer) {
             return false;
         }
 
-        return ActivityDealerInformationBlocksTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ?', array($this->getId(), $dealer->getDealerId()))->count() > 0;
+        $query = ActivityDealerInformationBlocksTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ?', array($this->getId(), $dealer->getDealerId()));
+        if ($concept_id > 0) {
+            $query->andWhere('concept_id = ?', $concept_id);
+        }
+
+        return $query->count() > 0;
     }
 
     /**
      * Получить данные по информационному блоку для дилера
      * @param $user
+     * @param int $concept_id
      * @return string
      */
-    public function getSpecialAgreementActivityInformationBlock($user) {
+    public function getSpecialAgreementActivityInformationBlock($user, $concept_id = 0) {
         $dealer = $user->getDealerUsers()->getFirst();
         if (!$dealer) {
             return '';
         }
 
-        $information_block = ActivityDealerInformationBlocksTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ?', array($this->getId(), $dealer->getDealerId()))->fetchOne();
+        $query = ActivityDealerInformationBlocksTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ?', array($this->getId(), $dealer->getDealerId()));
+        if ($concept_id > 0) {
+            $query->andWhere('concept_id = ?', $concept_id);
+        }
+
+        $information_block = $query->fetchOne();
         if (!$information_block) {
             return '';
         }

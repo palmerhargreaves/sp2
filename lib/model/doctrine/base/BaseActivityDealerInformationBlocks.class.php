@@ -46,6 +46,11 @@ abstract class BaseActivityDealerInformationBlocks extends sfDoctrineRecord
              'length' => 11,
              'notnull' => true,
              ));
+        $this->hasColumn('concept_id', 'integer', 11, array(
+            'type' => 'integer',
+            'length' => 11,
+            'notnull' => true,
+        ));
         $this->hasColumn('description', 'clob', null, array(
              'type' => 'clob',
              'notnull' => true,

@@ -1522,5 +1522,8 @@ blockquote p {
 }
 
 .concepts-information-block {
-    
+    float: left;
+    display: inline-block;
+    width: 100%;
 }
+

@@ -32,95 +32,59 @@
             <?php if ($activity->getActivityVideoStatistics()): ?>
                 <?php $description = $activity->getActivityVideoStatistics()->getFirst()->getStatisticDescription(); ?>
                 <?php if (!empty($description)): ?>
-                    <div class="alert alert-callout alert-info" role="alert" style="display: block; margin-bottom: 0px;">
+                    <div class="alert alert-callout alert-info" role="alert"
+                         style="display: block; margin-bottom: 0px;">
                         <strong><?php echo $description; ?></strong>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
 
-            <div id="approvement" class="active" style="float:left; width: 100%;">
+            <div id="approvement" class="active">
+                <?php if ($activity->getAllowSpecialAgreement()): ?>
+                <div class="concepts-information-block">
+
+                    <?php if ($sf_user->getAuthUser()->isAdmin() || $sf_user->getAuthUser()->isImporter()): ?>
+                        <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
+                            <strong>Выберите концепцию для добавления / редактирования цели.</strong>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="alert alert-callout alert-warning" role="alert" style="display: block;">
+                        <strong>Выберите концепцию для заполнения статистики.</strong>
+                    </div>
+
+                    <select id="sb_concept_targets"
+                            style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 22px; padding: 0 0 0 10px; margin-top: 0px;">
+                        <option value="-1">Выберите концепцию</option>
+                        <?php foreach (AgreementModelTable::getInstance()->createQuery()->where('dealer_id = ? and model_type_id = ?', array($sf_user->getAuthUser()->getDealer()->getId(), AgreementModel::CONCEPT_TYPE_ID))->execute() as $concept): ?>
+                            <option value="<?php echo $concept->getId(); ?>"><?php echo $concept->getConceptTargetStatisticStatusText($sf_user->getAuthUser(), $activity->getId()); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <?php endif; ?>
+
                 <div id="materials" style="float: left; width: 99%;">
                     <div id="accommodation" class="active">
                         <?php if ($activity->getAllowSpecialAgreement()): ?>
-                            <?php if ($sf_user->getAuthUser()->isAdmin() || $sf_user->getAuthUser()->isImporter()): ?>
+                            <div id="container_concept_targets">
 
+                            </div>
 
-                                <div class="concepts-information-block">
-                                    <select id="sb_concept_targets" style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 22px; padding: 0 0 0 10px; margin-top: 15px;">
-                                        <option value="-1">Выберите концепцию</option>
-                                        <?php foreach (AgreementModelTable::getInstance()->createQuery()->where('dealer_id = ? and model_type_id = ?', array($sf_user->getAuthUser()->getDealer()->getId(), AgreementModel::CONCEPT_TYPE_ID))->execute() as $concept): ?>
-                                            <option value="<?php echo $concept->getId(); ?>"><?php echo $concept->getId(); ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                            <div class="container-for-activity-video-record-statistics-fields">
 
-                                <div class="group open">
-                                    <div class="group-header">
-                                        <span class="title">Цели</span>
-                                    </div>
-
-                                    <div class="group-content">
-                                        <div id="information-block-wrapper">
-                                            <table class="models">
-                                                <tr>
-                                                    <td class="content-column">
-                                                        <div style="margin: 15px 0px 10px 15px;">
-                                                        <?php
-                                                        if ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())): ?>
-                                                            <?php echo html_entity_decode($activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())); ?>
-                                                        <?php endif; ?>
-                                                        </div>
-
-                                                        <textarea id="activity-information-text">
-                                                            <?php echo $activity->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser()); ?>
-                                                        </textarea>
-
-                                                        <button id="js-save-information-block"
-                                                                data-activity-id="<?php echo $activity->getId(); ?>"
-                                                                data-dealer-id="<?php echo $sf_user->getAuthUser()->getDealerUsers()->getFirst()->getDealerId(); ?>"
-                                                                style="margin-top: 12px;"
-                                                                class="float-right button modal-zoom-button modal-form-button modal-form-submit-button submit-btn"
-                                                                type="submit">
-                                                            <span>Сохранить</span>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php elseif ($activity->haveSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())): ?>
-                                <div class="group open">
-                                    <div class="group-header">
-                                        <span class="title">Цели</span>
-                                    </div>
-
-                                    <div class="group-content">
-                                        <table class="models">
-                                            <tr>
-                                                <td class="content-column">
-                                                    <div style="margin: 15px 0px 10px 15px;">
-                                                        <?php echo html_entity_decode($activity->getRawValue()->getSpecialAgreementActivityInformationBlock($sf_user->getAuthUser())); ?>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-
+                            </div>
+                        <?php else: ?>
+                            <div class="container-for-activity-video-record-statistics-fields">
+                                <?php include_partial('activity_headers_fields_group_list',
+                                    array(
+                                        'activity' => $activity,
+                                        'allow_to_edit' => $allow_to_edit,
+                                        'current_q' => $current_q,
+                                        'allow_to_cancel' => $allow_to_cancel
+                                    )
+                                ); ?>
+                            </div>
                         <?php endif; ?>
-
-                        <div class="container-for-activity-video-record-statistics-fields">
-                            <?php include_partial('activity_headers_fields_group_list',
-                                array(
-                                    'activity' => $activity,
-                                    'allow_to_edit' => $allow_to_edit,
-                                    'current_q' => $current_q,
-                                    'allow_to_cancel' => $allow_to_cancel
-                                )
-                            ); ?>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -129,8 +93,7 @@
                 <tbody></tbody>
             </table>
 
-            <div class="info-save-complete"
-                 style="display: none; width: 99%; margin: 10px; padding: 10px; color: red; text-align: center; font-weight: bold;"></div>
+            <div class="info-save-complete" style="display: none; width: 99%; margin: 10px; padding: 10px; color: red; text-align: center; font-weight: bold;"></div>
 
             <?php if (isset($pre_check_statistic) && !is_null($pre_check_statistic) && ($pre_check_statistic == ActivityStatisticPreCheckAbstract::CHECK_STATUS_IN_PROGRESS)
                 && ($sf_user->getAuthUser()->isImporter() || $sf_user->getAuthUser()->isManager())
@@ -183,6 +146,7 @@
         <input type="hidden" name="year" value="<?php echo $current_year; ?>"/>
         <input type="hidden" name="activity" value="<?php echo $activity->getId(); ?>"/>
         <input type="hidden" name="txt_frm_fields_data" id="txt_frm_fields_data"/>
+        <input type="hidden" name="concept_id" value="0" />
     </form>
 </div>
 
@@ -246,6 +210,14 @@
             activity_id: <?php echo $activity->getId(); ?>,
             quarter: <?php echo $sf_user->getCurrentQuarter(); ?>,
             year: <?php echo $current_year; ?>,
+        }).start();
+
+        new SpecialAgreementConceptBindTargetAndStatistic({
+            on_change_concept: '<?php echo url_for('@on_special_agreement_change_concept_bind_target_and_statistic'); ?>',
+            activity_id: '<?php echo $activity->getId(); ?>',
+            sb_concepts_element: '#sb_concept_targets',
+            container_concept_targets: '#container_concept_targets',
+            container_concept_statistic: '#container_concept_statistic'
         }).start();
 
         $('#frmStatistics .with-date').datepicker();

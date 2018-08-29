@@ -1519,6 +1519,27 @@ class AgreementModel extends BaseAgreementModel
 
         return null;
     }
+
+    /**
+     * @param $user
+     * @param $activity_id
+     * @return string *
+     */
+    public function getConceptTargetStatisticStatusText($user, $activity_id) {
+        $dealer = $user->getDealerUsers()->getFirst();
+        if (!$dealer) {
+            return $this->getId();
+        }
+
+        $title_text = array();
+
+        $information_block = ActivityDealerInformationBlocksTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ? and concept_id = ?', array($activity_id, $dealer->getDealerId(), $this->getId()))->fetchOne();
+        if ($information_block) {
+            $title_text[] = 'T';
+        }
+
+        return sprintf('%s %d', count($title_text) ? '['.implode(', ', $title_text).']' : '', $this->getId());
+    }
 }
 
 
