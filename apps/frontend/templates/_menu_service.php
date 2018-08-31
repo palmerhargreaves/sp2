@@ -2,11 +2,12 @@
     <div class="name-wrapper">
         <?php include_component('user', 'user') ?>
     </div>
+
     <ul class="items">
         <li class="item" id="pass-change-link">Смена пароля</li>
         <?php
         $dealer_user = $sf_user->getAuthUser()->getDealerUsers()->getFirst();
-        if ($dealer_user && $dealer_user->getManager()):
+        if ($dealer_user):
             ?>
             <li class="item"><a href="<?php echo url_for('dealer_user/index') ?>">Управление пользователями</a></li>
         <?php endif; ?>
@@ -37,7 +38,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if ($sf_user->isRegionalManager() || Utils::allowedIps()): ?>
+        <?php if ($sf_user->isRegionalManager()): ?>
             <li class="item">
                 <a href="<?php echo url_for('@agreement_module_management_regional_manager_models') ?>">Спец. согласование</a>
             </li>
