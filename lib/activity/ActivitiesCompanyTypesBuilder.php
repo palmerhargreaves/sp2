@@ -169,7 +169,7 @@ class ActivitiesCompanyTypesBuilder
             $query->andWhere('a.finished = ?', false);
         }
 
-        $query->andWhere('(a.hide = ? or a.hide = ?)', array(false, ($this->_user->isAdmin() || $this->_user->getAuthUser()->isDesigner()) ? true : false));
+        $query->andWhere('(a.hide = ? or a.hide = ?)', array(false, ($this->_user->isAdmin() || $this->_user->getAuthUser()->isDesigner() || $this->_user->isImporter()) ? true : false));
         //$query->andWhere('(a.hide = ?)', array(false));
         ActivityTable::checkActivity($this->_user, $query, $company_type, $this->_filters);
 

@@ -9,15 +9,23 @@ class AgreementActivityModuleDescriptor extends ActivityModuleDescriptor
 {
     function getActivityTabs()
     {
-        if (!$this->user->isDealerUser())
-            return array();
+        $show_tab_data = true;
+        if (!$this->user->isDealerUser()) {
+            $show_tab_data = false;
+        }
 
-        return array(
-            'agreement' => array(
-                'name' => 'Согласование',
-                'uri' => '@agreement_module_models?activity=' . $this->activity->getId()
-            ),
-        );
+        if ($this->user->isImporter()) {
+            $show_tab_data = true;
+        }
+
+        return $show_tab_data
+            ? array(
+                'agreement' => array(
+                    'name' => 'Согласование',
+                    'uri' => '@agreement_module_models?activity=' . $this->activity->getId()
+                ),
+            )
+            : array();
     }
 
     /**
@@ -43,10 +51,10 @@ class AgreementActivityModuleDescriptor extends ActivityModuleDescriptor
     function hasActivityConcept()
     {
         return ActivityModuleTable::getInstance()
-            ->createQuery('m')
-            ->innerJoin('m.Activities a WITH a.id=?', $this->activity->getId())
-            ->where('m.identifier=?', 'concept')
-            ->count() > 0;
+                ->createQuery('m')
+                ->innerJoin('m.Activities a WITH a.id=?', $this->activity->getId())
+                ->where('m.identifier=?', 'concept')
+                ->count() > 0;
     }
 
     function getStatus()

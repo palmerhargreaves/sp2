@@ -32,7 +32,7 @@
 
     <?php
     if ($activity->getHide()) {
-        if ($sf_user->getRawValue()->getAuthUser()->isSuperAdmin() ||
+        if ($sf_user->getRawValue()->getAuthUser()->isSuperAdmin() || $sf_user->getRawValue()->getAuthUser()->isImporter() ||
             $sf_user->getRawValue()->getAuthUser()->checkUserDealerAcceptServiceActivity($activity->getId())
         ) {
             include_partial('activity/activity_head', array('activity' => $activity, 'quartersModels' => $quartersModels, 'current_q' => $current_q, 'current_year' => $current_year, 'show_quarters_tabs' => true));
