@@ -565,4 +565,22 @@ class User extends BaseUser
 
         return AgreementModelTable::getInstance()->createQuery()->where('dealer_id = ? and activity_id = ?', array($this->getDealer()->getId(), $activity_id))->count();
     }
+
+    /**
+     * Получаем должность пользователя
+     * С учетом доработок, оставляем совместимоть со старой версией (должность записывается строкой)
+     * В новой версии, должность привязывется к индексу
+     * @return string
+     */
+    public function getPostName() {
+        $post = $this->getPost();
+        if (is_numeric($post)) {
+            $user_post = UsersDepartmentsTable::getInstance()->find($post);
+            if ($user_post) {
+                return $user_post->getName();
+            }
+        }
+
+        return $post;
+    }
 }
