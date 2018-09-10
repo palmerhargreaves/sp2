@@ -44,18 +44,17 @@
                     <?php endif; ?>
 
                     <?php if (!$activity->hasStatisticByBlocks()): ?>
-                    <div class=""
-                         style="color: red; margin: 20px 0px 0px 30px; float:left; width: 100%; display: block;">
-                        В периоде начальная дата должна быть меньше (равна) даты окончания<br/>
-                        Все поля должны быть заполнены (для числовых значений разрешено использование "." )
-                    </div>
+                        <div class=""
+                             style="color: red; margin: 20px 0px 0px 30px; float:left; width: 100%; display: block;">
+                            В периоде начальная дата должна быть меньше (равна) даты окончания<br/>
+                            Все поля должны быть заполнены (для числовых значений разрешено использование "." )
+                        </div>
                     <?php endif; ?>
 
                     <div id="materials" style="float: left; width: 99%;">
                         <div id="accommodation" class="active">
                             <?php
-                            if ($activity->hasStatisticByBlocks() && Utils::allowedIps()) {
-                                include_partial('extended_statistic_by_blocks', array('activity' => $activity,
+                                include_partial('statistic_by_blocks', array('activity' => $activity,
                                     'current_q' => $current_q,
                                     'allow_to_edit' => $allow_to_edit_fields,
                                     'allow_to_cancel' => $allow_to_cancel,
@@ -64,9 +63,6 @@
                                     'current_year' => $current_year,
                                     'concept' => $bindedConcept,
                                     'pre_check_statistic' => isset($pre_check_statistic) ? $pre_check_statistic : null));
-                            } else {
-                                include_partial('extended_statistic_data', array('activity' => $activity, 'concept' => $active_concept));
-                            }
                             ?>
                         </div>
                     </div>
@@ -82,7 +78,7 @@
                 </div>
 
                 <div id="bts-container" style="display: block; width: 99%; height: 55px;">
-                    <div id="container-allow-to-edit" style="display: none;">
+                    <div id="container-allow-to-edit" style="display: <?php echo $allow_to_edit_fields ? 'block' : 'none'; ?>">
                         <button id="bt_on_save_statistic_data_importer" class="button apply-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
@@ -98,7 +94,7 @@
                         </button>
                     </div>
 
-                    <div id="container-allow-to-cancel" style="display: none;">
+                    <div id="container-allow-to-cancel" style="display: <?php echo $allow_to_cancel ? 'block' : 'none'; ?>">
                         <button id="bt_on_cancel_statistic_data" class="button gray cancel-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'

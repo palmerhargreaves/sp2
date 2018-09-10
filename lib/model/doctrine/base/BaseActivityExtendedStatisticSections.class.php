@@ -60,6 +60,10 @@ abstract class BaseActivityExtendedStatisticSections extends sfDoctrineRecord
              'notnull' => false,
              'length' => 255,
              ));
+        $this->hasColumn('description', 'string', null, array(
+            'type' => 'clob',
+            'notnull' => false,
+        ));
 
         $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');

@@ -25,6 +25,9 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
     const FIELD_CALC_SYMBOL_DIVIDE = 'divide';
     const FIELD_CALC_SYMBOL_PERCENT = 'percent';
 
+    const DEALER_GROUP_ALL = 'all';
+    const DEALER_GROUP_PKW = 'pkw';
+
     private $_fieldTypes = array( self::FIELD_TYPE_DATE => 'Дата', self::FIELD_TYPE_VALUE => 'Значение', self::FIELD_TYPE_CALC => 'Вычисляемое значение', self::FIELD_TYPE_TEXT => 'Текст', self::FIELD_TYPE_ANY_VALUE => 'Цифры / Символы', self::FIELD_TYPE_FILE => 'Файл' );
 
     public function getFieldType ()
@@ -619,6 +622,23 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
 
         $field_data->setArray($data_array);
         $field_data->save();
+
+        return true;
+    }
+
+    /**
+     * Проверяем на возможность просмотра пользователем содержимого поля
+     * @param $user
+     * @return bool
+     */
+    public function isLimitedAccessForUser($user) {
+        if ($this->getDealersGroup() == self::DEALER_GROUP_ALL) {
+            return false;
+        }
+
+        if ($user->getAuthUser()->getDealer()->isPKW() && (self::DEALER_GROUP_PKW == $this->getDealersGroup())) {
+            return false;
+        }
 
         return true;
     }

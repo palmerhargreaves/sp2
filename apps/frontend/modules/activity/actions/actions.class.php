@@ -200,6 +200,8 @@ class activityActions extends BaseActivityActions
 
     function executeExtendedStatistic(sfWebRequest $request)
     {
+        $this->preCheckStatisticStatus($request);
+
         $this->outputModelsQuarters($request);
         $this->outputFilterByYear();
         $this->outputFilterByQuarter();
@@ -210,7 +212,10 @@ class activityActions extends BaseActivityActions
         }
 
         $this->activity = $this->getActivity($request);
-        if ($this->activity->isActivityStatisticHasSteps()) {
+
+        if ($this->activity->hasStatisticByBlocks()) {
+            $this->setTemplate('extendedStatisticByBlocks');
+        } else if ($this->activity->isActivityStatisticHasSteps()) {
             $this->setTemplate('extendedStatisticBySteps');
         }
     }

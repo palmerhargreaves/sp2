@@ -1680,5 +1680,10 @@ class Activity extends BaseActivity
         return $information_block->getDescription();
     }
 
-
+    /**
+     * Проверяем наличие привязанной статистики по блокам
+     */
+    public function hasStatisticByBlocks() {
+        return ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and section_template_id != 0', array($this->getId()))->count();
+    }
 }
