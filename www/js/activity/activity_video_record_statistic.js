@@ -166,7 +166,7 @@ ActivityVideoRecordStatistic.prototype = {
     },
 
     onInputText: function(e) {
-        var $el = $(e.target);
+        var $el = $(e.target), $field = $(e.target);
         var reg = new RegExp($el.data('regexp'));
 
         if ($el.data('type') != 'date') {
@@ -175,9 +175,71 @@ ActivityVideoRecordStatistic.prototype = {
             }
         }
 
+        if ($field.attr('data-calc-field')) {
+            this.calcValues($field.data('calc-parent-field'), $field.data('calc-type'), $field);
+        }
+
         if (window.localStorage) {
             window.localStorage.setItem($el.attr('class'), $el.val());
         }
+    },
+
+    calcValues: function (field, symbol, el) {
+        var self = this;
+
+        $('.calc-field').each(function(i, field) {
+            var $f = $(field),
+                fields = $f.data('calc-fields').split(":"),
+                symbol = $f.data('calc-type'),
+                v1 = !isNaN(parseFloat($('.field-' + fields[0]).val())) ? parseFloat($('.field-' + fields[0]).val()) : 0,
+                v2 = !isNaN(parseFloat($('.field-' + fields[1]).val())) ? parseFloat($('.field-' + fields[1]).val()) : 0;
+
+            self.calcData($f, symbol, v1, v2);
+
+            var parentField = $f.data('calc-parent-field') != 0 ? $f.data('calc-parent-field') : el.data('calc-parent-field');
+            if (parentField != 0) {
+                var $p = $('.calc-field-' + parentField),
+                    symbol = $p.data('calc-type'),
+                    pFields = $p.data('calc-fields').split(':');
+
+                var v1 = self.getFieldVal(pFields[0]),
+                    v2 = self.getFieldVal(pFields[1]);
+
+                self.calcData($p, symbol, v1, v2);
+            }
+        });
+    },
+
+    calcData: function ($f, symbol, v1, v2) {
+        if (symbol == 'plus') {
+            $f.text(v1 + v2);
+        }
+        else if (symbol == 'multiple') {
+            $f.text(v1 * v2);
+        }
+        else if (symbol == 'minus') {
+            $f.text(v1 - v2);
+        }
+        else if (symbol == 'divide') {
+            if (v2 != 0)
+                $f.text((v1 / v2).toFixed(2));
+        }
+        else if (symbol == 'percent') {
+            $f.text((v1 * v2 / 100).toFixed(2));
+        }
+    },
+
+    getFieldVal: function (id) {
+        var $f = $('.calc-field-' + id);
+
+        if ($f.length != 0)
+            return !isNaN(parseFloat($f.text())) ? parseFloat($f.text()) : 0;
+
+        $f = $('.field-' + id);
+        if ($f.length != 0)
+            return !isNaN(parseFloat($f.val())) ? parseFloat($f.val()) : 0;
+
+        return 0;
     },
 
     onAddNewGroupField: function(e) {

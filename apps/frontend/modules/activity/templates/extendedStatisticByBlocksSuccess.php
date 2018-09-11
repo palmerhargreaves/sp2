@@ -89,43 +89,39 @@
                     <?php else: ?>
                         <?php if ($allow_to_edit): ?>
                             <div id="bts-container" style="display: block; width: 99%; height: 55px;">
-                                <div id="container-allow-to-edit" style="display: none;">
-                                    <?php if (!$disable_importer): ?>
-                                        <button id="bt_on_save_statistic_data_importer" class="button apply-stat-button"
-                                                style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
-                                                data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
-                                                data-to-importer='1'>Отправить импортеру
-                                        </button>
-
-                                    <?php endif; ?>
-
-                                    <button id="bt_on_save_statistic_data_many" class="button apply-stat-button"
+                                <?php if (!$disable_importer): ?>
+                                    <button id="bt_on_save_statistic_data_once" class="button apply-stat-button"
                                             style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                             data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
-                                        Сохранить
+                                        Отправить импортеру
                                     </button>
-                                </div>
+
+                                <?php endif; ?>
+
+                                <button id="bt_on_save_statistic_data_many" class="button apply-stat-button"
+                                        style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
+                                        data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
+                                    Сохранить
+                                </button>
                             </div>
                         <?php endif; ?>
 
                         <?php if ($allow_to_cancel): ?>
-                            <div id="container-allow-to-cancel" style="display: none;">
-                                <button id="bt_on_cancel_statistic_data" class="button gray cancel-stat-button"
-                                        style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
-                                        data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
-                                    Отменить
-                                </button>
-                            </div>
+                            <button id="bt_on_cancel_statistic_data" class="button gray cancel-stat-button"
+                                    style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
+                                    data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
+                                Отменить
+                            </button>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
 
+                <input type="hidden" name="quarter"
+                       value="<?php echo !empty($statisticQuarter) ? $statisticQuarter : $current_q; ?>"/>
+                <input type="hidden" name="year" value="<?php echo $current_year; ?>"/>
                 <input type="hidden" name="activity" value="<?php echo $activity->getId(); ?>"/>
-                <input type="hidden" name="concept_id" value="0"/>
-                <input type="hidden" name="send_to" value=""/>
                 <input type="hidden" name="txt_frm_fields_data" id="txt_frm_fields_data"/>
-                <input type="hidden" name="quarter" value="<?php echo $current_q; ?>"/>
+                <input type="hidden" name="concept_id" value="0" />
         </form>
     </div>
 </div>
@@ -135,10 +131,40 @@
     <div class="modal-close"></div>
     После отправки данных Вы не сможете их отредактировать. Вы уверены, что хотите отправить заполненную информацию ?
     <div style="display: block; width: 75%; margin: auto; margin-top: 40px;">
-        <button id="bt-send-statistic-data" class="button accept-button" style="width: 45%; float: left; clear: both;">
-            Отправить
+        <button id="bt-send-video-record-statistic-data" class="button accept-button"
+                style="width: 45%; float: left; clear: both;">Отправить
         </button>
-        <button id="bt-close-modal" class="button gray decline-button" style="width: 45%; float: right;"
+        <button id="bt-cancel-send-video-record-statistic" class="button gray decline-button"
+                style="width: 45%; float: right;"
+                data-id='<?php echo $sf_user->getAuthUser()->getId(); ?>'>Отменить
+        </button>
+    </div>
+</div>
+
+<?php if ($activity->getActivityVideoStatistics() && $activity->getActivityVideoStatistics()->getFirst()->getAllowStatisticPreCheck()): ?>
+    <div id="activity-accept-cancel-info-modal" class="modal" style="width:400px;">
+        <div class="white modal-header">Согласование статистики</div>
+        Статистика отправлена на согласование. Дождитесь ответа импортера.
+
+        <div style="display: block; width: 75%; margin: auto; margin-top: 40px;">
+            <button id="bt-activity-close-pre-check" class="button gray" style="width: 45%; float: right;"
+                    data-id='<?php echo $sf_user->getAuthUser()->getId(); ?>'>Закрыть
+            </button>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+<div id="confirm-send-data-to-specialist-modal" class="modal" style="width:400px;">
+    <div class="white modal-header">Отправка данных</div>
+    <div class="modal-close"></div>
+    После отправки данных Вы не сможете их отредактировать. Вы уверены, что хотите отправить заполненную информацию ?
+    <div style="display: block; width: 75%; margin: auto; margin-top: 40px;">
+        <button id="bt-send-video-record-statistic-data" class="button accept-button"
+                style="width: 45%; float: left; clear: both;">Отправить
+        </button>
+        <button id="bt-cancel-send-video-record-statistic" class="button gray decline-button"
+                style="width: 45%; float: right;"
                 data-id='<?php echo $sf_user->getAuthUser()->getId(); ?>'>Отменить
         </button>
     </div>
@@ -150,14 +176,27 @@
 
 <script>
     $(function () {
-        window.activity_extended_statistic = new ActivityExtendedStatistic({
-            on_apply_concept_to_statistic: '<?php echo url_for('@activity_extended_bind_to_concept'); ?>',
-            on_check_allow_to_edit_cancel: '<?php echo url_for('@activity_check_allow_to_edit_cancel_stat_data'); ?>',
-            on_activity_extended_change_stats: '<?php echo url_for('@activity_extended_change_stats'); ?>',
-            on_activity_extended_change_stats_with_importer: '<?php echo url_for('@activity_extended_change_stats_to_importer'); ?>',
-            on_cancel_statistic: '<?php echo url_for('@activity_extended_statistic_data_cancel'); ?>',
+        window.activity_video_record_statistic = new ActivityVideoRecordStatistic({
+            on_add_new_fields: '<?php echo url_for('@on_add_new_video_record_statistic_fields');?>',
+            on_save_data: '<?php echo url_for('@on_save_video_record_statistic'); ?>',
+            on_save_importer_data: '<?php echo url_for('@on_save_importer_video_record_statistic');?>',
+            on_delete_field: '<?php echo url_for('@on_delete_video_record_field'); ?>',
+            on_cancel_url: '<?php echo url_for('@on_cancel_statistic_data'); ?>',
+            on_accept_statistic_data_by_user_url: '<?php echo url_for('@on_accept_statistic_data_by_user'); ?>',
+            on_cancel_statistic_data_by_user: '<?php echo url_for('@on_cancel_statistic_data_by_user'); ?>',
             activity_id: <?php echo $activity->getId(); ?>,
-
+            quarter: <?php echo $sf_user->getCurrentQuarter(); ?>,
+            year: <?php echo $current_year; ?>,
         }).start();
+
+        new SpecialAgreementConceptBindTargetAndStatistic({
+            on_change_concept: '<?php echo url_for('@on_special_agreement_change_concept_bind_target_and_statistic'); ?>',
+            activity_id: '<?php echo $activity->getId(); ?>',
+            sb_concepts_element: '#sb_concept_targets',
+            container_concept_targets: '#container_concept_targets',
+            container_concept_statistic: '#container_concept_statistic'
+        }).start();
+
+        $('#frmStatistics .with-date').datepicker();
     });
 </script>

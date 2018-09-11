@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08981257-3a02-444f-8ded-fef7b1a16a01" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php" afterPath="$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php" afterPath="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php" afterPath="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php" />
-      <change beforePath="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php" afterPath="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php" />
-      <change beforePath="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFieldsTable.class.php" afterPath="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFieldsTable.class.php" />
-      <change beforePath="$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js" afterPath="$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php" afterPath="$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php" afterPath="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js" afterPath="$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/activity/activity_video_record_statistic.js" afterPath="$PROJECT_DIR$/www/js/activity/activity_video_record_statistic.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,35 +15,38 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="_statistic_by_blocks.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="580">
-              <caret line="143" column="89" lean-forward="false" selection-start-line="143" selection-start-column="89" selection-end-line="143" selection-end-column="89" />
+            <state relative-caret-position="719">
+              <caret line="144" column="89" lean-forward="false" selection-start-line="144" selection-start-column="89" selection-end-line="144" selection-end-column="89" />
               <folding>
-                <marker date="1536632891119" expanded="true" signature="6140:6208" ph="..." />
-                <marker date="1536632891119" expanded="true" signature="8513:8581" ph="..." />
+                <marker date="1536651184711" expanded="true" signature="6140:6208" ph="..." />
+                <marker date="1536651184711" expanded="true" signature="8513:8581" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="extendedStatisticByBlocksSuccess.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="extendedStatisticByBlocksSuccess.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="75" column="55" lean-forward="true" selection-start-line="75" selection-start-column="55" selection-end-line="75" selection-end-column="55" />
-              <folding>
-                <element signature="n#style#0;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#0;n#div#1;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <marker date="1536633633604" expanded="true" signature="9405:10172" ph="..." />
-                <marker date="1536633633604" expanded="true" signature="9425:10161" ph="{...}" />
-                <marker date="1536633633604" expanded="true" signature="9502:10099" ph="{&quot;on_apply_concept_to_statistic&quot;: '&lt;?php echo url_for('...}" />
-              </folding>
+            <state relative-caret-position="668">
+              <caret line="178" column="67" lean-forward="true" selection-start-line="178" selection-start-column="67" selection-end-line="178" selection-end-column="67" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_video_record_statistic.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/activity/activity_video_record_statistic.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4">
+              <caret line="186" column="46" lean-forward="true" selection-start-line="186" selection-start-column="46" selection-end-line="186" selection-end-column="46" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -54,20 +54,8 @@
       <file leaf-file-name="extendedStatisticSuccess.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticSuccess.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="100" column="79" lean-forward="true" selection-start-line="100" selection-start-column="20" selection-end-line="100" selection-end-column="79" />
-              <folding>
-                <element signature="n#style#0;n#button#0;n#div#0;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_activity_header_fields_list.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_header_fields_list.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="59" column="73" lean-forward="true" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="73" />
+            <state relative-caret-position="597">
+              <caret line="134" column="65" lean-forward="false" selection-start-line="134" selection-start-column="65" selection-end-line="134" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -76,8 +64,8 @@
       <file leaf-file-name="routing.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/frontend/config/routing.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="114" column="63" lean-forward="false" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="63" />
+            <state relative-caret-position="348">
+              <caret line="641" column="75" lean-forward="false" selection-start-line="641" selection-start-column="37" selection-end-line="641" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -86,38 +74,38 @@
       <file leaf-file-name="actions.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="823" column="0" lean-forward="false" selection-start-line="823" selection-start-column="0" selection-end-line="823" selection-end-column="0" />
+            <state relative-caret-position="314">
+              <caret line="733" column="82" lean-forward="false" selection-start-line="733" selection-start-column="77" selection-end-line="733" selection-end-column="82" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActivityExtendedStatisticFieldsTable.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFieldsTable.class.php">
+      <file leaf-file-name="ActivityStatisticPreCheckAbstract.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticPreCheckAbstract.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="27" column="5" lean-forward="false" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+            <state relative-caret-position="238">
+              <caret line="138" column="21" lean-forward="true" selection-start-line="138" selection-start-column="21" selection-end-line="138" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActivityExtendedStatisticFields.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php">
+      <file leaf-file-name="statisticSuccess.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/statisticSuccess.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="530" column="78" lean-forward="false" selection-start-line="530" selection-start-column="78" selection-end-line="530" selection-end-column="78" />
+            <state relative-caret-position="119">
+              <caret line="7" column="40" lean-forward="true" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_extended_statistic.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="activity_extended_statistic.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="304" column="23" lean-forward="false" selection-start-line="304" selection-start-column="4" selection-end-line="304" selection-end-column="23" />
+            <state relative-caret-position="161">
+              <caret line="106" column="12" lean-forward="false" selection-start-line="106" selection-start-column="12" selection-end-line="106" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -134,19 +122,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>partial</find>
-      <find>part</find>
-      <find>tiny</find>
-      <find>DealerInformationBlock</find>
-      <find>isVideoRecordStatisticsActive</find>
-      <find>executeExtendedStatistic</find>
-      <find>checkAllowToEditExtendedStat</find>
-      <find>bt_on_save_statistic_data</find>
-      <find>container-allow-to-edit</find>
-      <find>getContainerAllowToEdit</find>
-      <find>onCheckAllowCancelSuccess</find>
-      <find>allow_to_edit_fields</find>
-      <find>executeExtended</find>
       <find>getCalcFields</find>
       <find>calcValues</find>
       <find>getCalculateSymbol</find>
@@ -163,7 +138,20 @@
       <find>onSaveDataCompleted</find>
       <find>$to_importer</find>
       <find>Blocks</find>
+      <find>activity_check_allow_to_edit_cancel_stat_data</find>
+      <find>checkAllowToEditCancelStatData</find>
       <find>pre_check_statistic</find>
+      <find>checkAllowToEdit</find>
+      <find>disable_importer</find>
+      <find>extendedStatisticByBlocks</find>
+      <find>activity_statistic</find>
+      <find>executeStat</find>
+      <find>executeExt</find>
+      <find>on_save_importer_video_record_statistic</find>
+      <find>onSaveImporterVideoRecordStatisticData</find>
+      <find>saveVideoRecordStatisticData</find>
+      <find>calcData</find>
+      <find>getFieldVal</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -184,7 +172,6 @@
         <option value="$PROJECT_DIR$/www/js/activity/special_agreement_concept_bind_target_and_statistic.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_head.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_tabs.php" />
         <option value="$PROJECT_DIR$/lib/model/doctrine/Activity.class.php" />
         <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/statisticSuccess.php" />
         <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_extended_statistic_by_blocks.php" />
@@ -194,10 +181,13 @@
         <option value="$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityExtendedStatisticSections.class.php" />
         <option value="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFieldsTable.class.php" />
         <option value="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php" />
-        <option value="$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js" />
         <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php" />
+        <option value="$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheckFactory.php" />
         <option value="$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php" />
         <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_tabs.php" />
+        <option value="$PROJECT_DIR$/www/js/activity/activity_video_record_statistic.js" />
+        <option value="$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js" />
       </list>
     </option>
   </component>
@@ -217,9 +207,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="243" />
-    <option name="width" value="1700" />
-    <option name="height" value="1207" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1096" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -239,108 +230,237 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
-          <expand>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="frontend" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="frontend" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="frontend" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="frontend" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="activity" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="frontend" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="activity" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="actions" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="frontend" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="activity" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apps" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="frontend" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="agreement_activity_model" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="lib" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="lib" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="activity" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="lib" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="activity" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="statistic" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="lib" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="model" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="sp2_with_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sp2" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="lib" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="model" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="doctrine" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-          </expand>
-          <select />
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="statistic" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actions" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -407,6 +527,15 @@
       <PhpTestRunnerSettings />
       <method />
     </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
       <command value="run" />
       <scripts />
@@ -426,14 +555,6 @@
       <test-directory />
       <recursive>false</recursive>
       <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -455,26 +576,27 @@
       <workItem from="1535960076902" duration="618000" />
       <workItem from="1536560466110" duration="13346000" />
       <workItem from="1536621799598" duration="10223000" />
+      <workItem from="1536654303520" duration="1153000" />
+      <workItem from="1536659012136" duration="3907000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34286000" />
+    <option name="totallyTimeSpent" value="39346000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="243" y="0" width="1700" height="1207" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="18" side_tool="true" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959852" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32870865" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28414634" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24786781" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -484,12 +606,13 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="19" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="processedProjectFiles" value="true" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -499,20 +622,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_statistic_quarters.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/activity/module/agreement/model/form/model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-163">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/css/activities.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -643,19 +752,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheckFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityFields.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="183" column="27" lean-forward="false" selection-start-line="183" selection-start-column="27" selection-end-line="183" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -680,13 +780,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_tabs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="77" column="73" lean-forward="false" selection-start-line="77" selection-start-column="46" selection-end-line="77" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_headers_fields_group_list.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -706,14 +799,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1632">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/statisticSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="35" column="58" lean-forward="false" selection-start-line="35" selection-start-column="58" selection-end-line="35" selection-end-column="58" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -756,75 +841,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFieldsTable.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="27" column="5" lean-forward="false" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/config/routing.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="114" column="63" lean-forward="false" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="304" column="23" lean-forward="false" selection-start-line="304" selection-start-column="4" selection-end-line="304" selection-end-column="23" />
-          <folding />
+        <state relative-caret-position="578">
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <marker date="1536651184727" expanded="true" signature="1877:1905" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="530" column="78" lean-forward="false" selection-start-line="530" selection-start-column="78" selection-end-line="530" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticPreCheckAbstract.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="128" column="32" lean-forward="true" selection-start-line="128" selection-start-column="32" selection-end-line="128" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheck.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="8" column="63" lean-forward="false" selection-start-line="8" selection-start-column="63" selection-end-line="8" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_header_fields_list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="59" column="73" lean-forward="true" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_video_record_statistic.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1174">
-          <caret line="140" column="27" lean-forward="true" selection-start-line="97" selection-start-column="12" selection-end-line="140" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="143" column="89" lean-forward="false" selection-start-line="143" selection-start-column="89" selection-end-line="143" selection-end-column="89" />
+        <state relative-caret-position="9112">
+          <caret line="536" column="14" lean-forward="false" selection-start-line="536" selection-start-column="14" selection-end-line="536" selection-end-column="14" />
           <folding>
-            <marker date="1536632891119" expanded="true" signature="6140:6208" ph="..." />
-            <marker date="1536632891119" expanded="true" signature="8513:8581" ph="..." />
+            <marker date="1536651184722" expanded="true" signature="21551:21562" ph="..." />
           </folding>
         </state>
       </provider>
@@ -833,44 +863,130 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1195">
           <caret line="33" column="35" lean-forward="false" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/activity/statictic/activity_simple_statistic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1585">
+          <caret line="116" column="4" lean-forward="false" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheck.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="8" column="52" lean-forward="false" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheckFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="709">
+          <caret line="77" column="8" lean-forward="false" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_header_fields_list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="852">
+          <caret line="59" column="73" lean-forward="false" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="719">
+          <caret line="144" column="89" lean-forward="false" selection-start-line="144" selection-start-column="89" selection-end-line="144" selection-end-column="89" />
           <folding>
-            <marker date="1535009169488" expanded="true" signature="5171:5239" ph="..." />
-            <marker date="1535009169488" expanded="true" signature="7402:7470" ph="..." />
+            <marker date="1536651184711" expanded="true" signature="6140:6208" ph="..." />
+            <marker date="1536651184711" expanded="true" signature="8513:8581" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticSuccess.php">
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_tabs.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="100" column="79" lean-forward="true" selection-start-line="100" selection-start-column="20" selection-end-line="100" selection-end-column="79" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#0;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="578">
+          <caret line="76" column="95" lean-forward="false" selection-start-line="76" selection-start-column="95" selection-end-line="76" selection-end-column="95" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="641" column="75" lean-forward="false" selection-start-line="641" selection-start-column="37" selection-end-line="641" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="823" column="0" lean-forward="false" selection-start-line="823" selection-start-column="0" selection-end-line="823" selection-end-column="0" />
+        <state relative-caret-position="314">
+          <caret line="733" column="82" lean-forward="false" selection-start-line="733" selection-start-column="77" selection-end-line="733" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticPreCheckAbstract.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="138" column="21" lean-forward="true" selection-start-line="138" selection-start-column="21" selection-end-line="138" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="597">
+          <caret line="134" column="65" lean-forward="false" selection-start-line="134" selection-start-column="65" selection-end-line="134" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_video_record_statistic.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="148" column="59" lean-forward="true" selection-start-line="143" selection-start-column="8" selection-end-line="148" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/statisticSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="40" lean-forward="true" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="75" column="55" lean-forward="true" selection-start-line="75" selection-start-column="55" selection-end-line="75" selection-end-column="55" />
-          <folding>
-            <element signature="n#style#0;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#0;n#div#1;n#div#2;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <marker date="1536633633604" expanded="true" signature="9405:10172" ph="..." />
-            <marker date="1536633633604" expanded="true" signature="9425:10161" ph="{...}" />
-            <marker date="1536633633604" expanded="true" signature="9502:10099" ph="{&quot;on_apply_concept_to_statistic&quot;: '&lt;?php echo url_for('...}" />
-          </folding>
+        <state relative-caret-position="668">
+          <caret line="178" column="67" lean-forward="true" selection-start-line="178" selection-start-column="67" selection-end-line="178" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/activity/activity_video_record_statistic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4">
+          <caret line="186" column="46" lean-forward="true" selection-start-line="186" selection-start-column="46" selection-end-line="186" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="106" column="12" lean-forward="false" selection-start-line="106" selection-start-column="12" selection-end-line="106" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>

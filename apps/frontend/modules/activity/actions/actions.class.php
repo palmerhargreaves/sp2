@@ -137,7 +137,6 @@ class activityActions extends BaseActivityActions
                 $this->allow_to_cancel = false;
                 $this->allow_to_edit_fields = $this->allow_to_edit = true;
             } else {
-
                 $q = 'q' . $this->current_q;
                 $stat_item = ActivityDealerStaticticStatusTable::getInstance()->createQuery()
                     ->select('ignore_q1_statistic, ignore_q2_statistic, ignore_q3_statistic, ignore_q4_statistic')
