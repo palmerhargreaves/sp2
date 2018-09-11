@@ -86,14 +86,14 @@
                         <button id="bt_on_save_statistic_data_importer" class="button apply-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
+                                data-concept-id="<?php echo !is_null($bindedConcept) ? $bindedConcept : 0; ?>"
                                 data-to-importer='1'>Отправить импортеру
                         </button>
 
                         <button id="bt_on_save_statistic_data" class="button apply-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
+                                data-concept-id="<?php echo !is_null($bindedConcept) ? $bindedConcept : 0; ?>"
                                 data-to-importer='0'>Сохранить
                         </button>
                     </div>
@@ -102,7 +102,7 @@
                         <button id="bt_on_cancel_statistic_data" class="button gray cancel-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>">Отменить
+                                data-concept-id="<?php echo !is_null($bindedConcept) ? $bindedConcept : 0; ?>">Отменить
                         </button>
                     </div>
                 </div>

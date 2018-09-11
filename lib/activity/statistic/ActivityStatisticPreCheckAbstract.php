@@ -41,12 +41,20 @@ class ActivityStatisticPreCheckAbstract implements ActivityStatisticPreCheckInte
         $this->_request_q = $this->_request->getParameter('quarter');
         $this->_request_q = !empty($this->_request_q) && $this->_request_q != 0 ? $this->_request_q : D::getQuarter(D::calcQuarterData(time()));
 
+        $year = $this->_my_user->getCurrentYear() != 0 ? $this->_my_user->getCurrentYear() : D::getYear(D::calcQuarterData(date('d-m-Y')));
+
         $items = json_decode($this->_request->getParameter('txt_frm_fields_data'));
 
         $user = $this->_my_user->getAuthUser();
-        $result = array( 'success' => false, 'msg' => '' );
-        foreach ($items as $key => $data) {
-            $result[ 'success' ] = ActivityFields::saveFieldData($this->_request, $data->id, $data->value, $this->_my_user);
+        $result = array('success' => false, 'msg' => '');
+
+        //Для активности со статистикой с настраиваемыми блоками, сохраняем данные используем расширенную таблицу
+        if ($activity && $activity->hasStatisticByBlocks()) {
+            $result['success'] = ActivityExtendedStatisticFields::saveData($request, $my_user, $files, $activity);
+        } else {
+            foreach ($items as $key => $data) {
+                $result['success'] = ActivityFields::saveFieldData($this->_request, $data->id, $data->value, $this->_my_user);
+            }
         }
 
         $allowed_file_types = array( 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats' );
@@ -62,7 +70,12 @@ class ActivityStatisticPreCheckAbstract implements ActivityStatisticPreCheckInte
                         $gen_file_name = $uniq_model->generate($file_data[ 'name' ]);
 
                         if (move_uploaded_file($file_data[ 'tmp_name' ], sfConfig::get('app_uploads_path') . ActivityFields::FIELD_FILE_PATH . '/' . $gen_file_name)) {
-                            ActivityFields::saveFieldData($this->_request, $file_key_data, $gen_file_name, $this->_my_user);
+                            //Для активности со статистикой с настраиваемыми блоками, сохраняем данные используем расширенную таблицу
+                            if ($activity && $activity->hasStatisticByBlocks()) {
+                                ActivityExtendedStatisticFields::saveFieldData($this->_request, $file_key_data, $gen_file_name, $this->_my_user->getAuthUser(), $activity, 0, $this->_request_q, $year);
+                            } else {
+                                ActivityFields::saveFieldData($this->_request, $file_key_data, $gen_file_name, $this->_my_user);
+                            }
                         }
                     } else {
                         $result[ 'success' ] = false;

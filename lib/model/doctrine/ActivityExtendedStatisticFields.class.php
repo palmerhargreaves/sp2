@@ -342,6 +342,10 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
             case self::FIELD_CALC_SYMBOL_PERCENT:
                 return '%';
                 break;
+
+            case self::FIELD_CALC_SYMBOL_MULTIPLE:
+                return '*';
+                break;
         }
 
         return '+';
@@ -546,7 +550,7 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
         return $result;
     }
 
-    private static function saveFieldData ( sfWebRequest $request, $field_id, $field_value, $user, $activity, $step_id = 0, $quarter = 0, $year = 0 )
+    public static function saveFieldData ( sfWebRequest $request, $field_id, $field_value, $user, $activity, $step_id = 0, $quarter = 0, $year = 0 )
     {
         if (is_null($field_id)) {
             return true;

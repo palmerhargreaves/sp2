@@ -207,7 +207,7 @@ class activityActions extends BaseActivityActions
 
         $this->activity = $this->getActivity($request);
 
-        $this->bindedConcept = null;//ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser(), $this->activity, $this->current_year, $this->current_q);
+        $this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser(), $this->activity, $this->current_year, $this->current_q);
         if ($this->bindedConcept) {
             $this->active_concept = null;//$this->bindedConcept->getConceptId();
         }
@@ -849,7 +849,7 @@ class activityActions extends BaseActivityActions
     {
         $this->activity = $this->getActivity($request);
 
-        $result = ActivityStatisticCheckFactory::getInstance($this->activity)->save($request, $this->getUser(), $_FILES, $to_importer);
+        $result = ActivityStatisticCheckFactory::getInstance($this->activity)->save($request, $this->getUser(), $_FILES, $to_importer, $this->activity);
         //$result = ActivityFields::saveData($request, $this->getUser(), $_FILES, $to_importer, $this->activity);
 
         $result['hide_data'] = $to_importer;

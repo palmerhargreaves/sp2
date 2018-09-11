@@ -318,9 +318,6 @@ ActivityVideoRecordStatistic.prototype = {
 
         var self = this, must_upload_file = true;
 
-        console.log(total_completed_fields);
-        console.log(total_default_values);
-
         //Отключаем обязательную загрузку файла в статистику
         if (total_default_values != 0 && (total_default_values == total_completed_fields)) {
             must_upload_file = false;

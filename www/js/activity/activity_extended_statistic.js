@@ -104,7 +104,7 @@ ActivityExtendedStatistic.prototype = {
                 v2 = !isNaN(parseFloat($('.field-' + fields[1]).val())) ? parseFloat($('.field-' + fields[1]).val()) : 0;
 
             self.calcData($f, symbol, v1, v2);
-            
+
             var parentField = $f.data('calc-parent-field') != 0 ? $f.data('calc-parent-field') : el.data('calc-parent-field');
             if (parentField != 0) {
                 var $p = $('.calc-field-' + parentField),

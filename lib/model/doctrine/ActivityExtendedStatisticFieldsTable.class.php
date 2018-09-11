@@ -36,7 +36,6 @@ class ActivityExtendedStatisticFieldsTable extends Doctrine_Table
         if (!$dealer)
             return '';
 
-        //$field = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()->where('field_id = ? and user_id = ? and dealer_id = ?', array($this->getId(), $user->getId(), $dealer->getId()))->fetchOne();
         $query = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()->where('dealer_id = ?', array($dealer->getId()))->groupBy('concept_id');
         if (!is_null($activity)) {
             $query->andWhere('activity_id = ?', $activity->getId());
@@ -51,8 +50,8 @@ class ActivityExtendedStatisticFieldsTable extends Doctrine_Table
         }
         $concepts = $query->execute();
 
-        if ($concepts && $concepts->count() > 0) {
-            return $concepts->getFirst();
+        if ($concepts && $concepts->count() > 0 && $concepts->getFirst()->getConceptId() != 0) {
+            return $concepts->getFirst()->getConceptId();
         }
 
         return null;
