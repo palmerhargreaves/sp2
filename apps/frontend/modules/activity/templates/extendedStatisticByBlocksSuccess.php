@@ -1,9 +1,9 @@
 <div class="activity">
     <?php
-    include_partial('activity/activity_head', array('activity' => $activity, 'quartersModels' => $quartersModels, 'current_q' => $current_q, 'current_year' => $current_year, 'show_quarters_tabs' => true));
+    include_partial('activity/activity_head', array( 'activity' => $activity, 'quartersModels' => $quartersModels, 'current_q' => $current_q, 'current_year' => $current_year, 'show_quarters_tabs' => true ));
     ?>
     <div class="content-wrapper">
-        <?php include_partial('activity/activity_tabs', array('activity' => $activity, 'active' => 'extended_statistic')) ?>
+        <?php include_partial('activity/activity_tabs', array( 'activity' => $activity, 'active' => 'extended_statistic' )) ?>
 
         <div class="pane-shadow"></div>
         <form id='frmStatistics' enctype="multipart/form-data" method="post"
@@ -14,7 +14,7 @@
                     $concepts = AgreementModelTable::getInstance()
                         ->createQuery('am')
                         ->innerJoin('am.AgreementModelSettings ams')
-                        ->where('activity_id = ? and model_type_id = ?', array($activity->getId(), 10))
+                        ->where('activity_id = ? and model_type_id = ?', array( $activity->getId(), 10 ))
                         //->andWhere('ams.certificate_date_to >= ?', date('Y-m-d'))
                         ->andWhere('am.dealer_id = ?', $sf_user->getAuthUser()->getDealer()->getId())
                         ->orderBy('ams.id ASC')
@@ -43,26 +43,18 @@
                         </div>
                     <?php endif; ?>
 
-                    <?php if (!$activity->hasStatisticByBlocks()): ?>
-                        <div class=""
-                             style="color: red; margin: 20px 0px 0px 30px; float:left; width: 100%; display: block;">
-                            В периоде начальная дата должна быть меньше (равна) даты окончания<br/>
-                            Все поля должны быть заполнены (для числовых значений разрешено использование "." )
-                        </div>
-                    <?php endif; ?>
-
                     <div id="materials" style="float: left; width: 99%;">
                         <div id="accommodation" class="active">
                             <?php
-                                include_partial('statistic_by_blocks', array('activity' => $activity,
-                                    'current_q' => $current_q,
-                                    'allow_to_edit' => $allow_to_edit_fields,
-                                    'allow_to_cancel' => $allow_to_cancel,
-                                    'disable_importer' => $disable_importer,
-                                    'quartersModels' => $quartersModels,
-                                    'current_year' => $current_year,
-                                    'concept' => $bindedConcept,
-                                    'pre_check_statistic' => isset($pre_check_statistic) ? $pre_check_statistic : null));
+                            include_partial('statistic_by_blocks', array( 'activity' => $activity,
+                                'current_q' => $current_q,
+                                'allow_to_edit' => $allow_to_edit_fields,
+                                'allow_to_cancel' => $allow_to_cancel,
+                                'disable_importer' => $disable_importer,
+                                'quartersModels' => $quartersModels,
+                                'current_year' => $current_year,
+                                'concept' => $bindedConcept,
+                                'pre_check_statistic' => isset($pre_check_statistic) ? $pre_check_statistic : null ));
                             ?>
                         </div>
                     </div>
@@ -78,35 +70,62 @@
                 </div>
 
                 <div id="bts-container" style="display: block; width: 99%; height: 55px;">
-                    <div id="container-allow-to-edit" style="display: <?php echo $allow_to_edit_fields ? 'block' : 'none'; ?>">
-                        <button id="bt_on_save_statistic_data_importer" class="button apply-stat-button"
-                                style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
-                                data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
-                                data-to-importer='1'>Отправить импортеру
-                        </button>
+                    <?php if (isset($pre_check_statistic) && !is_null($pre_check_statistic) && ( $pre_check_statistic == ActivityStatisticPreCheckAbstract::CHECK_STATUS_IN_PROGRESS )
+                        && ( $sf_user->getAuthUser()->isImporter() || $sf_user->getAuthUser()->isManager() )
+                    ): ?>
+                        <div id="bts-container" style="display: block; width: 99%; height: 55px;">
+                            <button id="bt_on_decline_statistic" class="button apply-stat-button"
+                                    style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
+                                    data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
+                                Отклонить
+                            </button>
 
-                        <button id="bt_on_save_statistic_data" class="button apply-stat-button"
-                                style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
-                                data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
-                                data-to-importer='0'>Сохранить
-                        </button>
-                    </div>
+                            <button id="bt_on_accept_statistic" class="button apply-stat-button"
+                                    style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
+                                    data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
+                                Согласовать
+                            </button>
+                        </div>
+                    <?php else: ?>
+                        <?php if ($allow_to_edit): ?>
+                            <div id="bts-container" style="display: block; width: 99%; height: 55px;">
+                                <div id="container-allow-to-edit" style="display: none;">
+                                    <?php if (!$disable_importer): ?>
+                                        <button id="bt_on_save_statistic_data_importer" class="button apply-stat-button"
+                                                style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
+                                                data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
+                                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
+                                                data-to-importer='1'>Отправить импортеру
+                                        </button>
 
-                    <div id="container-allow-to-cancel" style="display: <?php echo $allow_to_cancel ? 'block' : 'none'; ?>">
-                        <button id="bt_on_cancel_statistic_data" class="button gray cancel-stat-button"
-                                style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
-                                data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>">Отменить
-                        </button>
-                    </div>
+                                    <?php endif; ?>
+
+                                    <button id="bt_on_save_statistic_data_many" class="button apply-stat-button"
+                                            style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
+                                            data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
+                                        Сохранить
+                                    </button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($allow_to_cancel): ?>
+                            <div id="container-allow-to-cancel" style="display: none;">
+                                <button id="bt_on_cancel_statistic_data" class="button gray cancel-stat-button"
+                                        style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
+                                        data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'>
+                                    Отменить
+                                </button>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
 
-                <input type="hidden" name="activity" value="<?php echo $activity->getId(); ?>" />
-                <input type="hidden" name="concept_id" value="0" />
-                <input type="hidden" name="send_to" value="" />
-                <input type="hidden" name="txt_frm_fields_data" id="txt_frm_fields_data" />
+                <input type="hidden" name="activity" value="<?php echo $activity->getId(); ?>"/>
+                <input type="hidden" name="concept_id" value="0"/>
+                <input type="hidden" name="send_to" value=""/>
+                <input type="hidden" name="txt_frm_fields_data" id="txt_frm_fields_data"/>
+                <input type="hidden" name="quarter" value="<?php echo $current_q; ?>"/>
         </form>
     </div>
 </div>
@@ -116,9 +135,12 @@
     <div class="modal-close"></div>
     После отправки данных Вы не сможете их отредактировать. Вы уверены, что хотите отправить заполненную информацию ?
     <div style="display: block; width: 75%; margin: auto; margin-top: 40px;">
-        <button id="bt-send-statistic-data" class="button accept-button" style="width: 45%; float: left; clear: both;" >Отправить</button>
+        <button id="bt-send-statistic-data" class="button accept-button" style="width: 45%; float: left; clear: both;">
+            Отправить
+        </button>
         <button id="bt-close-modal" class="button gray decline-button" style="width: 45%; float: right;"
-                data-id='<?php echo $sf_user->getAuthUser()->getId(); ?>'>Отменить</button>
+                data-id='<?php echo $sf_user->getAuthUser()->getId(); ?>'>Отменить
+        </button>
     </div>
 </div>
 

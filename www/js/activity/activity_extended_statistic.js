@@ -104,6 +104,7 @@ ActivityExtendedStatistic.prototype = {
                 v2 = !isNaN(parseFloat($('.field-' + fields[1]).val())) ? parseFloat($('.field-' + fields[1]).val()) : 0;
 
             self.calcData($f, symbol, v1, v2);
+            console.log($f, symbol);
 
             var parentField = $f.data('calc-parent-field') != 0 ? $f.data('calc-parent-field') : el.data('calc-parent-field');
             if (parentField != 0) {
@@ -262,16 +263,25 @@ ActivityExtendedStatistic.prototype = {
         var startDate = this.getFieldDateTime($('input[name*=Start]')),
             endDate = this.getFieldDateTime($('input[name*=End]'));
 
-        if (startDate == undefined || endDate == undefined) {
-            this.scrollTop('dates');
-            return;
-        }
+        if ($('.dates').length > 0) {
+            if (startDate == undefined || endDate == undefined) {
+                this.scrollTop('dates');
+                return;
+            }
 
-        if (endDate < startDate) {
-            $('input[name*=Start]').parent().css('border-color', 'red');
-            $('input[name*=End]').parent().css('border-color', 'red');
+            if (endDate < startDate) {
+                $('input[name*=Start]').parent().css('border-color', 'red');
+                $('input[name*=End]').parent().css('border-color', 'red');
 
-            hasError = true;
+                hasError = true;
+            }
+
+            if (!hasError) {
+                data.push({
+                    id: $('input[name*=Start]').data('field-id'),
+                    value: $('input[name*=Start]').val() + '-' + $('input[name*=End]').val()
+                });
+            }
         }
 
         if (hasError) {
@@ -279,11 +289,6 @@ ActivityExtendedStatistic.prototype = {
             this.scrollTop("field-position-error");
             return;
         }
-
-        data.push({
-            id: $('input[name*=Start]').data('field-id'),
-            value: $('input[name*=Start]').val() + '-' + $('input[name*=End]').val()
-        });
 
         this.getSaveModal('hide');
 
@@ -300,23 +305,27 @@ ActivityExtendedStatistic.prototype = {
     onSaveDataCompleted: function(data) {
         var $self = this;
 
+        console.log(data);
         if (data.success) {
             if (data.allow_to_edit) {
                 this.getInfoPanelMsg().html('Параметры статистики успешно сохранены !').fadeIn();
                 this.getContainerAllowToEdit().fadeIn();
             } else if (data.allow_to_cancel) {
+                this.getContainerAllowToEdit().fadeOut();
                 this.getContainerAllowToCancel().fadeIn();
             }
         } else {
             this.getInfoPanelMsg().html(data.msg).fadeIn();
         }
 
-        setTimeout(function() {
-            $self.getInfoPanelMsg().fadeOut();
-            
-            $self.save_button.fadeIn();
-            $self.getContainerAllowToEdit().fadeIn();
-        }, 3000);
+        if (data.allow_to_edit) {
+            setTimeout(function () {
+                $self.getInfoPanelMsg().fadeOut();
+
+                $self.save_button.fadeIn();
+                $self.getContainerAllowToEdit().fadeIn();
+            }, 3000);
+        }
     },
 
     getAccomodation: function() {

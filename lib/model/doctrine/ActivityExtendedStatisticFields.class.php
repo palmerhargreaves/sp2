@@ -24,6 +24,7 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
     const FIELD_CALC_SYMBOL_MINUS = 'minus';
     const FIELD_CALC_SYMBOL_DIVIDE = 'divide';
     const FIELD_CALC_SYMBOL_PERCENT = 'percent';
+    const FIELD_CALC_SYMBOL_MULTIPLE = 'multiple';
 
     const DEALER_GROUP_ALL = 'all';
     const DEALER_GROUP_PKW = 'pkw';
@@ -267,7 +268,9 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
 
         if ($calcType == self::FIELD_CALC_SYMBOL_PLUS) {
             return isset($values[ 0 ]) ? $values[ 0 ] + $values[ 1 ] : '';
-        } else if ($calcType == self::FIELD_CALC_SYMBOL_MINUS) {
+        } else if ($calcType == self::FIELD_CALC_SYMBOL_MULTIPLE) {
+            return isset($values[ 0 ]) ? $values[ 0 ] * $values[ 1 ] : '';
+        }else if ($calcType == self::FIELD_CALC_SYMBOL_MINUS) {
             return isset($values[ 0 ]) ? $values[ 0 ] - $values[ 1 ] : '';
         } else if ($calcType == self::FIELD_CALC_SYMBOL_DIVIDE) {
             if ($values[ 1 ] != 0) {
@@ -301,12 +304,15 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
         return ActivityExtendedStatisticFieldsCalculatedTable::getInstance()->createQuery()->where('calc_field = ?', $this->getId())->orderBy('id ASC')->count() > 0 ? true : false;
     }
 
+    /**
+     * @return string
+     */
     public function getCalculateSymbol ()
     {
-        $res = ActivityExtendedStatisticFieldsCalculatedTable::getInstance()->createQuery()->where('calc_field = ?', $this->getId())->orderBy('id ASC')->fetchOne();
-
-        if (!$res)
-            $res = ActivityExtendedStatisticFieldsCalculatedTable::getInstance()->createQuery()->where('parent_field = ?', $this->getId())->orderBy('id ASC')->fetchOne();
+        $res = ActivityExtendedStatisticFieldsCalculatedTable::getInstance()->createQuery()->where('parent_field = ?', $this->getId())->orderBy('id ASC')->fetchOne();
+        if (!$res) {
+            $res = ActivityExtendedStatisticFieldsCalculatedTable::getInstance()->createQuery()->where('calc_field = ?', $this->getId())->orderBy('id ASC')->fetchOne();
+        }
 
         return $res ? $res->getCalcType() : '';
     }
@@ -487,7 +493,7 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
             $result[ 'success' ] = $to_importer = $accepted;
         } else {
             foreach ($items as $key => $data) {
-                $result[ 'success' ] = self::saveFieldData($request, $data->id, $data->value, $user, $activity);
+                $result[ 'success' ] = self::saveFieldData($request, $data->id, $data->value, $user, $activity, 0, $curr_quarter, $year);
             }
         }
 
@@ -554,9 +560,6 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
         $data_array = array();
         if (!$field_data) {
             $field_data = new ActivityExtendedStatisticFieldsData();
-
-            //$data_array['year'] = D::getYear(date('d-m-Y'));
-            //$data_array['q'] = $request->getParameter('quarter') != 0 ? $request->getParameter('quarter') : D::getQuarter(date('d-m-Y'));
         }
 
         $data_array[ 'value' ] = $field_value;

@@ -141,6 +141,7 @@ foreach ($sections as $section):
                                         <?php if (!$field->getEditable()): ?>
                                             disabled
                                         <?php endif; ?>
+                                        <?php echo !$allow_to_edit ? "disabled" : "" ; ?>
                                         <?php echo $field->useInCalculate() ? "data-calc-field='true' data-calc-type='" . $field->getCalculateSymbol() . "' data-calc-parent-field='" . $field->getParentCalcField() . "'" : ''; ?>
                                         <?php echo $field->getRequired() ? "required" : ""; ?>>
 

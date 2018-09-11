@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="On explicit save action" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="sp2_with_git" notifyRemoteChanges="true">
+  <component name="PublishConfigData" autoUpload="On explicit save action" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="SP2">
     <serverData>
-      <paths name="3k">
+      <paths name="321start.kz">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="Banks">
+      <paths name="3k">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -23,91 +23,28 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="CheckVolkswagen">
+      <paths name="Electron1">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="CheckVolkswagen (1)">
+      <paths name="Kvadro">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="Dm2NewAdmin">
+      <paths name="KvadroNew">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="DmNgPalmer">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Electro">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Eshop_Redesign">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Eshop_Work">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="IBoxNorma4KsUa">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="KvsAmron">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="My2">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="MyInetTv">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="My_InetTv">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="My_Norma4">
+      <paths name="MyNorma">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -121,7 +58,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="NFZ_yii2">
+      <paths name="NfzContracts">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -135,126 +72,119 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="NormaTasks">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="OthersBanks">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="OthersBanks (1)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="PartsFromTest">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="PartsShop_Redisign">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="PrestigeProdVersion">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Prestige_Oleg_Mebel">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="PrestingProduct">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="SP2">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="SP2_dev_project">
+      <paths name="SP2NewAdmin">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="ServiceVolkswagenParts">
+      <paths name="ServiceEshop">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="Services">
+      <paths name="ServiceParts">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="ServicesNorma4">
+      <paths name="ServicePartsTest">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="Sp2NewAdmin">
+      <paths name="Sp2NewA">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="Sp2_SF3">
+      <paths name="Tires">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="StoreParts">
+      <paths name="Tires001">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="VolkswagenService-Parts">
+      <paths name="Tires001New">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="VolkswagenServiceEshop">
+      <paths name="Tires002_Dig">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Tires002_vel">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Tires003_dig">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Tires003_vel_New">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Tires004_Dig">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Tires004_vel">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="VwParts">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="VwParts (1)">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -268,7 +198,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="dm-ng-rest">
+      <paths name="electro001">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -282,13 +212,6 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="exmo (1)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="exmo_norma">
         <serverdata>
           <mappings>
@@ -296,52 +219,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="exmo_norma (1)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="exmo_norma (2)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="sp2_with_git">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
-          </mappings>
-          <excludedPaths>
-            <excludedPath path="/_lib_backup" />
-            <excludedPath path="/cache" />
-            <excludedPath path="/data" />
-            <excludedPath path="/docs" />
-            <excludedPath path="/lib/PHPExcel" />
-            <excludedPath path="/log" />
-            <excludedPath path="/tmp" />
-            <excludedPath path="/uploads" />
-            <excludedPath path="/www/uploads" />
-            <excludedPath path="/www/js_old" />
-            <excludedPath path="/apps/frontend/modules/mailing/load_files" />
-            <excludedPath local="true" path="$PROJECT_DIR$/_lib_backup" />
-            <excludedPath local="true" path="$PROJECT_DIR$/cache" />
-            <excludedPath local="true" path="$PROJECT_DIR$/data" />
-            <excludedPath local="true" path="$PROJECT_DIR$/docs" />
-            <excludedPath local="true" path="$PROJECT_DIR$/lib/PHPExcel" />
-            <excludedPath local="true" path="$PROJECT_DIR$/log" />
-            <excludedPath local="true" path="$PROJECT_DIR$/tmp" />
-            <excludedPath local="true" path="$PROJECT_DIR$/uploads" />
-            <excludedPath local="true" path="$PROJECT_DIR$/www/uploads" />
-            <excludedPath local="true" path="$PROJECT_DIR$/www/js_old" />
-            <excludedPath local="true" path="$PROJECT_DIR$/apps/frontend/modules/mailing/load_files" />
-          </excludedPaths>
-        </serverdata>
-      </paths>
-      <paths name="tiresdig1">
+      <paths name="nfz-contracts">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -355,21 +233,14 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="vw-servicepool">
+      <paths name="volkswagen-eshop.ru (1)">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="vw.parts-shop.vwgroup.ru">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="wheels.volkswagen.ru">
+      <paths name="vw-service-pool">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
