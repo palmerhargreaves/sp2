@@ -54,7 +54,7 @@
                     <div id="materials" style="float: left; width: 99%;">
                         <div id="accommodation" class="active">
                             <?php
-                            if ($activity->hasStatisticByBlocks() && Utils::allowedIps()) {
+                            if ($activity->hasStatisticByBlocks()) {
                                 include_partial('extended_statistic_by_blocks', array('activity' => $activity,
                                     'current_q' => $current_q,
                                     'allow_to_edit' => $allow_to_edit_fields,
