@@ -553,10 +553,10 @@ class activityActions extends BaseActivityActions
         $this->concept = $request->getParameter('concept');
         $this->activity = ActivityTable::getInstance()->find($request->getParameter('activity'));
 
-        $this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser());
+        /*$this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser());
         if ($this->bindedConcept) {
             $this->active_concept = $this->bindedConcept->getConceptId();
-        }
+        }*/
     }
 
     function getActivityFilter()
