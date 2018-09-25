@@ -94,23 +94,30 @@ ActivityExtendedStatistic.prototype = {
     },
 
     calcValues: function (field, symbol, el) {
-        var $f = $('.calc-field-' + field), fields = $f.data('calc-fields').split(":"),
-            v1 = !isNaN(parseFloat($('.field-' + fields[0]).val())) ? parseFloat($('.field-' + fields[0]).val()) : 0,
-            v2 = !isNaN(parseFloat($('.field-' + fields[1]).val())) ? parseFloat($('.field-' + fields[1]).val()) : 0;
+        var self = this;
 
-        this.calcData($f, symbol, v1, v2);
+        $('.calc-field').each(function(i, field) {
+            var $f = $(field),
+                fields = $f.data('calc-fields').split(":"),
+                symbol = $f.data('calc-type'),
+                v1 = !isNaN(parseFloat($('.field-' + fields[0]).val())) ? parseFloat($('.field-' + fields[0]).val()) : 0,
+                v2 = !isNaN(parseFloat($('.field-' + fields[1]).val())) ? parseFloat($('.field-' + fields[1]).val()) : 0;
 
-        var parentField = $f.data('calc-parent-field') != 0 ? $f.data('calc-parent-field') : el.data('calc-parent-field');
-        if (parentField != 0) {
-            var $p = $('.calc-field-' + parentField),
-                symbol = $p.data('calc-type'),
-                pFields = $p.data('calc-fields').split(':');
+            self.calcData($f, symbol, v1, v2);
 
-            var v1 = this.getFieldVal(pFields[0]),
-                v2 = this.getFieldVal(pFields[1]);
+            var parentField = $f.data('calc-parent-field') != 0 ? $f.data('calc-parent-field') : el.data('calc-parent-field');
+            if (parentField != 0) {
+                var $p = $('.calc-field-' + parentField),
+                    symbol = $p.data('calc-type'),
+                    pFields = $p.data('calc-fields').split(':');
 
-            this.calcData($p, symbol, v1, v2);
-        }
+                var v1 = self.getFieldVal(pFields[0]),
+                    v2 = self.getFieldVal(pFields[1]);
+
+                self.calcData($p, symbol, v1, v2);
+            }
+        });
+
     },
 
     onInputText: function (e) {
@@ -130,6 +137,9 @@ ActivityExtendedStatistic.prototype = {
     calcData: function ($f, symbol, v1, v2) {
         if (symbol == 'plus') {
             $f.text(v1 + v2);
+        }
+        else if (symbol == 'multiple') {
+            $f.text(v1 * v2);
         }
         else if (symbol == 'minus') {
             $f.text(v1 - v2);
@@ -252,16 +262,25 @@ ActivityExtendedStatistic.prototype = {
         var startDate = this.getFieldDateTime($('input[name*=Start]')),
             endDate = this.getFieldDateTime($('input[name*=End]'));
 
-        if (startDate == undefined || endDate == undefined) {
-            this.scrollTop('dates');
-            return;
-        }
+        if ($('.dates').length > 0) {
+            if (startDate == undefined || endDate == undefined) {
+                this.scrollTop('dates');
+                return;
+            }
 
-        if (endDate < startDate) {
-            $('input[name*=Start]').parent().css('border-color', 'red');
-            $('input[name*=End]').parent().css('border-color', 'red');
+            if (endDate < startDate) {
+                $('input[name*=Start]').parent().css('border-color', 'red');
+                $('input[name*=End]').parent().css('border-color', 'red');
 
-            hasError = true;
+                hasError = true;
+            }
+
+            if (!hasError) {
+                data.push({
+                    id: $('input[name*=Start]').data('field-id'),
+                    value: $('input[name*=Start]').val() + '-' + $('input[name*=End]').val()
+                });
+            }
         }
 
         if (hasError) {
@@ -269,11 +288,6 @@ ActivityExtendedStatistic.prototype = {
             this.scrollTop("field-position-error");
             return;
         }
-
-        data.push({
-            id: $('input[name*=Start]').data('field-id'),
-            value: $('input[name*=Start]').val() + '-' + $('input[name*=End]').val()
-        });
 
         this.getSaveModal('hide');
 
@@ -290,23 +304,27 @@ ActivityExtendedStatistic.prototype = {
     onSaveDataCompleted: function(data) {
         var $self = this;
 
+        console.log(data);
         if (data.success) {
             if (data.allow_to_edit) {
                 this.getInfoPanelMsg().html('Параметры статистики успешно сохранены !').fadeIn();
                 this.getContainerAllowToEdit().fadeIn();
             } else if (data.allow_to_cancel) {
+                this.getContainerAllowToEdit().fadeOut();
                 this.getContainerAllowToCancel().fadeIn();
             }
         } else {
             this.getInfoPanelMsg().html(data.msg).fadeIn();
         }
 
-        setTimeout(function() {
-            $self.getInfoPanelMsg().fadeOut();
-            
-            $self.save_button.fadeIn();
-            $self.getContainerAllowToEdit().fadeIn();
-        }, 3000);
+        if (data.allow_to_edit) {
+            setTimeout(function () {
+                $self.getInfoPanelMsg().fadeOut();
+
+                $self.save_button.fadeIn();
+                $self.getContainerAllowToEdit().fadeIn();
+            }, 3000);
+        }
     },
 
     getAccomodation: function() {

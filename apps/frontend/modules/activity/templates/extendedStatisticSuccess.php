@@ -43,16 +43,30 @@
                         </div>
                     <?php endif; ?>
 
+                    <?php if (!$activity->hasStatisticByBlocks()): ?>
                     <div class=""
                          style="color: red; margin: 20px 0px 0px 30px; float:left; width: 100%; display: block;">
                         В периоде начальная дата должна быть меньше (равна) даты окончания<br/>
                         Все поля должны быть заполнены (для числовых значений разрешено использование "." )
                     </div>
+                    <?php endif; ?>
 
                     <div id="materials" style="float: left; width: 99%;">
                         <div id="accommodation" class="active">
                             <?php
-                            include_partial('extended_statistic_data', array('activity' => $activity, 'concept' => $active_concept));
+                            if ($activity->hasStatisticByBlocks()) {
+                                include_partial('extended_statistic_by_blocks', array('activity' => $activity,
+                                    'current_q' => $current_q,
+                                    'allow_to_edit' => $allow_to_edit_fields,
+                                    'allow_to_cancel' => $allow_to_cancel,
+                                    'disable_importer' => $disable_importer,
+                                    'quartersModels' => $quartersModels,
+                                    'current_year' => $current_year,
+                                    'concept' => $bindedConcept,
+                                    'pre_check_statistic' => isset($pre_check_statistic) ? $pre_check_statistic : null));
+                            } else {
+                                include_partial('extended_statistic_data', array('activity' => $activity, 'concept' => $active_concept));
+                            }
                             ?>
                         </div>
                     </div>
@@ -72,14 +86,14 @@
                         <button id="bt_on_save_statistic_data_importer" class="button apply-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
+                                data-concept-id="<?php echo !is_null($bindedConcept) ? $bindedConcept : 0; ?>"
                                 data-to-importer='1'>Отправить импортеру
                         </button>
 
                         <button id="bt_on_save_statistic_data" class="button apply-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>"
+                                data-concept-id="<?php echo !is_null($bindedConcept) ? $bindedConcept : 0; ?>"
                                 data-to-importer='0'>Сохранить
                         </button>
                     </div>
@@ -88,7 +102,7 @@
                         <button id="bt_on_cancel_statistic_data" class="button gray cancel-stat-button"
                                 style="width: 25%; margin: 10px; margin-right: -5px; float:right;"
                                 data-id='<?php echo $sf_user->getAuthUser()->getRawValue()->getDealer()->getId(); ?>'
-                                data-concept-id="<?php echo $bindedConcept ? $bindedConcept->getConceptId() : 0; ?>">Отменить
+                                data-concept-id="<?php echo !is_null($bindedConcept) ? $bindedConcept : 0; ?>">Отменить
                         </button>
                     </div>
                 </div>

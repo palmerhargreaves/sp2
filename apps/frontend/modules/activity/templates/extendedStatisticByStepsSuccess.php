@@ -51,9 +51,7 @@
 
                     <div id="materials" style="float: left; width: 99%;">
                         <div id="accommodation" class="active">
-                            <?php
-                            include_partial('extended_statistic_with_steps_data', array('activity' => $activity, 'concept' => $active_concept, 'binedConcept' => $bindedConcept, 'current_q' => $current_q, 'current_year' => $current_year));
-                            ?>
+                            <?php include_partial('extended_statistic_with_steps_data', array('activity' => $activity, 'concept' => $active_concept, 'binedConcept' => $bindedConcept, 'current_q' => $current_q, 'current_year' => $current_year)); ?>
                         </div>
                     </div>
                 </div>

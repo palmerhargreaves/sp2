@@ -73,8 +73,11 @@
             <li id="statistics-extended-tab" class="tab<?php if ($active == 'extended_statistic') echo ' active' ?>">
                 <a href="<?php echo url_for('@activity_extended_statistic?activity=' . $activity->getId()) ?>">Статистика</a>
             </li>
-        <?php } ?>
-    <?php } ?>
+        <?php } else if ($activity->hasStatisticByBlocks()) { ?>
+            <li id="statistics-extended-tab" class="tab<?php if ($active == 'extended_statistic') echo ' active' ?>">
+                <a href="<?php echo url_for('@activity_extended_statistic?activity=' . $activity->getId()) ?>">Статистика</a>
+            </li>
+    <?php }} ?>
 
     <?php if ($sf_user->getAuthUser()->getModelsUserDealerCount($activity->getId()) > 0 && ActivityEfficiencyFormulasTable::getInstance()->createQuery()->where('activity_id = ?', $activity->getId())->count() > 0 && $sf_user->getAuthUser()->getRawValue()->isDealerUser()): ?>
         <li id="efficiency-tab" class="tab <?php if ($active == 'efficiency') echo ' active' ?>">

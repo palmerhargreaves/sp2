@@ -122,7 +122,7 @@ class activityActions extends BaseActivityActions
 
     private function checkAllowToEdit()
     {
-        $this->allow_to_edit_fields = true;
+        $this->allow_to_edit_fields = $this->allow_to_edit = true;
         $this->allow_to_cancel = false;
         $this->disable_importer = false;
 
@@ -135,9 +135,8 @@ class activityActions extends BaseActivityActions
                     ->count() == 0
             ) {
                 $this->allow_to_cancel = false;
-                $this->allow_to_edit_fields = true;
+                $this->allow_to_edit_fields = $this->allow_to_edit = true;
             } else {
-
                 $q = 'q' . $this->current_q;
                 $stat_item = ActivityDealerStaticticStatusTable::getInstance()->createQuery()
                     ->select('ignore_q1_statistic, ignore_q2_statistic, ignore_q3_statistic, ignore_q4_statistic')
@@ -154,11 +153,11 @@ class activityActions extends BaseActivityActions
                     ->fetchOne();
 
                 if ($stat_item && !$stat_item->getIgnoreStatisticStatus($this->current_q)) {
-                    $this->allow_to_edit_fields = false;
+                    $this->allow_to_edit_fields = $this->allow_to_edit = false;
                 }
 
                 if ($this->getUser()->getAuthUser()->isSuperAdmin() && !$this->allow_to_edit_fields) {
-                    $this->allow_to_cancel = true;
+                    $this->allow_to_cancel = $this->allow_to_edit = true;
                 }
 
             }
@@ -200,17 +199,22 @@ class activityActions extends BaseActivityActions
 
     function executeExtendedStatistic(sfWebRequest $request)
     {
+        $this->preCheckStatisticStatus($request);
+
         $this->outputModelsQuarters($request);
         $this->outputFilterByYear();
         $this->outputFilterByQuarter();
 
-        $this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser());
+        $this->activity = $this->getActivity($request);
+
+        $this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser(), $this->activity, $this->current_year, $this->current_q);
         if ($this->bindedConcept) {
             $this->active_concept = null;//$this->bindedConcept->getConceptId();
         }
 
-        $this->activity = $this->getActivity($request);
-        if ($this->activity->isActivityStatisticHasSteps()) {
+        if ($this->activity->hasStatisticByBlocks()) {
+            $this->setTemplate('extendedStatisticByBlocks');
+        } else if ($this->activity->isActivityStatisticHasSteps()) {
             $this->setTemplate('extendedStatisticBySteps');
         }
     }
@@ -266,7 +270,7 @@ class activityActions extends BaseActivityActions
     function executeChangeExtendedStats(sfRequest $request)
     {
         $this->activity = $this->getActivity($request);
-        //TODO: delete
+
         $result = ActivityExtendedStatisticFields::saveData($request, $this->getUser(), $_FILES, $this->activity);
 
         return $this->sendJson($result, 'activity_extended_statistic.onSaveDataCompleted');
@@ -549,10 +553,10 @@ class activityActions extends BaseActivityActions
         $this->concept = $request->getParameter('concept');
         $this->activity = ActivityTable::getInstance()->find($request->getParameter('activity'));
 
-        $this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser());
+        /*$this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser());
         if ($this->bindedConcept) {
             $this->active_concept = $this->bindedConcept->getConceptId();
-        }
+        }*/
     }
 
     function getActivityFilter()
@@ -845,7 +849,7 @@ class activityActions extends BaseActivityActions
     {
         $this->activity = $this->getActivity($request);
 
-        $result = ActivityStatisticCheckFactory::getInstance($this->activity)->save($request, $this->getUser(), $_FILES, $to_importer);
+        $result = ActivityStatisticCheckFactory::getInstance($this->activity)->save($request, $this->getUser(), $_FILES, $to_importer, $this->activity);
         //$result = ActivityFields::saveData($request, $this->getUser(), $_FILES, $to_importer, $this->activity);
 
         $result['hide_data'] = $to_importer;

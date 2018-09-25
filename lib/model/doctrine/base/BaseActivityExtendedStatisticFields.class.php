@@ -90,6 +90,36 @@ abstract class BaseActivityExtendedStatisticFields extends sfDoctrineRecord
             'default' => true,
         ));
 
+        $this->hasColumn('editable', 'boolean', null, array(
+            'type' => 'boolean',
+            'notnull' => true,
+            'default' => true,
+        ));
+
+        $this->hasColumn('def_value', 'string', null, array(
+            'type' => 'string',
+            'notnull' => true,
+            'default' => true,
+        ));
+
+        $this->hasColumn('dealers_group', 'string', null, array(
+            'type' => 'string',
+            'notnull' => true,
+            'default' => true,
+        ));
+
+        $this->hasColumn('show_in_export', 'boolean', null, array(
+            'type' => 'boolean',
+            'notnull' => true,
+            'default' => true,
+        ));
+
+        $this->hasColumn('show_in_statistic', 'boolean', null, array(
+            'type' => 'boolean',
+            'notnull' => true,
+            'default' => true,
+        ));
+
         $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');
         $this->option('charset', 'utf8');
