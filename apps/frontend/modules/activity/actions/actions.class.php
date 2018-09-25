@@ -208,9 +208,6 @@ class activityActions extends BaseActivityActions
         $this->activity = $this->getActivity($request);
 
         $this->bindedConcept = ActivityExtendedStatisticFieldsTable::getConceptInfoByUserActivity($this->getUser(), $this->activity, $this->current_year, $this->current_q);
-        if ($this->bindedConcept) {
-            $this->active_concept = null;//$this->bindedConcept->getConceptId();
-        }
 
         if ($this->activity->hasStatisticByBlocks()) {
             $this->setTemplate('extendedStatisticByBlocks');

@@ -69,22 +69,18 @@
                             <div id="container_concept_targets">
 
                             </div>
-
-                            <div class="container-for-activity-video-record-statistics-fields">
-
-                            </div>
-                        <?php else: ?>
-                            <div class="container-for-activity-video-record-statistics-fields">
-                                <?php include_partial('activity_headers_fields_group_list',
-                                    array(
-                                        'activity' => $activity,
-                                        'allow_to_edit' => $allow_to_edit,
-                                        'current_q' => $current_q,
-                                        'allow_to_cancel' => $allow_to_cancel
-                                    )
-                                ); ?>
-                            </div>
                         <?php endif; ?>
+
+                        <div class="container-for-activity-video-record-statistics-fields">
+                            <?php include_partial('activity_headers_fields_group_list',
+                                array(
+                                    'activity' => $activity,
+                                    'allow_to_edit' => $allow_to_edit,
+                                    'current_q' => $current_q,
+                                    'allow_to_cancel' => $allow_to_cancel
+                                )
+                            ); ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,7 +89,8 @@
                 <tbody></tbody>
             </table>
 
-            <div class="info-save-complete" style="display: none; width: 99%; margin: 10px; padding: 10px; color: red; text-align: center; font-weight: bold;"></div>
+            <div class="info-save-complete"
+                 style="display: none; width: 99%; margin: 10px; padding: 10px; color: red; text-align: center; font-weight: bold;"></div>
 
             <?php if (isset($pre_check_statistic) && !is_null($pre_check_statistic) && ($pre_check_statistic == ActivityStatisticPreCheckAbstract::CHECK_STATUS_IN_PROGRESS)
                 && ($sf_user->getAuthUser()->isImporter() || $sf_user->getAuthUser()->isManager())
@@ -146,7 +143,6 @@
         <input type="hidden" name="year" value="<?php echo $current_year; ?>"/>
         <input type="hidden" name="activity" value="<?php echo $activity->getId(); ?>"/>
         <input type="hidden" name="txt_frm_fields_data" id="txt_frm_fields_data"/>
-        <input type="hidden" name="concept_id" value="0" />
     </form>
 </div>
 
