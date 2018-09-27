@@ -49,6 +49,9 @@ foreach ($fields as $field):
             <?php if ($field->getType() == ActivityVideoRecordsStatisticsHeadersFields::FIELD_TYPE_STRING): ?>
                 <div class="modal-input-wrapper input"
                      style='margin: 7px; float: left;'>
+                    <?php if (!$allow_to_edit): ?>
+                        <?php echo $fieldValue ? $fieldValue->getVal() : ''; ?>
+                    <?php else: ?>
                     <input type='text'
                            class='field-<?php echo $field->getId(); ?>'
                            placeholder='введите текст'
@@ -59,6 +62,7 @@ foreach ($fields as $field):
                            value="<?php echo $fieldValue ? $fieldValue->getVal() : ''; ?>"
                         <?php echo !$allow_to_edit ? "disabled" : "" ; ?>
                         <?php echo $field->getReq() ? "required" : ""; ?>>
+                    <?php endif; ?>
 
                     <div
                         class="modal-input-error-icon error-icon"></div>
@@ -75,6 +79,9 @@ foreach ($fields as $field):
             <?php elseif ($field->getType() == ActivityVideoRecordsStatisticsHeadersFields::FIELD_TYPE_NUMBER): ?>
                 <div class="modal-input-wrapper input"
                      style='margin: 7px; float: left;'>
+                    <?php if (!$allow_to_edit): ?>
+                        <?php echo $fieldValue ? $fieldValue->getVal() : ''; ?>
+                    <?php else: ?>
                     <input type='text'
                            class='field-<?php echo $field->getId(); ?>'
                            placeholder='0'
@@ -85,7 +92,7 @@ foreach ($fields as $field):
                            value="<?php echo $fieldValue ? $fieldValue->getVal() : ''; ?>"
                         <?php echo !$allow_to_edit ? "disabled" : "" ; ?>
                         <?php echo $field->getReq() ? "required" : ""; ?>>
-
+                    <?php endif; ?>
                     <div
                         class="modal-input-error-icon error-icon"></div>
                     <div class="error message-modal"
@@ -104,6 +111,9 @@ foreach ($fields as $field):
                 ?>
                 <div class="modal-input-wrapper input"
                      style='width: 100px; margin: 7px; float: left;'>
+                    <?php if (!$allow_to_edit): ?>
+                        <?php echo isset($period[0]) ? $period[0] : ''; ?>
+                    <?php else: ?>
                     <input type='text' name="periodStart"
                            class='with-date'
                            style='height: 24px; padding: 5px; width: 110px;'
@@ -114,6 +124,7 @@ foreach ($fields as $field):
                            data-type="<?php echo $field->getType(); ?>"
                         <?php echo !$allow_to_edit ? "disabled" : "" ; ?>
                         <?php echo $field->getReq() ? "required" : ""; ?>>
+                    <?php endif; ?>
                     <div
                         class="modal-input-error-icon error-icon"></div>
                     <div class="error message"
@@ -121,6 +132,9 @@ foreach ($fields as $field):
                 </div>
                 <div class="modal-input-wrapper input"
                      style='width: 124px; margin: 7px; float: right;'>
+                    <?php if (!$allow_to_edit): ?>
+                        <?php echo isset($period[1]) ? $period[1] : ''; ?>
+                    <?php else: ?>
                     <input type='text' name="periodEnd"
                            class='with-date'
                            style='height: 24px; padding: 5px; width: 110px;'
@@ -131,6 +145,7 @@ foreach ($fields as $field):
                            data-type="<?php echo $field->getType(); ?>"
                         <?php echo !$allow_to_edit ? "disabled" : "" ; ?>
                         <?php echo $field->getReq() ? "required" : ""; ?>>
+                    <?php endif; ?>
                     <div
                         class="modal-input-error-icon error-icon"></div>
                     <div class="error message"
