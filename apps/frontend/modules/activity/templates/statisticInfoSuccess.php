@@ -118,7 +118,7 @@ $total = $builder->getTotalStat();*/
 
             <td>
                 <?php if (isset($dealers['status']['current_status'] ) && $dealers['status']['current_status'] != ActivityStatisticPreCheckAbstract::CHECK_STATUS_NONE): ?>
-                    <a href="<?php echo url_for("@activity_statistic_pre_check?activity=".$activity->getId()."&dealer=".$dKey."&current_q=".$dealers['status']['quarter']."&year=".$dealers['status']['year']); ?>" target="_blank">
+                    <a href="<?php echo url_for("@activity_statistic_pre_check?activity=".$field->getActivityId()."&dealer=".$dKey."&current_q=".$dealers['status']['quarter']."&year=".$dealers['status']['year']); ?>" target="_blank">
                         <?php echo $dealers['status']['current_status_label']; ?>
                     </a>
                 <?php endif; ?>
