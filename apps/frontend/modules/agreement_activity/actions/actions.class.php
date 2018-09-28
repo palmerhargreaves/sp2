@@ -434,12 +434,9 @@ class agreement_activityActions extends ActionsWithJsonForm
                 ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
             //Проверка пользователя что он является региональным менеджером
-            if (Utils::allowedIps()) {
-                if (NaturalPersonTable::getInstance()->createQuery()->where('id = ? and (regional_manager_id != 0 or regional_manager_nfz_id != 0)', $manager['manager_id'])->count() == 0) {
-                    continue;
-                }
+            if (NaturalPersonTable::getInstance()->createQuery()->where('id = ? and (regional_manager_id != 0 or regional_manager_nfz_id != 0)', $manager['manager_id'])->count() == 0) {
+                continue;
             }
-
 
             foreach ($dealerStats as $stat) {
                 $this->dealers_statistics[$manager['manager_id']][] = $stat;
