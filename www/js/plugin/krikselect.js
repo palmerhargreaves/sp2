@@ -1,7 +1,6 @@
 (function ($) {
     $.fn.krikselect = function () {
         $(this).each(function () {
-            console.log($(this));
             var $filter_block = $('.select-filter', this);
             var $filter_field = $(':input', $filter_block);
             var has_filter = $filter_block.length > 0;

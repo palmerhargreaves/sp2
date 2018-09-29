@@ -1,6 +1,8 @@
 $(document).ready(function () {
     var opened;
 
+    window.dates_in_calendar = [];
+
     //External link modal dialog
     if (RegExp('link', 'gi').test(window.location) && RegExp('hash', 'gi').test(window.location)) {
         setTimeout(function() {
@@ -182,17 +184,13 @@ $(document).ready(function () {
         }
     });
 
-    //Проверка даты в календаре
-    window.dates_in_calendar = [];
-    $.post('/agreement/model/check/date/in/calendar', function(result) {
-        window.dates_in_calendar = result.dates;
-    });
-
     $('input.date').datepicker({
         dateFormat: "dd.mm.y",
         beforeShowDay: function (date) {
             var modelCategory = $('input[name="model_type_id"]'),
                 change_period_button = $("div.change-period-model-type-" + modelCategory.val());
+
+            getCalendarDates();
 
             //Make compatibility with old models
             if (change_period_button.length == 0) {
@@ -467,4 +465,16 @@ function addShakeAnim (cls, form) {
     setTimeout(function() {
         $(cls, form).removeClass('shake-container');
     }, 500);
+}
+
+//Проверка даты в календаре
+function getCalendarDates() {
+    if (window.dates_in_calendar.length == 0) {
+        $.ajax('/agreement/model/check/date/in/calendar', {
+            async: false,
+            success: function(result) {
+                window.dates_in_calendar = result.dates;
+            }
+        });
+    }
 }

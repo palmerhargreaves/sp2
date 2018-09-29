@@ -5,3 +5,4 @@ all:
     - activity/activity_quarters_data.js
     - libs/jquery.multiselect.js
     - plugins/sweetalert/sweetalert.min.js
+    - activity/concept/date_limit.js
