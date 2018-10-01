@@ -9,6 +9,13 @@ $summFoQ4 = 0;
     <div class="budget-wrapper">
         <div class="budget">
 
+            <?php if ($service_books_count != -1): ?>
+                <div style="margin: 5px 0px 10px; width: 100%; display: inline-block; border-bottom: 1px dashed #ccc;">
+                    В августе к вам на склад поступили сервисные книжки (шт.) - <?php echo $service_books_count; ?></br>
+                    При возникновении вопросов обращайтесь к Степановой Анне
+                </div>
+            <?php endif; ?>
+
             <h1 style="height: 38px;">
 
                 <div id="chBudYears" class="modal-select-wrapper select input krik-select float-right"
