@@ -16,7 +16,7 @@
         <?php include_partial('concept_empty_item'); ?>
     <?php endif; ?>
 
-    <?php if ($activity->getManyConcepts() || $activity->getAllowSpecialAgreement()): ?>
+    <?php if (!$activity->getFinished() && ($activity->getManyConcepts() || $activity->getAllowSpecialAgreement())): ?>
         <div id="model-many-concepts" style="width: 100%; display: block; float: left;">
             <div id="add-model-concept-button" class="add small button"
                  style="float:left; margin-top: 10px; z-index: 9999;">Добавить концепцию

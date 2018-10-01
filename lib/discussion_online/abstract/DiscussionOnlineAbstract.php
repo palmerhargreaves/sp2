@@ -87,7 +87,7 @@ class DiscussionOnlineAbstract extends ActionsWithJsonForm {
     protected function getLastMessagesList()
     {
         $start_date = date('Y-m-d', strtotime(date('Y-m-d') . ' - 30 days'));
-        $end_date = date('Y-m-d');
+        $end_date = date('Y-m-d', strtotime(date('Y-m-d') . ' + 1 days'));
 
         $query = MessageTable::getInstance()->createQuery('m')
             ->innerJoin('m.Discussion d')
@@ -184,6 +184,7 @@ class DiscussionOnlineAbstract extends ActionsWithJsonForm {
 
                 //Ответ на сообщение если был задан вопрос от дилера
                 $user_reply_to = 0;
+                $reply_message = null;
                 if ($reply_id != 0) {
                     $reply_message = MessageTable::getInstance()->find($reply_id);
 
