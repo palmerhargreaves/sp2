@@ -1,4 +1,5 @@
 <?php
+use FileUpload\Util;
 
 /**
  * Description of components
@@ -19,6 +20,8 @@ class budget_by_pointsComponents extends sfComponents
         $this->outputQuarterEnds();
         $this->outputQuarterDays();
         $this->outputAcceptStat();
+
+        $this->outputServiceBooks();
 
         $this->calculateYearFactPlanData();
     }
@@ -179,5 +182,15 @@ class budget_by_pointsComponents extends sfComponents
         $q_statistics = new ActivitiesBudgetByControlPoints($this->year, $this->dealer, $this->getUser(), $this->real, $this->plan);
         $this->quarters_statistics = $q_statistics->getData();
 
+    }
+
+    private function outputServiceBooks() {
+        if ($this->getUser()->getAttribute('service_books-' . $this->dealer->getId(), -1, 'service-books') == -1) {
+            $this->service_books_count = ServiceBooks::getDealerServiceBookData($this->dealer->getShortNumber());
+
+            $this->getUser()->setAttribute('service_books-' . $this->dealer->getId(), $this->service_books_count, 'service-books');
+        } else {
+            $this->service_books_count = $this->getUser()->getAttribute('service_books-' . $this->dealer->getId(), -1, 'service-books');
+        }
     }
 }
