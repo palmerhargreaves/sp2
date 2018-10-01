@@ -84,6 +84,15 @@ class DealersStatisticsCalculate
             }
         }
 
+        //Переносим невыполненные заявки в последний квартал в выборке
+        foreach ($models_list_by_quarter as &$models) {
+            foreach ($models as &$model) {
+                if ($model['status'] != 'accepted' || $model['r_status'] != 'accepted') {
+                    $model['model_q'] = $this->_quarter;
+                }
+            }
+        }
+
         //Проходим по логам и получаем квартал выполнения заявки
         $completed_models = Utils::getModelDateFromLogEntryWithYear($completed_models_ids);
         $completed_models_ids = array();
@@ -722,7 +731,7 @@ class DealersStatisticsCalculate
                     $record_completed = $data_status_index == -1 ? false : $model_status[$data_status_index]['record_completed'];
                     $report_completed = $data_status_index == -1 ? false : $model_status[$data_status_index]['report_completed'];
 
-                    $aSheet->setCellValueByColumnAndRow($column++, $row, $data_status_index != -1  ? 'Да' : 'Нет');
+                    $aSheet->setCellValueByColumnAndRow($column++, $row, $data_status_index != -1 ? 'Да' : 'Нет');
                     $aSheet->setCellValueByColumnAndRow($column++, $row, $model_completed ? 'Да' : 'Нет');
                     $aSheet->setCellValueByColumnAndRow($column++, $row, $scenario_completed ? 'Да' : 'Нет');
                     $aSheet->setCellValueByColumnAndRow($column++, $row, $record_completed ? 'Да' : 'Нет');
@@ -758,11 +767,11 @@ class DealersStatisticsCalculate
             $row++;
         }
 
-        $file_name = '/uploads/statistics_q('.$this->_year.').xlsx';
+        $file_name = '/uploads/statistics_q(' . $this->_year . ').xlsx';
 
         //$objWriter = new PHPExcel_Writer_Excel5($pExcel);
         $objWriter = PHPExcel_IOFactory::createWriter($pExcel, "Excel2007");
-        $objWriter->save(sfConfig::get('sf_root_dir') . '/www/uploads/statistics_q('.$this->_year.').xlsx');
+        $objWriter->save(sfConfig::get('sf_root_dir') . '/www/uploads/statistics_q(' . $this->_year . ').xlsx');
 
         return $file_name;
     }
