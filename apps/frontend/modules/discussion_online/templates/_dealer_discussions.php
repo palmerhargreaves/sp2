@@ -120,8 +120,8 @@ $activities_list = $messages_data['activities_list'];
 <script>
     $(function () {
         window.discussion_online.startDealer({
-            default_model_id: <?php echo isset($first_discussion['model']['id']) ? $first_discussion['model']['id'] : 0; ?>,
-            dealer_id: <?php echo isset($first_discussion['model']['id']) ? $first_discussion['model']['dealer_id'] : 0; ?>,
+            default_model_id: <?php echo isset($first_discussion['model']) ? $first_discussion['model']['id'] : 0; ?>,
+            dealer_id: <?php echo isset($first_discussion['model']) ? $first_discussion['model']['dealer_id'] : 0; ?>,
 
             on_load_messages_list_by_model_url: '<?php echo url_for('@discussion_online_load_messages_by_dealer'); ?>',
             on_load_ask_messages_url: '<?php echo url_for('@discussion_online_load_ask_messages_by_dealer'); ?>',
