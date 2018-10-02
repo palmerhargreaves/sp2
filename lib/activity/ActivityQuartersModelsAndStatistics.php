@@ -30,16 +30,7 @@ class ActivityQuartersModelsAndStatistics
     {
         $this->_user = $user;
 
-        $userDealer = $user->getDealerUsers()->getFirst();
-        if ($userDealer) {
-            $dealer = DealerTable::getInstance()->createQuery('d')->where('id = ?', $userDealer->getDealerId())->fetchOne();
-        }
-
-        if (!$dealer) {
-            return array();
-        }
-
-        $this->_dealer = $dealer;
+        $this->_dealer = $this->getDealer($user);
         $this->_activity = $activity;
 
         $this->_current_quarter = D::getQuarter(D::calcQuarterData(time()));
@@ -259,6 +250,35 @@ class ActivityQuartersModelsAndStatistics
         return $query->execute();
     }
 
+    private function getDealer($user) {
+        $dealer = $this->getUserDealer($user);
 
+        if (!$dealer) {
+            $dealer_user = DealerUserTable::getInstance()->findOneByUserId($user->getId());
 
+            if (!$dealer_user) {
+                $dealer_user = new DealerUser();
+                $dealer_user->setUser($user);
+                $dealer_user->setManager(true);
+            }
+
+            $dealer_user->setDealer($dealer);
+            $dealer_user->save();
+
+            $dealer = $this->getUserDealer($user);;
+        }
+
+        return $dealer;
+    }
+
+    private function getUserDealer($user) {
+        $dealer= null;
+
+        $userDealer = $user->getDealerUsers()->getFirst();
+        if ($userDealer) {
+            $dealer = DealerTable::getInstance()->createQuery('d')->where('id = ?', $userDealer->getDealerId())->fetchOne();
+        }
+
+        return $dealer;
+    }
 }

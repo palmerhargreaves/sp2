@@ -744,6 +744,8 @@ class activityActions extends BaseActivityActions
     /**
      * Проверка статистики активности пользователем
      * @param sfWebRequest $request
+     * @throws ActionDoesNotMatchModuleException
+     * @throws sfStopException
      */
     public function executeStatisticPreCheckByUser(sfWebRequest $request) {
 

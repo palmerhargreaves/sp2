@@ -106,7 +106,7 @@ abstract class BaseNews extends sfDoctrineRecord
         $this->hasColumn('is_mailing', 'boolean', 1, array(
             'type' => 'boolean',
             'notnull' => true,
-            'default' => 0
+            'default' => false
         ));
 
         $this->option('type', 'MyISAM');

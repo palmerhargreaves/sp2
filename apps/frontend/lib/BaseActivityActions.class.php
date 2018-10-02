@@ -35,7 +35,7 @@ class BaseActivityActions extends ActionsWithJsonForm
      */
     protected function getActivity(sfWebRequest $request)
     {
-            $activity = ActivityTable::getInstance()->find($request->getParameter('activity'));
+        $activity = ActivityTable::getInstance()->find($request->getParameter('activity'));
         $this->forward404Unless($activity);
 
         if ($this->check_for_module) {
