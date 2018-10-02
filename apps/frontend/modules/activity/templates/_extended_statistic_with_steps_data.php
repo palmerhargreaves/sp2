@@ -50,7 +50,8 @@
 
                             $n = 0;
                             foreach ($fields as $field):
-                                $fieldValue = $field->getFieldUserValue($activity, $sf_user->getRawValue(), $concept, $current_year, $current_q);
+                                $fieldValue = $field->getStepFieldUserValue($activity, $sf_user->getRawValue(), $concept, $current_year, $current_q);
+
                                 ?>
                                 <?php if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_TEXT): ?>
                                 <tr class="">

@@ -42,8 +42,9 @@ class User extends BaseUser
             return $this->_is_dealer_user;
 
         $user = $this->getDealerUsers()->getFirst();
-        if (!$user)
+        if (!$user || $user->getDealerId() == 0) {
             return false;
+        }
 
         $this->_is_dealer_user = !!$user->getDealer();
 

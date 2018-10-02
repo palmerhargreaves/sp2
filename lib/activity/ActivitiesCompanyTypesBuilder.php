@@ -107,8 +107,8 @@ class ActivitiesCompanyTypesBuilder
     }
 
     private function getCompanyBudgetStatus($key) {
-        $dealerId = DealerUserTable::getInstance()->createQuery()->select('dealer_id')->where('user_id = ?', $this->_user->getAuthUser()->getId())->fetchOne();
-        if ($dealerId) {
+        $dealerId = DealerUserTable::getInstance()->createQuery()->select('dealer_id')->where('user_id = ? and dealer_id != 0', $this->_user->getAuthUser()->getId())->fetchOne();
+        if ($dealerId ) {
             $dealer = DealerTable::getInstance()->find($dealerId->getDealerId());
 
             $calc = new RealBudgetCalculator($dealer, $this->year, $key);

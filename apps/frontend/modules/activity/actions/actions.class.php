@@ -18,6 +18,7 @@ class activityActions extends BaseActivityActions
 
     function executeIndex(sfWebRequest $request)
     {
+
         $this->outputActivity($request);
 
         $this->getUser()->setAttribute('current_q', 0, self::FILTER_Q_NAMESPACE);
@@ -63,6 +64,7 @@ class activityActions extends BaseActivityActions
 
     function executeStatistic(sfWebRequest $request)
     {
+
         $this->outputModelsQuarters($request);
         $this->outputFilterByYear();
         $this->outputFilterByQuarter();

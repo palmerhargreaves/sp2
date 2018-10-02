@@ -122,6 +122,72 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
         return $field;
     }
 
+    /**
+     * @param $activity
+     * @param $user
+     * @param $concept
+     * @param null $year
+     * @param null $quarter
+     * @return ActivityExtendedStatisticFieldsData|string
+     */
+    public function getStepFieldUserValue ( $activity, $user, $concept, $year = null, $quarter = null )
+    {
+        $user = $user->getAuthUser();
+
+        $userDealer = $user->getDealerUsers()->getFirst();
+        $dealer = null;
+        if ($userDealer)
+            $dealer = DealerTable::getInstance()->createQuery('d')->where('id = ?', $userDealer->getDealerId())->fetchOne();
+
+        if (!$dealer)
+            return '';
+
+        //$field = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()->where('field_id = ? and user_id = ? and dealer_id = ?', array($this->getId(), $user->getId(), $dealer->getId()))->fetchOne();
+        $query = ActivityExtendedStatisticStepValuesTable::getInstance()->createQuery()->where('field_id = ? and dealer_id = ?', array( $this->getId(), $dealer->getId() ));
+        if ($concept) {
+            $query->andWhere('concept_id = ?', $concept);
+        }
+
+        //Выборка с учетом года
+        if (!is_null($year)) {
+            $query->andWhere('year = ?', $year);
+        }
+
+        //Выборка с учетом квартала
+        if (!is_null($quarter)) {
+            $query->andWhere('quarter = ?', $quarter);
+        }
+
+        $field = $query->fetchOne();
+        //$field = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()->where('field_id = ? and user_id = ?', array($this->getId(), $user->getId()))->fetchOne();
+        if (!$field) {
+            $field = new ActivityExtendedStatisticStepValues();
+            $field->setFieldId($this->getId());
+            $field->setDealerId($dealer->getId());
+            $field->setActivityId($activity->getId());
+
+            if (!is_null($year)) {
+                $field->setYear($year);
+            }
+
+            if (!is_null($quarter)) {
+                $field->setQuarter($quarter);
+            }
+
+            if ($concept)
+                $field->setConceptId($concept);
+
+            $val = '';
+            if ($this->getValueType() == self::FIELD_TYPE_DATE)
+                $val = sprintf('%s-%s', date('d.m.Y'), date('d.m.Y'));
+
+            $field->setValue($val);
+            $field->save();
+        }
+
+        return $field;
+    }
+
     private function getCalcStepsFields ()
     {
         return ActivityExtendedStatisticFieldsCalculatedTable::getInstance()->createQuery()->where('parent_field = ?', $this->getId())->orderBy('id ASC')->execute();
@@ -556,14 +622,27 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
             return true;
         }
 
-        $field_data = ActivityExtendedStatisticFieldsDataTable::getInstance()
+        $query = ActivityExtendedStatisticFieldsDataTable::getInstance()
             ->createQuery()
-            ->where('id = ? and dealer_id = ?', array( $field_id, $user->getDealer()->getId() ))
-            ->fetchOne();
+            ->where('field_id = ? and dealer_id = ?', array( $field_id, $user->getDealer()->getId() ));
+
+        //Проверка по кварталу
+        if ($quarter != 0) {
+            $query->andWhere('quarter = ?', $quarter);
+        }
+
+        //Проверка по году
+        if ($year != 0) {
+            $query->andWhere('year = ?', $year);
+        }
+
+        $field_data = $query->fetchOne();
 
         $data_array = array();
         if (!$field_data) {
             $field_data = new ActivityExtendedStatisticFieldsData();
+
+            $data_array[ 'field_id' ] = $field_id;
         }
 
         $data_array[ 'value' ] = $field_value;
@@ -574,8 +653,6 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
 
         $data_array[ 'year' ] = $year;
         $data_array[ 'quarter' ] = $quarter;
-
-        //$data_array[ 'field_id' ] = $field_id;
 
         if ($activity) {
             $data_array[ 'activity_id' ] = $activity->getId();
@@ -596,13 +673,10 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
 
         $field_data = ActivityExtendedStatisticStepValuesTable::getInstance()
             ->createQuery()
-            ->where('field_id = ? and dealer_id = ? and step_id = ? and concept_id = ?',
+            ->where('id = ?',
                 array
                 (
                     $field_id,
-                    $user->getDealer()->getId(),
-                    $step_id,
-                    $request->getParameter('concept_id'),
                 )
             )
             ->fetchOne();
@@ -610,10 +684,6 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
         $data_array = array();
         if (!$field_data) {
             $field_data = new ActivityExtendedStatisticStepValues();
-        }
-
-        if ($field_id != 0) {
-            //$data_array['field_id'] = $field_id;
         }
 
         $data_array[ 'step_id' ] = $step_id;

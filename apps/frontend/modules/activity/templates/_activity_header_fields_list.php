@@ -36,7 +36,6 @@ foreach ($fields as $field):
         $hash_id = $field->getHashId();
         $first_field = true;
     }
-
     ?>
 
     <tr class="hash-<?php echo $field->getHashId(); ?> sorted-row model-row<?php if ($n++ % 2 == 0) echo ' even'; ?>">

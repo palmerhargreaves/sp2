@@ -190,14 +190,14 @@ $(document).ready(function () {
             var modelCategory = $('input[name="model_type_id"]'),
                 change_period_button = $("div.change-period-model-type-" + modelCategory.val());
 
-            getCalendarDates();
-
             //Make compatibility with old models
             if (change_period_button.length == 0) {
                 change_period_button = $(".js-change-model-period");
             }
 
             if (modelCategory.length != 0) {
+                getCalendarDates();
+
                 if (modelCategory.data('is-sys-admin') && change_period_button.length > 0 && change_period_button.data('action') == 'apply') {
                     return [true];
                 }

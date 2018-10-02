@@ -67,7 +67,7 @@ foreach ($sections as $section):
                                            value="<?php echo $period[0]; ?>"
                                            data-type="<?php echo $field->getValueType(); ?>"
                                            data-regexp="^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$"
-                                           data-field-id="<?php echo $fieldValue->getId(); ?>" required="true">
+                                           data-field-id="<?php echo $fieldValue->getFieldId(); ?>" required="true">
                                     <div class="modal-input-error-icon error-icon"></div>
                                     <div class="error message" style='display: none; z-index: 1;'></div>
                                 </div>
@@ -78,7 +78,7 @@ foreach ($sections as $section):
                                            value="<?php echo $period[1]; ?>"
                                            data-type="<?php echo $field->getValueType(); ?>"
                                            data-regexp="^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$"
-                                           data-field-id="<?php echo $fieldValue->getId(); ?>" required="true">
+                                           data-field-id="<?php echo $fieldValue->getFieldId(); ?>" required="true">
                                     <div class="modal-input-error-icon error-icon"></div>
                                     <div class="error message" style='display: none; z-index: 1;'></div>
                                 </div>
@@ -103,8 +103,8 @@ foreach ($sections as $section):
                                                 их сюда
                                             </div>
 
-                                            <input type="file" name="field_file_<?php echo $fieldValue->getId(); ?>"
-                                                   class='js-dealer-extended-statistics-upload-file field-<?php echo $fieldValue->getId(); ?>'
+                                            <input type="file" name="field_file_<?php echo $fieldValue->getFieldId(); ?>"
+                                                   class='js-dealer-extended-statistics-upload-file field-<?php echo $fieldValue->getFieldId(); ?>'
                                                    size="1"
                                                 <?php echo $field->getRequired() ? "required" : ""; ?>>
                                             <div class="modal-input-error-icon error-icon"></div>
@@ -136,7 +136,7 @@ foreach ($sections as $section):
                                         <?php } else { ?>
                                             data-regexp="/^[0-9a-zA-Zа-яА-Я\_\(\)\+\-\= ]+$/"
                                         <?php } ?>
-                                           data-field-id="<?php echo $fieldValue->getId(); ?>"
+                                           data-field-id="<?php echo $fieldValue->getFieldId(); ?>"
                                            value="<?php echo !$field->getEditable() && $field->getDefValue() != 0 ? $field->getDefValue() : $fieldValue->getValue(); ?>"
                                         <?php if (!$field->getEditable()): ?>
                                             disabled

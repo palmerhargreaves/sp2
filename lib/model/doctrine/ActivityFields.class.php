@@ -201,7 +201,7 @@ class ActivityFields extends BaseActivityFields
         $data_array['year'] = $year;
         $data_array['q'] = $quarter;
 
-        $data_array['field_id'] = $field_id;
+        //$data_array['field_id'] = $field_id;
         $data_array['val'] = $field_value;
         $data_array['dealer_id'] = $user->getDealer()->getId();
         //$data_array['user_id'] = $user->getId();
