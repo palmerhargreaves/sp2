@@ -16,7 +16,7 @@ ActivityConceptDateLimit.prototype = {
     },
 
     initValues: function() {
-        this.initDatePicker('input.dates-concept-field', 14);
+        this.initDatePicker('input.dates-concept-field', 2);
         this.initDatePicker('input.dates-field', 2);
     },
 
