@@ -90,12 +90,13 @@ class ActivityStatisticPreCheckByUser extends ActivityStatisticPreCheckAbstract 
             );
             $new_entry->save();
 
-            $query = ActivityDealerStaticticStatusTable::getInstance()->createQuery()->where('dealer_id = ? and activity_id = ? and year = ?',
+            $query = ActivityDealerStaticticStatusTable::getInstance()->createQuery()->where('dealer_id = ? and activity_id = ? and year = ? and stat_type = ?',
                 array
                 (
                     $data_to_check->getDealerId(),
                     $activity->getId(),
-                    $data_to_check->getYear()
+                    $data_to_check->getYear(),
+                    Activity::ACTIVITY_STATISTIC_TYPE_SIMPLE
                 )
             );
 
@@ -103,6 +104,7 @@ class ActivityStatisticPreCheckByUser extends ActivityStatisticPreCheckAbstract 
 
             //Фиксируем выполнение статистике в БД
             $item = $query->fetchOne();
+
             if (!$item) {
                 $item = new ActivityDealerStaticticStatus();
                 $item->setArray(
