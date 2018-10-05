@@ -23,12 +23,15 @@ MainMenu.prototype = {
         this.getMenu().find('a').each(function(ind, el) {
             var $a_item = $(el), a_link = $a_item.attr('href').split('/'), a_link_path = a_link.pop();
 
-            if (a_link_path.length == 0) {
-                $t_link = $a_item;
-            }
-            else if (RegExp(a_link_path, 'gi').test(window.location.href.split('/').pop())) {
-                $a_item.addClass('active');
-                link_exists = true;
+            if ($a_item.data('not-using') == undefined) {
+
+                if (a_link_path.length == 0) {
+                    $t_link = $a_item;
+                }
+                else if (RegExp(a_link_path, 'gi').test(window.location.href.split('/').pop())) {
+                    $a_item.addClass('active');
+                    link_exists = true;
+                }
             }
         });
 

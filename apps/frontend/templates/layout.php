@@ -238,7 +238,7 @@ if ($sf_user->getAuthUser()->isSuperAdmin()) {
             <?php endif; ?>
 
             <?php if (Utils::allowedIps()): ?>
-                <a href="https://bestpractice.vw-servicepool.ru/site/auth-from-token/?token=<?php echo $sf_user->getAuthUser()->getPassword().'&email='.$sf_user->getAuthUser()->getEmail(); ?>">Лучшие практики</a>
+                <a data-not-using="true" href="https://bestpractice.vw-servicepool.ru/site/auth-from-token/?token=<?php echo $sf_user->getAuthUser()->getPassword().'&email='.$sf_user->getAuthUser()->getEmail(); ?>">Лучшие практики</a>
             <?php endif; ?>
 
             <a href="<?php echo url_for('@activities_examples') ?>">Примеры активностей</a>
