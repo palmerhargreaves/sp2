@@ -1,0 +1,8 @@
+all:
+  stylesheets: [manager, fancybox/jquery.fancybox.min.css]
+  javascripts:
+    - activity/activity_quarters_data.js
+    - activity/efficiency/activity_efficiency_graph_arrow.js
+    - libs/jquery.animateNumber.min.js
+    - plugins/tinymce/tinymce.min.js
+    - fancybox/jquery.fancybox.min.js

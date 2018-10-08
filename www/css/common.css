@@ -1527,3 +1527,21 @@ blockquote p {
     width: 100%;
 }
 
+.radio-control { box-sizing: border-box; }
+.radio-control input[type="radio"], .radio-control input[type="checkbox"] { position: absolute; padding: 0; width: 1px; height: 1px; background: none; border: 0; opacity: 0; }
+.radio-control input[type="radio"] + label, .radio-control input[type="checkbox"] + label { display: inline-block; position: relative; padding-top: 1px; padding-left: 25px; cursor: pointer; }
+.radio-control input[type="radio"] + label:before, .radio-control input[type="checkbox"] + label:before { position: absolute; top: 0; left: 0; width: 10px; height: 10px; background: #fff; border: 3px solid #fff; border-radius: 100%; content: ""; }
+.radio-control input[type="radio"]:checked + label:before, .radio-control input[type="checkbox"]:checked + label:before { background: #67c72f; }
+
+.fieldset-radios .radio-control { display: inline-block; padding-right: 11px; }
+.fieldset-radios_wide {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.fieldset-radios_wide .radio-control {
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
