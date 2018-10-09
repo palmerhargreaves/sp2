@@ -37,43 +37,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="activity-secton-filter__select">
 
+                    <div class="activity-secton-filter__select">
                         <div id="" class="modal-select-wrapper select select_custom input krik-select"
                              style="padding-right: 18px; width: 85px;">
-                            <span class="select-value">2018 год</span>
+                            <span class="select-value"><?php echo $year; ?> год</span>
                             <div class="ico"></div>
-                            <input type="hidden" name="year" value="2018">
+                            <input type="hidden" name="year" value="<?php echo $year; ?>">
                             <div class="modal-input-error-icon error-icon"></div>
                             <div class="error message"></div>
+
                             <div class="modal-select-dropdown">
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="/?quarter=4&year=2015">2015 год</div>
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="/?quarter=4&year=2016">2016 год</div>
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="/?quarter=4&year=2017">2017 год</div>
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="/?quarter=4&year=2018">2018 год</div>
+                                <?php foreach (Utils::getYearsList(2015, 1) as $year_item): ?>
+                                    <div class="modal-select-dropdown-item select-item" data-value="<?php echo $year_item; ?>"><?php echo $year_item; ?> год</div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
 
-                        <div id="" class="modal-select-wrapper select input krik-select"
-                             style="padding-right: 18px; width: 170px;">
+                        <div id="" class="modal-select-wrapper select input krik-select" style="padding-right: 18px; width: 170px;">
                             <span class="select-value">Все дилеры</span>
                             <div class="ico"></div>
-                            <input type="hidden" name="year" value="2018">
+                            <input type="hidden" name="regional_manager_or_dealers" value="-1">
                             <div class="modal-input-error-icon error-icon"></div>
                             <div class="error message"></div>
                             <div class="modal-select-dropdown">
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="">Юрий Базанов</div>
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="">Дмитрий Кожевников</div>
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="">Елена Лебедева</div>
-                                <div class="modal-select-dropdown-item select-item"
-                                     data-url="">Все дилеры</div>
+                                <?php foreach (UserTable::getInstance()
+                                                   ->createQuery('u')
+                                                   ->innerJoin('u.Group g')
+                                                   ->where('g.id = ?', User::USER_GROUP_REGIONAL_MANAGER)
+                                                    ->orderBy('u.name ASC')
+                                                   ->execute() as $user): ?>
+                                    <div class="modal-select-dropdown-item select-item" data-value="<?php echo $user->getId(); ?>"><?php echo $user->selectName(); ?></div>
+                                <?php endforeach; ?>
+
+                                <div class="modal-select-dropdown-item select-item">Все дилеры</div>
                             </div>
                         </div>
 
@@ -85,16 +82,16 @@
                 <div class="activity-summary__descr__img" style="background-image:url(/images/logo.png);"></div>
                 <div class="activity-summary__descr__txt">
                     <div class="activity-summary__descr__label">
-                        <span>Имиджевая кампания</span>
+                        <span><?php echo $activity->getCompanyType()->getName(); ?></span>
                     </div>
                     <div class="activity-summary__descr__title">
-                        Кампания по продвижению оригинальных аксессуаров
+                        <?php echo $activity->getName(); ?>
                     </div>
                     <div class="activity-summary__descr__text">
-                        Клиентам (владельцам послегарантийных автомобилей Volkswagen) предлагается приехать на масляный сервис по специальной цене. Дилеру необходимо привлекать только тех клиентов, которые ни разу не были у него на сервисе. Цены на пакеты являются фиксированными для всей дилерской сети. С перечнем цен и списком моделей, участвующих в акции, вы можете ознакомиться в соответствующей таблице Excel.
+                        <?php echo $activity->getDescription(); ?>
                     </div>
                     <div class="activity-summary__descr__date">
-                        6 февраля — 31 марта
+                        <?php echo D::toLongRus($activity->getStartDate()); ?> — <?php echo D::toLongRus($activity->getEndDate()); ?>
                     </div>
                 </div>
             </div>

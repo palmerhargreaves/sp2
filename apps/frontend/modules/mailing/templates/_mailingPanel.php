@@ -129,7 +129,7 @@ $dt->modify('-1 month');
                         <div class="label">&nbsp;</div>
                         <div class="label">
                             <?= $budQuater[$quarter]; ?>
-                            <?php if ($avg_per_quarter != 0):
+                            <?php if ($avg_per_quarter != 0 && count($dealer_mailings_plan->getRawValue()) > 2):
                                 echo sprintf('(%s%%)', $avg_per_quarter);
                             elseif (count($dealer_mailings_plan->getRawValue()) > 2): ?>
                                 <?php if (isset($dealer_mailings_plan[$quarter]) && $dealer_mailings_plan[$quarter]): ?>

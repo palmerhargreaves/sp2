@@ -20,6 +20,7 @@ class User extends BaseUser
 
     const USER_GROUP_ADMIN = 1;
     const USER_GROUP_IMPORTER = 2;
+    const USER_GROUP_REGIONAL_MANAGER = 28;
 
     const DESIGNER_ID = 22;
 

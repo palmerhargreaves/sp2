@@ -1,4 +1,5 @@
 <?php
+use FileUpload\Util;
 
 /**
  * Description of components
@@ -88,7 +89,7 @@ class mailingComponents extends sfComponents
         $this->dealer_mailings_plan = array();
         foreach (explode(',', $months) as $month) {
             $this->dealer_mailings[$month] = 0;
-            $this->dealer_mailings_plan[$this->quarter] = 0;
+            $this->dealer_mailings_plan[$month] = 0;
         }
         
         foreach (self::getDealerPlan($dealer_number, $months, $this->year) as $plan) {
@@ -107,6 +108,10 @@ class mailingComponents extends sfComponents
         $this->dealer_mailings = array_filter(array_map(function($item) {
             return $item > 0 ? $item : null;
         }, $this->dealer_mailings));
+
+        $this->dealer_mailings_plan = array_filter(array_map(function($item) {
+            return $item > 0 ? $item : null;
+        }, $this->dealer_mailings_plan));
     }
 
     /**
