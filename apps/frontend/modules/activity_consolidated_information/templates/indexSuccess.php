@@ -5,6 +5,9 @@
  * Date: 08.10.2018
  * Time: 14:28
  */
+
+$roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
+
 ?>
 
 <div class="activity">
@@ -19,22 +22,12 @@
                     <div class="activity-secton-filter__radio">
                         <p><strong>Выберите квартал(ы), по которым вы бы хотели сделать выгрузку:</strong></p>
                         <div class="fieldset-radios fieldset-radios_wide">
-                            <div class="radio-control">
-                                <input type="checkbox" name="" value="" id="sum-quart-1"/>
-                                <label for="sum-quart-1">I квартал</label>
-                            </div>
-                            <div class="radio-control">
-                                <input type="checkbox" name="" value="" id="sum-quart-2"/>
-                                <label for="sum-quart-2">II квартал</label>
-                            </div>
-                            <div class="radio-control">
-                                <input type="checkbox" name="" value="" id="sum-quart-3"/>
-                                <label for="sum-quart-3">III квартал</label>
-                            </div>
-                            <div class="radio-control">
-                                <input type="checkbox" name="" value="" id="sum-quart-4"/>
-                                <label for="sum-quart-4">IV квартал</label>
-                            </div>
+                            <?php foreach ($consolidated_information->getQuarters() as $quarter): ?>
+                                <div class="radio-control">
+                                    <input type="checkbox" name="sum-quart-<?php echo $quarter; ?>" value="<?php echo $quarter; ?>" data-quarter="<?php echo $quarter; ?>" id="sum-quart-<?php echo $quarter; ?>"/>
+                                    <label for="sum-quart-<?php echo $quarter; ?>"><?php echo $roman[$quarter]; ?> квартал</label>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
 
@@ -67,10 +60,10 @@
                                                    ->where('g.id = ?', User::USER_GROUP_REGIONAL_MANAGER)
                                                     ->orderBy('u.name ASC')
                                                    ->execute() as $user): ?>
-                                    <div class="modal-select-dropdown-item select-item" data-value="<?php echo $user->getId(); ?>"><?php echo $user->selectName(); ?></div>
+                                    <div class="modal-select-dropdown-item select-item" data-value="<?php echo $user->getNaturalPersonId(); ?>"><?php echo $user->selectName(); ?></div>
                                 <?php endforeach; ?>
 
-                                <div class="modal-select-dropdown-item select-item">Все дилеры</div>
+                                <div class="modal-select-dropdown-item select-item" data-value="-1">Все дилеры</div>
                             </div>
                         </div>
 
@@ -79,7 +72,17 @@
             </div>
 
             <div class="activity-summary__descr">
-                <div class="activity-summary__descr__img" style="background-image:url(/images/logo.png);"></div>
+                <?php
+                    $company_type_image = ActivityTypeCompanyImagesTable::getInstance()
+                        ->createQuery()
+                        ->where('company_type_id = ?', array($activity->getCompanyType()->getId()))
+                        ->fetchOne();
+                ?>
+
+                <?php if ($company_type_image): ?>
+                    <div class="activity-summary__descr__img" style="background-image:url(//dm-ng.palmer-hargreaves.ru/admin/files/company_types/<?php echo $company_type_image->getPath(); ?>"></div>
+                <?php endif; ?>
+
                 <div class="activity-summary__descr__txt">
                     <div class="activity-summary__descr__label">
                         <span><?php echo $activity->getCompanyType()->getName(); ?></span>
@@ -88,7 +91,7 @@
                         <?php echo $activity->getName(); ?>
                     </div>
                     <div class="activity-summary__descr__text">
-                        <?php echo $activity->getDescription(); ?>
+                        <?php echo $activity->getRawValue()->getBrief(); ?>
                     </div>
                     <div class="activity-summary__descr__date">
                         <?php echo D::toLongRus($activity->getStartDate()); ?> — <?php echo D::toLongRus($activity->getEndDate()); ?>
@@ -101,22 +104,7 @@
             </div>
 
             <div class="activity-summary__stats">
-                <div class="activity-summary__stats__item">
-                    <strong>13</strong>
-                    Все дилеры
-                </div>
-                <div class="activity-summary__stats__item">
-                    <strong>10</strong>
-                    Дилеры-участники акции
-                </div>
-                <div class="activity-summary__stats__item">
-                    <strong>7</strong>
-                    Дилеры, приступившие к&nbsp;активности
-                </div>
-                <div class="activity-summary__stats__item">
-                    <strong>2</strong>
-                    Дилеры, заполнившие статистику
-                </div>
+                <?php include_partial('dealers_information', array('consolidated_information' => $consolidated_information)); ?>
             </div>
 
             <div class="activity-secton-header activity-secton-header_eff">
@@ -138,3 +126,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+        window.activity_consolidated_information = new ActivityConsolidatedInformation({
+            on_change_manager_url: '<?php echo url_for('@on_consolidated_information_change_manager'); ?>',
+            dealers_information_container: '.activity-summary__stats',
+            activity: <?php echo $activity->getId(); ?>
+        }).start();
+    });
+</script>
