@@ -19,6 +19,8 @@ ActivityConsolidatedInformation.prototype = {
 
     initEvents: function() {
         $(document).on('change', 'input[name=regional_manager_or_dealers]', $.proxy(this.onChangeManager, this));
+
+        $(document).on('click', '#js-export-consolidated-information', $.proxy(this.onMakeExport, this));
     },
 
     onChangeManager: function(event) {
@@ -48,5 +50,5 @@ ActivityConsolidatedInformation.prototype = {
 
     getDealersInformationContainer: function() {
         return $(this.dealers_information_container);
-    }
+    },
 }

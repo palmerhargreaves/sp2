@@ -119,7 +119,7 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
             <div class="activity-summary__actions">
                 <div>Данные дилерских центров, заполнивших статистику на портале dm.vw-servicepool.ru.</div>
                 <div>
-                    <a href="javascript:" class="btn btn_light btn_download">Выгрузить в файл</a>
+                    <a target="_blank" href="//dm-ng.palmer-hargreaves.ru/admin/index.php?r=activity-consolidated-information/export" class="btn btn_light btn_download">Выгрузить в файл</a>
                 </div>
             </div>
 
