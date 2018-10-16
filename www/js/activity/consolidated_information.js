@@ -21,6 +21,22 @@ ActivityConsolidatedInformation.prototype = {
         $(document).on('change', 'input[name=regional_manager_or_dealers]', $.proxy(this.onChangeManager, this));
 
         $(document).on('click', '#js-export-consolidated-information', $.proxy(this.onMakeExport, this));
+
+
+    },
+
+    onMakeExport: function(event) {
+        var element = $(event.currentTarget), quarters = [];
+
+        $.post(element.data('url'), {
+            activity: element.data('activity'),
+            year: $("input[name=year]").val(),
+            quarters: quarters,
+        }, function(result) {
+            if (result.success) {
+                window.location.href = result.url;
+            }
+        });
     },
 
     onChangeManager: function(event) {

@@ -67,7 +67,7 @@ class ActivityConsolidatedInformation {
 
         if (!empty($dealers_ids)) {
             //Получаем количество дилеров создавших заявку в активности
-            $models_count = AgreementModelTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->count();
+            $models_count = AgreementModelTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->groupBy('dealer_id')->count();
 
             //Получаем количество дилеров участвующих в акции, если не формы нет берем количестов дилеров по созданным заявкам
             if (DealersServiceDataTable::getInstance()->createQuery('sd')->innerJoin('sd.Dialog d')->andWhere('d.activity_id = ?', $activity_id)->count() > 0) {
