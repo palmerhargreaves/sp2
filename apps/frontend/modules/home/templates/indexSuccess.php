@@ -144,9 +144,10 @@ endif;
 <?php endif; ?>
 
 
-<?php if (count($serviceActive) > 0 && count($infoDialog) > 0): ?>
+<?php if (count($serviceActive) > 0 || count($infoDialog) > 0): ?>
     <script>
         $(function () {
+            console.log(RegExp('service', 'gi').test(window.location.search));
             if (RegExp('service', 'gi').test(window.location.search)) {
                 $("#service-action-choose-modal").krikmodal('show');
             }

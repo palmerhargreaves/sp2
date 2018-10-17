@@ -28,7 +28,7 @@
         </h2>
         <div class="report-campaign-box">
             <div class="report-campaign-descr is-flexbox">
-                <figure class="report-campaign-descr__img" style="background-image:url();"></figure>
+                <figure class="report-campaign-descr__img" style="background-image:url(/var/www/vwgroup/data/www/dm.vw-servicepool.ru/www/pdf/img/ico_person.png);"></figure>
                 <div class="report-campaign-descr__txt is-flexbox">
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Сроки</dt>

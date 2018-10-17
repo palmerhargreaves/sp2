@@ -109,7 +109,6 @@ class ActivitiesBudgetByControlPoints
                         $work_status_msg = $work_status_result['msg'];
 
                         if ($status != ActivityModuleDescriptor::STATUS_NONE) {
-                            //var_dump($q.'--'.$status.'--'.$activity->getId());
                             $this->_quarters_statistics[$q]['mandatory_activities']['completed'] = $this->_quarters_statistics[$q]['mandatory_activities']['completed'] && $status == ActivityModuleDescriptor::STATUS_ACCEPTED;
 
                             //Учитываем количество выполненных обязательных активностей
@@ -138,7 +137,7 @@ class ActivitiesBudgetByControlPoints
 
                 //Проходим по слота в кварталах и провряем на выполнение условий
                 //В каждом слоте должна быть выполнена одна активность
-                /*foreach ($slots_result as $slot_q => $slot_items) {
+                foreach ($slots_result as $slot_q => $slot_items) {
                     $q_completed = true;
 
                     foreach ($slot_items as $slot_item_data) {
@@ -147,7 +146,7 @@ class ActivitiesBudgetByControlPoints
                         }
                     }
                     $this->_quarters_statistics[ $slot_q ][ 'mandatory_activities' ][ 'completed' ] = $q_completed;
-                }*/
+                }
 
             } else {
                 foreach ($mandatory_activities as $activity) {

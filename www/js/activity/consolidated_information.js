@@ -34,7 +34,7 @@ ActivityConsolidatedInformation.prototype = {
             quarters: quarters,
         }, function(result) {
             if (result.success) {
-                window.location.href = result.url;
+                //window.location.href = result.url;
             }
         });
     },
