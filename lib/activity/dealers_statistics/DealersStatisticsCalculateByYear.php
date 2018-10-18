@@ -45,6 +45,7 @@ class DealersStatisticsCalculateByYear
         $query = AgreementModelTable::getInstance()->createQuery('am')
             ->select('id, id as mId, activity_id, dealer_id, cost, status, step1, step2, report_id, model_category_id, model_type_id, created_at, am.updated_at am_updated_at, a.type_company_id, r.status as r_status, a.mandatory_activity as req_activity')
             ->where('(year(created_at) = ? or year(updated_at) = ?)', array($this->_year, $this->_year))
+            ->andWhere('am.is_deleted = ?', false)
             ->andWhereIn('dealer_id', $this->_dealers_ids)
             ->innerJoin('am.Activity a')
             ->leftJoin('am.Report r')
@@ -106,11 +107,20 @@ class DealersStatisticsCalculateByYear
 
         //Определяем обязательные активности по кварталу и году
         $mandatory_activities_list_in_year_result = array();
-        $mandatory_activities_list_in_year = MandatoryActivityQuartersTable::getInstance()->createQuery()->where('year = ?', $this->_year)->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
-        foreach ($mandatory_activities_list_in_year as $mandatory) {
-            $mandatory_activities_list_in_year_result[$mandatory['activity_id']] = explode(':', $mandatory['quarters']);
+
+        $slots_in_quarter = QuartersSlotsTable::getInstance()->createQuery()->where('year = ?', $this->_year)->execute();
+        foreach ($slots_in_quarter as $slot_quarter) {
+            $slot_activities = QuartersSlotActivitiesTable::getInstance()->createQuery()->where('slot_id = ?', $slot_quarter->getId())->execute();
+
+            foreach ($slot_activities as $slot_activity) {
+                $mandatory_activities_list_in_year_result[$slot_activity->getActivityId()][] = $slot_quarter->getQuarter();
+            }
         }
 
+        /*$mandatory_activities_list_in_year = MandatoryActivityQuartersTable::getInstance()->createQuery()->where('year = ?', $this->_year)->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        foreach ($mandatory_activities_list_in_year as $mandatory) {
+            $mandatory_activities_list_in_year_result[$mandatory['activity_id']] = explode(':', $mandatory['quarters']);
+        }*/
 
         $company_types = ActivityCompanyTypeTable::getInstance()->createQuery()->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
         $dealers = array();
