@@ -13,6 +13,9 @@ class ActivityConsolidatedInformation {
     private $_year = 0;
 
     private $_activity = null;
+    private $_activity_company = null;
+
+    private $_regional_manager = null;
 
     public function __construct(Activity $activity, sfWebRequest $request = null)
     {
@@ -50,14 +53,21 @@ class ActivityConsolidatedInformation {
         $query = DealerTable::getInstance()->createQuery()->select('id')->where('status = ?', array(true));
 
         if (!is_null($request)) {
-            $regional_manager_id = $request->getParameter('regional_manager', -1);
+            //Сохраняем список кварталов
+            $this->_quarters_list = $request->getParameter('quarters', array());
 
+            //Получаем данные по рег. менеджеру
+            $regional_manager_id = $request->getParameter('regional_manager', -1);
             if ($regional_manager_id != -1) {
                 $query->andWhere('regional_manager_id = ?', $regional_manager_id);
+
+                $this->_regional_manager = NaturalPersonTable::getInstance()->find($regional_manager_id);
             }
         }
-
         $dealers_list = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+        //Кампания активности
+        $this->_activity_company = ActivityCompanyTypeTable::getInstance()->find($this->_activity->getTypeCompanyId());
 
         //Общее количество дилеров
         $this->_dealers['count'] = count($dealers_list);
@@ -106,6 +116,22 @@ class ActivityConsolidatedInformation {
             $this->_dealers['statistic_completed_count'] = $query->count();
         }
 
+    }
+
+    public function getActivity() {
+        return $this->_activity;
+    }
+
+    public function getCompany() {
+        return $this->_activity_company;
+    }
+
+    public function getExportQuartersList() {
+        return $this->_quarters_list;
+    }
+
+    public function getManager() {
+        return $this->_regional_manager;
     }
 
     /**

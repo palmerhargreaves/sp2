@@ -24,7 +24,7 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                         <div class="fieldset-radios fieldset-radios_wide">
                             <?php foreach ($consolidated_information->getQuarters() as $quarter): ?>
                                 <div class="radio-control">
-                                    <input type="checkbox" name="sum-quart-<?php echo $quarter; ?>" value="<?php echo $quarter; ?>" data-quarter="<?php echo $quarter; ?>" id="sum-quart-<?php echo $quarter; ?>"/>
+                                    <input type="checkbox" name="sum-quart-<?php echo $quarter; ?>" value="<?php echo $quarter; ?>" data-quarter="<?php echo $quarter; ?>" id="sum-quart-<?php echo $quarter; ?>" class="sum-quarters"/>
                                     <label for="sum-quart-<?php echo $quarter; ?>"><?php echo $roman[$quarter]; ?> квартал</label>
                                 </div>
                             <?php endforeach; ?>

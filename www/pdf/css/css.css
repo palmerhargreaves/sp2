@@ -306,7 +306,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 .d-header_dealer .d-header__manager {
 	padding-left: 18%;
 	border-left-width: 4px;
-	background: url(/var/www/vwgroup/data/www/dm.vw-servicepool.ru/www/pdf/img/ico_check.png) 5% 50% no-repeat;
+	background: url(http://dm.vw-servicepool.ru/pdf/img/ico_check.png) 5% 50% no-repeat;
 	background-size: auto;
 }
 .d-header_dealer .d-header__manager strong { display: inline; margin-right: 1em; }
@@ -390,7 +390,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 	padding-right: 5%;
 	border-bottom: 1px solid #d7d9dc;
 }
-.report-activity__row.is-required { background: url(/var/www/vwgroup/data/www/dm.vw-servicepool.ru/www/pdf/img/ico_required.png) 98% 50% no-repeat; background-size: auto 2em; }
+.report-activity__row.is-required { background: url(http://dm.vw-servicepool.ru/pdf/img/ico_required.png) 98% 50% no-repeat; background-size: auto 2em; }
 .report-activity__row dt figure { display: block; margin: .15em auto; width: 2em; height: 2em; border-radius: 100%; }
 .report-activity__row.is-green dt figure { background: #40ae49; }
 .report-activity__row.is-yellow dt figure { background: #fff200; }
@@ -415,7 +415,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 .report-activity__legend__item.is-yellow dt figure { background: #fff200; }
 .report-activity__legend__item.is-orange dt figure { background: #f57f20; }
 .report-activity__legend__item.is-red dt figure { background: #d2232a; }
-.report-activity__legend__item.is-required dt figure { background: url(/var/www/vwgroup/data/www/dm.vw-servicepool.ru/www/pdf/img/ico_required.png) 50% no-repeat; background-size: auto 2em; }
+.report-activity__legend__item.is-required dt figure { background: url(http://dm.vw-servicepool.rupdf/img/ico_required.png) 50% no-repeat; background-size: auto 2em; }
 
 .tbl_campaign_intro { margin: 0 0 1.5em !important; font-size: 1.25em; text-transform: uppercase; }
 .tbl_campaign_intro td { padding: 0 1.5em .25em 0; border: 0; vertical-align: bottom; }
@@ -523,7 +523,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-.report-campaign-stats__value:before { position: absolute; top: 0; bottom: 0; right: 100%; margin-right: -.925em; width: 1.85em; background: url(/pdf/img/ico_arrow.png) 50% no-repeat; background-size: 100% 100%; content: ""; }
+.report-campaign-stats__value:before { position: absolute; top: 0; bottom: 0; right: 100%; margin-right: -.925em; width: 1.85em; background: url(http://dm.vw-servicepool.ru/pdf/img/ico_arrow.png) 50% no-repeat; background-size: 100% 100%; content: ""; }
 .report-campaign-stats__value span { display: block; width: 100%; }
 .report-campaign-stats tbody tr, .report-campaign-stats__row { background: #bfc2c7; }
 .report-campaign-stats tbody tr:nth-child(even),
@@ -625,7 +625,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 	flex: 1 1 50%;
 	padding: 0 8%;
 }
-.report-campaign-funnel__values__chart { position: relative; padding-bottom: 87.83783783783784%; background: url(/pdf/img/img_funnel.jpg) 50% no-repeat; background-size: 100%; font-weight: 700; font-size: 3em; color: #fff; text-align: center; }
+.report-campaign-funnel__values__chart { position: relative; padding-bottom: 87.83783783783784%; background: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel.jpg) 50% no-repeat; background-size: 100%; font-weight: 700; font-size: 3em; color: #fff; text-align: center; }
 .report-campaign-funnel__values__chart ul {
 	-ms-flex-direction: column;
 	-webkit-flex-direction: column;
@@ -643,7 +643,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 }
 .report-campaign-funnel__values__chart li span { display: block; width: 100%; }
 .report-campaign-funnel__values__chart li:last-child { color: #818285; }
-.report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: url(/var/www/vwgroup/data/www/dm.vw-servicepool.ru/www/pdf/img/img_funnel_sm.jpg); font-size: 2em; }
+.report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel_sm.jpg); font-size: 2em; }
 
 .report-campaign-chart-legend li { position: relative; margin-bottom: 1.25em; padding-left: 1.75em; }
 .report-campaign-chart-legend li:last-child { margin: 0; }

@@ -28,10 +28,28 @@ ActivityConsolidatedInformation.prototype = {
     onMakeExport: function(event) {
         var element = $(event.currentTarget), quarters = [];
 
+        //Получаем список кварталов для экспорта
+        $('.sum-quarters').each(function(i, element) {
+            if ($(element).is(':checked')) {
+                quarters.push($(element).data('quarter'));
+            }
+        });
+
+        if (quarters.length == 0) {
+            swal({
+                title: "Ошибка экспорта",
+                text: "Для продолжения выберите квартал(ы).",
+                type: "error",
+            });
+
+            return;
+        }
+
         $.post(element.data('url'), {
             activity: element.data('activity'),
             year: $("input[name=year]").val(),
             quarters: quarters,
+            regional_manager: $("input[name=regional_manager_or_dealers]").val()
         }, function(result) {
             if (result.success) {
                 //window.location.href = result.url;

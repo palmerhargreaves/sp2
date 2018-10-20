@@ -660,4 +660,12 @@ class Utils
 
         return array($currentYear, $currentQ);
     }
+
+    /**
+     * Получить список кварталов
+     * @return array
+     */
+    public static function getQuartersList() {
+        return array(1, 2, 3, 4);
+    }
 }
