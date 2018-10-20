@@ -79,7 +79,7 @@ class ActivitiesBudgetByControlPoints
             //Отмечаем выполнение бюджета, если бюджет за пред. кварталы выполнен
             foreach ($this->_quarters_statistics as $q => $completed) {
                 for ($q_ind = 1; $q_ind <= $q; $q_ind++) {
-                    //$this->_quarters_statistics[$q]['quarter_plan_completed'] = $this->_quarters_statistics[$q_ind]['quarter_plan_completed'];
+                    $this->_quarters_statistics[$q]['quarter_plan_completed'] = $this->_quarters_statistics[$q_ind]['quarter_plan_completed'];
                 }
             }
         }
