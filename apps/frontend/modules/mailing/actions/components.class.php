@@ -112,6 +112,7 @@ class mailingComponents extends sfComponents
         $this->dealer_mailings_plan = array_filter(array_map(function($item) {
             return $item > 0 ? $item : null;
         }, $this->dealer_mailings_plan));
+
     }
 
     /**

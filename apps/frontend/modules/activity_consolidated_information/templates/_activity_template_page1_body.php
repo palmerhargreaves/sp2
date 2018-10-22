@@ -6,6 +6,8 @@
  * Time: 14:13
  */
 
+////dm-ng.palmer-hargreaves.ru/admin/files/company_types/<?php echo $consolidated_information->getActivity()->getCompanyType()->getImage()->getPath();
+
 $manager = $consolidated_information->getManager();
 ?>
 
@@ -23,8 +25,7 @@ $manager = $consolidated_information->getManager();
         </h2>
         <div class="report-campaign-box">
             <div class="report-campaign-descr is-flexbox">
-                <div class="report-campaign-descr__img"
-                     style="background-image:url(//dm-ng.palmer-hargreaves.ru/admin/files/company_types/<?php echo $consolidated_information->getActivity()->getCompanyType()->getImage()->getPath(); ?>"></div>
+                <div class="report-campaign-descr__img" style="background-image:url(http://dm.vw-servicepool.ru/pdf/img/ico_person.png)"></div>
                 <div class="report-campaign-descr__txt is-flexbox">
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Сроки</dt>

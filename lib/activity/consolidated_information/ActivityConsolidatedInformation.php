@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: kostet
  * Date: 10.10.2018
  * Time: 9:53
  */
-
-class ActivityConsolidatedInformation {
+class ActivityConsolidatedInformation
+{
     private $_dealers = array();
     private $_quarters_list = array();
 
@@ -34,7 +35,8 @@ class ActivityConsolidatedInformation {
         $this->filterData($request);
     }
 
-    public function getQuarters() {
+    public function getQuarters()
+    {
         $period = ActivityStatisticPeriodsTable::getInstance()->createQuery()->where('activity_id = ?', $this->_activity->getId())->fetchOne();
         if ($period) {
             $quarters = $period->getQuarters();
@@ -48,7 +50,8 @@ class ActivityConsolidatedInformation {
      * Фильтр данных
      * @param sfWebRequest $request
      */
-    public function filterData(sfWebRequest $request = null) {
+    public function filterData(sfWebRequest $request = null)
+    {
         $activity_id = $this->_activity->getId();
         $query = DealerTable::getInstance()->createQuery()->select('id')->where('status = ?', array(true));
 
@@ -73,7 +76,9 @@ class ActivityConsolidatedInformation {
         $this->_dealers['count'] = count($dealers_list);
 
         //Получаем список индексов доступных дилеров
-        $dealers_ids = array_map(function($item) { return $item['id']; }, $dealers_list);
+        $dealers_ids = array_map(function ($item) {
+            return $item['id'];
+        }, $dealers_list);
 
         if (!empty($dealers_ids)) {
             //Получаем количество дилеров создавших заявку в активности
@@ -118,26 +123,31 @@ class ActivityConsolidatedInformation {
 
     }
 
-    public function getActivity() {
+    public function getActivity()
+    {
         return $this->_activity;
     }
 
-    public function getCompany() {
+    public function getCompany()
+    {
         return $this->_activity_company;
     }
 
-    public function getExportQuartersList() {
+    public function getExportQuartersList()
+    {
         return $this->_quarters_list;
     }
 
-    public function getManager() {
+    public function getManager()
+    {
         return $this->_regional_manager;
     }
 
     /**
      * Получить сводную информацию по дилерам
      */
-    public function getDealersInformation() {
+    public function getDealersInformation()
+    {
         return $this->_dealers;
     }
 }

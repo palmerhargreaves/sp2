@@ -72,15 +72,18 @@ class ActivitiesBudgetByControlPoints
         //Вычисляем выполнение по кварталам
         if (!empty($this->_real_budget) && !empty($this->_fact_budget)) {
             for ($q = 1; $q <= 4; $q++) {
-                $this->_quarters_statistics[ $q ][ 'quarter_plan_completed' ] = $this->_real_budget[ $q ] > 0 && $this->_real_budget[ $q ] >= $this->_fact_budget[ $q ]->getPlan();
+                $this->_quarters_statistics[ $q ][ 'quarter_plan_completed' ] = $this->_fact_budget[ $q ]->getPlan() == 0 ? true : ($this->_real_budget[ $q ] > 0 && $this->_real_budget[ $q ] >= $this->_fact_budget[ $q ]->getPlan());
             }
 
             //Делаем доп. проход по выполненным бюджетам
             //Отмечаем выполнение бюджета, если бюджет за пред. кварталы выполнен
             foreach ($this->_quarters_statistics as $q => $completed) {
+                $completed = true;
                 for ($q_ind = 1; $q_ind <= $q; $q_ind++) {
-                    $this->_quarters_statistics[$q]['quarter_plan_completed'] = $this->_quarters_statistics[$q_ind]['quarter_plan_completed'];
+                    $completed = $completed && $this->_quarters_statistics[ $q_ind ][ 'quarter_plan_completed' ];
                 }
+
+                $this->_quarters_statistics[ $q ][ 'quarter_plan_completed' ] = $completed;
             }
         }
 

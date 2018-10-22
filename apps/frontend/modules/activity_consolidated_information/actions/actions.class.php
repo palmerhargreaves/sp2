@@ -47,23 +47,30 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             get_partial('activity_template_page1_body', array('consolidated_information' => $this->consolidated_information)),
             get_partial('activity_template_page1_bottom', array())
         );
+        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/activity_consolidated_information_1.html';
+        file_put_contents($file_name, implode('<br/>', $page1_html));
 
+        $header = get_partial('activity_template_page2_header', array('consolidated_information' => $this->consolidated_information));
+        $header = str_replace('<style></style>', '<style>'.$css.'</style>', $header);
         $page2_html = array(
-            get_partial('activity_template_page2_header', array('consolidated_information' => $this->consolidated_information)),
+            $header,
             get_partial('activity_template_page2_body', array('consolidated_information' => $this->consolidated_information)),
             get_partial('activity_template_page2_bottom', array())
         );
+        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/activity_consolidated_information_2.html';
+        file_put_contents($file_name, implode('<br/>', $page2_html));
 
+        $header = get_partial('activity_template_page3_header', array('consolidated_information' => $this->consolidated_information));
+        $header = str_replace('<style></style>', '<style>'.$css.'</style>', $header);
         $page3_html = array(
-            get_partial('activity_template_page3_header', array('consolidated_information' => $this->consolidated_information)),
+            $header,
             get_partial('activity_template_page3_body', array()),
             get_partial('activity_template_page3_bottom', array())
         );
+        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/activity_consolidated_information_3.html';
+        file_put_contents($file_name, implode('<br/>', $page3_html));
 
-        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/activity_consolidated_information.html';
-
-        file_put_contents($file_name, implode('<br/>', array(implode('<br/>', $page1_html), implode('<br/>', $page2_html), implode('<br/>', $page3_html))));
-        exec('node '.sfConfig::get('app_root_dir').'www/js/pdf/html-to-pdf', $result);
+        //exec('node '.sfConfig::get('app_root_dir').'www/js/pdf/html-to-pdf', $result);
 
         return $this->sendJson(array('success' => true, 'url' => sfConfig::get('app_site_url')));
     }
