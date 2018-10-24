@@ -240,14 +240,13 @@ class User extends BaseUser
 
     function updateDealersList($dealers)
     {
+        UserDealersTable::getInstance()
+            ->createQuery()
+            ->delete()
+            ->where('user_id = ?', array($this->getId()))
+            ->execute();
+
         if ($dealers) {
-            UserDealersTable::getInstance()
-                ->createQuery()
-                ->delete()
-                ->where('user_id = ?', array($this->getId()))
-                ->execute();
-
-
             foreach ($dealers as $dealer) {
                 $row = new UserDealers();
 

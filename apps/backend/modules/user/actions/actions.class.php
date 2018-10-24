@@ -185,7 +185,7 @@ class userActions extends autoUserActions
 
         $this->dealers_list = DealerTable::getInstance()->createQuery()
             ->where('dealer_type = ? or dealer_type = ?', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))
-            ->andWhereNotIn('id', $already_binded_dealers)
+            ->andWhereNotIn('id', array_filter($already_binded_dealers))
             ->andWhere('number LIKE ?', '93500%')
             ->orderBy('number ASC')->execute();
     }

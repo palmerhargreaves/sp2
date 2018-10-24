@@ -53,7 +53,7 @@ class ActivityConsolidatedInformation
     public function filterData(sfWebRequest $request = null)
     {
         $activity_id = $this->_activity->getId();
-        $query = DealerTable::getInstance()->createQuery()->select('id')->where('status = ?', array(true));
+        $query = DealerTable::getInstance()->createQuery()->select('id, name')->where('status = ?', array(true));
 
         if (!is_null($request)) {
             //Сохраняем список кварталов
@@ -80,9 +80,16 @@ class ActivityConsolidatedInformation
             return $item['id'];
         }, $dealers_list);
 
+        //Список дилеров, отсортированных по максимольно выполненным условиям (участие в акции, заполнение статистики, добавление заявки)
+        $dealers_by_completed_parts = array(
+            'level_1' => array(),
+            'level_2' => array(),
+            'level_3' => array()
+        );
+
         if (!empty($dealers_ids)) {
             //Получаем количество дилеров создавших заявку в активности
-            $models_count = AgreementModelTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->groupBy('dealer_id')->count();
+            $models_count = AgreementModelTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->groupBy('dealer_id')->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
             //Получаем количество дилеров участвующих в акции, если не формы нет берем количестов дилеров по созданным заявкам
             if (DealersServiceDataTable::getInstance()->createQuery('sd')->innerJoin('sd.Dialog d')->andWhere('d.activity_id = ?', $activity_id)->count() > 0) {
@@ -91,14 +98,13 @@ class ActivityConsolidatedInformation
                     ->andWhereIn('sd.dealer_id', $dealers_ids)
                     ->andWhere('d.activity_id = ?', $activity_id)
                     ->andWhere('sd.status = ?', 'accepted')
-                    ->count();
+                    ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
             } else {
                 $service_action_count = $models_count;
             }
 
-            $this->_dealers['service_action_count'] = $service_action_count;
-            $this->_dealers['models_count'] = $models_count;
-
+            $this->_dealers['service_action_count'] = count($service_action_count);
+            $this->_dealers['models_count'] = count($models_count);
 
             //Получаем информацию по количеству заполненных статистик с учетом кварталов активности
             $query = ActivityDealerStaticticStatusTable::getInstance()->createQuery()
@@ -118,7 +124,12 @@ class ActivityConsolidatedInformation
                 $query->andWhere('(' . $query_columns . ')', $query_params);
             }
 
-            $this->_dealers['statistic_completed_count'] = $query->count();
+            $statistic_completed_count = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+            $this->_dealers['statistic_completed_count'] = count($statistic_completed_count);
+
+            foreach ($dealers_ids as $dealer_id) {
+
+            }
         }
 
     }
