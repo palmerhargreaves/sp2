@@ -29,23 +29,19 @@ $manager = $consolidated_information->getManager();
                 <div class="report-campaign-descr__txt is-flexbox">
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Сроки</dt>
-                        <dd class="is-flexbox is-flexbox_center">6 февраля - 31 марта</dd>
+                        <dd class="is-flexbox is-flexbox_center"><?php echo D::toLongRus($consolidated_information->getActivity()->getStartDate()); ?> — <?php echo D::toLongRus($consolidated_information->getActivity()->getEndDate()); ?></dd>
                     </dl>
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Цель кампании</dt>
-                        <dd class="is-flexbox is-flexbox_center">Увеличение продаж оригинальных аксессуаров в период
-                            праздников: 14 февраля, 23 февраля, 8 марта.
-                        </dd>
+                        <dd class="is-flexbox is-flexbox_center"><?php echo $consolidated_information->getActivity()->getCompanyTarget(); ?></dd>
                     </dl>
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Целевая аудитория</dt>
-                        <dd class="is-flexbox is-flexbox_center">Все владельцы автомобилей Volkswagen.</dd>
+                        <dd class="is-flexbox is-flexbox_center"><?php echo $consolidated_information->getActivity()->getTargetAudience(); ?>.</dd>
                     </dl>
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Механика кампании</dt>
-                        <dd class="is-flexbox is-flexbox_center">Увеличение продаж оригинальных аксессуаров в период
-                            праздников: 14 февраля, 23 февраля, 8 марта.
-                        </dd>
+                        <dd class="is-flexbox is-flexbox_center"><?php echo $consolidated_information->getActivity()->getCompanyMechanics(); ?>.</dd>
                     </dl>
                 </div>
             </div>

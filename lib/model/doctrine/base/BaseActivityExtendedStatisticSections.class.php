@@ -64,6 +64,17 @@ abstract class BaseActivityExtendedStatisticSections extends sfDoctrineRecord
             'type' => 'clob',
             'notnull' => false,
         ));
+        $this->hasColumn('graph_type', 'enum', null, array(
+            'type' => 'enum',
+            'values' => array(
+                0 => 'none',
+                1 => 'waterfall',
+                2 => 'pie',
+                3 => 'linear',
+                4 => 'bars'
+            ),
+            'notnull' => false,
+        ));
 
         $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');
