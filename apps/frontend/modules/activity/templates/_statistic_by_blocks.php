@@ -21,7 +21,7 @@ foreach ($sections as $section):
                 <tbody>
                 <?php
                 $fields = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()
-                    ->where('activity_id = ? and parent_id = ?', array($activity->getId(), $section->getId()))->orderBy('position ASC')->execute();
+                    ->where('activity_id = ? and parent_id = ? and show_in_statistic = true', array($activity->getId(), $section->getId()))->orderBy('position ASC')->execute();
 
                 $n = 0;
                 foreach ($fields as $field):

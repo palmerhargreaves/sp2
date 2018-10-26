@@ -1,8 +1,9 @@
 <?php
 
-require sfConfig::get('app_root_dir').'lib/vendor/autoload.php';
+require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph.php');
+require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph_pie.php');
+require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph_pie3d.php');
 
-use SamChristy\PieChart\PieChartGD;
 
 /**
  * Created by PhpStorm.
@@ -189,13 +190,21 @@ class ActivityConsolidatedInformation
 
                 //Делаем проверку на возможность вывода блоков
                 foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type != ?', array($activity_id, 'none'))->orderBy('id ASC')->execute() as $section) {
-                    $activity_sections_with_fields[$section->getId()] = array('section_data' => $section, 'fields' => array(), 'graph_data' => array());
+                    $activity_sections_with_fields[$section->getId()] = array('section_data' => $section, 'fields' => array(), 'graph_data' => null, 'graph_url' => '');
                 }
 
                 $activity_statistic_fields_list = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ? and show_in_export = ?', array($activity_id, true))->execute();
                 foreach ($activity_statistic_fields_list as $field_item) {
                     if (array_key_exists($field_item->getParentId(), $activity_sections_with_fields)) {
-                        $activity_sections_with_fields[$field_item->getParentId()]['fields'][$field_item->getId()] = array('value' => 0, 'name' => $field_item->getHeader());
+                        $field_color = self::randColors();
+
+                        $activity_sections_with_fields[$field_item->getParentId()]['fields'][$field_item->getId()] = array(
+                            'value' => 0,
+                            'name' => $field_item->getHeader(),
+                            'color_name' => $field_color['name'],
+                            'color_value' => $field_color['value'],
+                            'is_selected' => false
+                        );
                     }
                 }
             }
@@ -203,12 +212,22 @@ class ActivityConsolidatedInformation
             //Суммируем данные заполненные дилером
             $field_values_by_max = array();
             foreach ($activity_statistic_fields_list as $field) {
-                $field_values = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
-                    ->where('field_id = ?', array($field->getId()))
-                    ->andWhereIn('dealer_id', $dealers_ids)
-                    ->andWhere('year = ?', array($this->_year))
-                    ->andWhereIn('quarter', $this->_quarters_list)
-                    ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+                //Для вычисляемых полей делаем отдельный проход по всем дилерам для получения значений
+                if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_CALC) {
+                    $field_values = array('value' => array());
+
+                    foreach ($dealers_ids as $dealer_id) {
+                        $field_values['value'][] = $field->calculateValue($dealer_id);
+                    }
+                }
+                else {
+                    $field_values = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
+                        ->where('field_id = ?', array($field->getId()))
+                        ->andWhereIn('dealer_id', $dealers_ids)
+                        ->andWhere('year = ?', array($this->_year))
+                        ->andWhereIn('quarter', $this->_quarters_list)
+                        ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+                }
 
                 if (!array_key_exists($field->getId(), $field_values_by_max)) {
                     $field_values_by_max[$field->getId()] = 0;
@@ -226,20 +245,83 @@ class ActivityConsolidatedInformation
             }
             arsort($field_values_by_max);
 
+            //Для диаграммы Воронка вычисляем проценты
             if (!empty($field_values_by_max)) {
-                $graph = new PieChartGD(350, 250);
-                $graph->setLegend(false);
-                foreach (array_values($field_values_by_max) as $value) {
-                    if ($value != 0) {
-                        $graph->addSlice('', $value, '#22aacc');
+
+            }
+
+            //Прходим по данным и выделяем максимальное значение
+            foreach ($activity_sections_with_fields as $key => $data)  {
+
+                if ($data['section_data']->getGraphType() == self::GRAPH_TYPE_PIE) {
+
+                    $field_id_to_select = 0;
+                    $last_value = 0;
+                    foreach ($data['fields'] as $field_key => $field_data) {
+                        if ($field_data['value'] != 0) {
+                            if ($last_value == 0) {
+                                $last_value = $field_data['value'];
+                            }
+
+                            if ($field_data['value'] >= $last_value) {
+                                $last_value = $field_data['value'];
+                                $field_id_to_select = $field_key;
+                            }
+                        }
+                    }
+
+                    if ($field_id_to_select != 0) {
+                        $activity_sections_with_fields[$key]['fields'][$field_id_to_select]['is_selected'] = true;
                     }
                 }
+            }
 
-                $file_name = sfConfig::get('app_root_dir').'www/pdf/images/test.png';
+            //Создаем Pie диаграмму
+            foreach ($activity_sections_with_fields as $key => $data)  {
 
-                $graph->draw();
-                $graph->savePNG($file_name);
+                if ($data['section_data']->getGraphType() == self::GRAPH_TYPE_PIE) {
+                    $activity_sections_with_fields[$key]['graph_data'] = new PieGraph(400, 250);
 
+                    $theme_class= new VividTheme;
+                    $activity_sections_with_fields[$key]['graph_data']->SetTheme($theme_class);
+
+                    $graph_data = array();
+                    $graph_colors = array();
+
+                    $slice_selected = -1;
+                    foreach ($data['fields'] as $field_key => $field_data) {
+                        if ($field_data['value'] != 0) {
+                            $graph_data[] = $field_data['value'];
+                            $graph_colors[] = $field_data['color_value'];
+
+                            if ($field_data['is_selected']) {
+                                $slice_selected++;
+                            }
+                        }
+                    }
+
+                    $plot = new PiePlot3D($graph_data);
+                    $activity_sections_with_fields[$key]['graph_data']->Add($plot);
+
+                    $plot->ShowBorder();
+                    $plot->SetColor('black');
+
+                    $plot->ExplodeSlice($slice_selected);
+                    $plot->SetSliceColors($graph_colors);
+
+                    $plot->value->SetFont(VW_HEAD, FS_BOLD, 20);
+
+                    $activity_sections_with_fields[$key]['graph_data']->Stroke(_IMG_HANDLER);
+
+                    $file_name = $data['section_data']->getHeader().'.png';
+                    $path = sfConfig::get('app_root_dir').'www/pdf/images/';
+
+                    $gen_file = new UniqueFileNameGenerator($path);
+                    $gen_file_name = $gen_file->generate($file_name);
+
+                    $activity_sections_with_fields[$key]['graph_data']->img->Stream($path.$gen_file_name);
+                    $activity_sections_with_fields[$key]['graph_url'] = sfConfig::get('app_site_url').DIRECTORY_SEPARATOR.'pdf/images/'.$gen_file_name;
+                }
             }
 
             $this->_activity_statistic = array(
@@ -321,5 +403,44 @@ class ActivityConsolidatedInformation
     function getDealersCompletedByLevelsList()
     {
         return $this->_dealers_completed_levels;
+    }
+
+    private static function randColors() {
+        $colors = array(
+            array('name' => 'amaranth', 'value' => '#E52B50'),
+            array('name' => 'amber', 'value' => '#FFBF00'),
+            array('name' => 'amethyst', 'value' => '#9966CC'),
+            array('name' => 'apricot', 'value' => '#FBCEB1'),
+            array('name' => 'aquamarine', 'value' => '#7FFFD4'),
+            array('name' => 'azure', 'value' => '#007FFF'),
+            array('name' => 'baby-blue', 'value' => '#89CFF0'),
+            array('name' => 'beige', 'value' => '#F5F5DC'),
+            array('name' => 'blue', 'value' => '#0000FF'),
+            array('name' => 'blue-green', 'value' => '#0095B6'),
+            array('name' => 'blue-violet', 'value' => '#8A2BE2'),
+            array('name' => 'blush', 'value' => '#DE5D83'),
+            array('name' => 'bronze', 'value' => '#CD7F32'),
+            array('name' => 'brown', 'value' => '#964B00'),
+            array('name' => 'burgundy', 'value' => '#800020'),
+            array('name' => 'byzantium', 'value' => '#702963'),
+            array('name' => 'carmine', 'value' => '#960018'),
+            array('name' => 'cerise', 'value' => '#DE3163'),
+            array('name' => 'cerulean', 'value' => '#007BA7'),
+            array('name' => 'champagne', 'value' => '#F7E7CE'),
+            array('name' => 'chartreuse-green', 'value' => '#7FFF00'),
+            array('name' => 'chocolate', 'value' => '#7B3F00'),
+            array('name' => 'cobalt-blue', 'value' => '#0047AB'),
+            array('name' => 'coffee', 'value' => '#6F4E37'),
+            array('name' => 'copper', 'value' => '#B87333'),
+            array('name' => 'coral', 'value' => '#F88379'),
+            array('name' => 'crimson', 'value' => '#DC143C'),
+            array('name' => 'cyan', 'value' => '#00FFFF'),
+            array('name' => 'desert-sand', 'value' => '#EDC9Af'),
+            array('name' => 'electric-blue', 'value' => '#7DF9FF'),
+            array('name' => 'emerald', 'value' => '#50C878'),
+            array('name' => 'erin', 'value' => '#00FF3F'),
+        );
+
+        return $colors[mt_rand(0, count($colors) - 1)];
     }
 }

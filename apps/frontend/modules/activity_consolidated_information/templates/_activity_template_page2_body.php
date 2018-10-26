@@ -39,14 +39,23 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
                                     <div class="report-campaign-funnel__values__chart">
                                         <ul class="d-plain is-flexbox">
                                             <?php if (!empty($fields_values_by_max)): ?>
-
                                                 <?php
-                                                foreach ($fields_values_by_max as $field_id => $value):
-                                                    if (array_key_exists($field_id, $statistic_item['fields']->getRawValue())): ?>
-                                                        <li class="is-flexbox is-flexbox_center">
-                                                            <span><?php echo $value; ?></span></li>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
+
+                                                $statistic_fields_list = array();
+                                                foreach ($fields_values_by_max as $field_id => $value) {
+                                                    if (array_key_exists($field_id, $statistic_item['fields']->getRawValue())) {
+                                                        $field = $statistic_item['fields'][$field_id];
+                                                        $statistic_fields_list[$field_id] = array('value' => $value, 'color' => $field['color_value']);
+                                                    }
+                                                }
+
+                                                $field_index = 1;
+                                                foreach ($statistic_fields_list as $field_id => $field): ?>
+                                                    <?php if ($field_index > 3) { break; } ?>
+                                                    <li class="is-flexbox is-flexbox_center">
+                                                        <span style="<?php echo $field_index == 3 ? "border-left-color: ".$field['color']."; border-right-color: ".$field['color'].";" : ""; ?>border-top-color: <?php echo $field['color']; ?>"><p><?php echo $field['value']; ?></p></span>
+                                                    </li>
+                                                <?php $field_index++; endforeach; ?>
                                             <?php endif; ?>
                                         </ul>
                                     </div>
@@ -57,10 +66,7 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
                             <h3><?php echo $statistic_item['section_data']->getHeader(); ?></h3>
                             <ul class="report-campaign-chart-legend d-plain">
                                 <?php foreach ($statistic_item['fields'] as $field): ?>
-                                    <li class="is-blue"><?php echo $field['name']; ?></li>
-                                    <!--<li class="is-blue">Количество клиентов, которым анонсировали акцию (чел.)</li>
-                                    <li class="is-blue2">Количество клиентов, записанных на акцию (чел.)</li>
-                                    <li class="is-gray2">Количество клиентов, приехавших на акцию (чел.)</li>-->
+                                    <li class="is-<?php echo $field['color_name']; ?>"><?php echo $field['name']; ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -68,52 +74,22 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
                 <?php else: ?>
                     <div class="report-campaign-chart-row is-flexbox">
                         <div class="report-campaign-chart-row__body">
-                            <img src="<?php echo $activity_statistic_data['url']; ?>" alt=""/>
+                            <?php if (!empty($statistic_item['graph_url'])): ?>
+                                <img src="<?php echo $statistic_item['graph_url']; ?>" alt=""/>
+                            <?php endif; ?>
                         </div>
+
                         <div class="report-campaign-chart-row__legend">
                             <h3><?php echo $statistic_item['section_data']->getHeader(); ?></h3>
-                            <ul class="report-campaign-chart-legend d-plain">
+                            <ul class="report-campaign-chart-legend d-plain <?php echo count($statistic_item['fields']) > 3 ? "report-campaign-chart-legend_cols" : ""; ?>">
                                 <?php foreach ($statistic_item['fields'] as $field): ?>
-                                    <li class="is-blue"><?php echo $field['name']; ?></li>
-                                    <!--<li class="is-blue"><strong>Пакет</strong> Инспекционный сервис каждые 15 000 (чел.)</li>
-                                    <li class="is-blue2"><strong>Пакет</strong> Масляный сервис (чел.)</li>
-                                    <li class="is-gray2"><strong>Пакет</strong> Инспекционный сервис каждые 30 000</li>-->
+                                    <li class="is-<?php echo $field['color_name']; ?>"><?php echo $field['name']; ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-
-            <!--<div class="report-campaign-chart-row is-flexbox">
-                <div class="report-campaign-chart-row__body">
-                    <img src="./img/img_pie_0.jpg" alt=""/>
-                </div>
-                <div class="report-campaign-chart-row__legend">
-                    <h3>Количество оказанных услуг</h3>
-                    <ul class="report-campaign-chart-legend d-plain">
-                        <li class="is-blue"><strong>Пакет</strong> Инспекционный сервис каждые 15 000 (чел.)</li>
-                        <li class="is-blue2"><strong>Пакет</strong> Масляный сервис (чел.)</li>
-                        <li class="is-gray2"><strong>Пакет</strong> Инспекционный сервис каждые 30 000</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="report-campaign-chart-row is-flexbox">
-                <div class="report-campaign-chart-row__body">
-                    <img src="./img/img_pie_1.jpg" alt=""/>
-                </div>
-                <div class="report-campaign-chart-row__legend">
-                    <h3>Источники информации об акции (%)</h3>
-                    <ul class="report-campaign-chart-legend report-campaign-chart-legend_cols d-plain">
-                        <li class="is-gray3">Наружная реклама</li>
-                        <li class="is-blue2">Соц. сети</li>
-                        <li class="is-gray">Радио</li>
-                        <li class="is-gray">Другие источники</li>
-                        <li class="is-blue">Интернет</li>
-                    </ul>
-                </div>
-            </div>-->
 
             <div class="report-campaign-sum">
                 <h3>Дополнительные показатели акции</h3>

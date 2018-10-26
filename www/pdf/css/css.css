@@ -643,7 +643,41 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 }
 .report-campaign-funnel__values__chart li span { display: block; width: 100%; }
 .report-campaign-funnel__values__chart li:last-child { color: #818285; }
-.report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel_sm.jpg); font-size: 2em; }
+.report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: none;/*url(http://dm.vw-servicepool.ru/pdf/img/img_funnel_sm.jpg);*/ font-size: 2em; }
+
+.report-campaign-funnel__values__chart li:nth-child(1) span {
+	border-top: 50px solid #0000ff;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	height: 0;
+	margin: auto;
+	width: 125px;
+}
+
+.report-campaign-funnel__values__chart li:nth-child(2) span {
+	border-top: 50px solid #0000ff;
+	border-left: 21px solid transparent;
+	border-right: 21px solid transparent;
+	height: 0;
+	margin: auto;
+	width: 85px;
+}
+
+.report-campaign-funnel__values__chart li:last-child span {
+	border-top: 50px solid #0000ff;
+	border-left: 30px solid #0000ff;
+	border-right: 30px solid #0000ff;
+	height: 0;
+	margin: auto;
+	width: 27px;
+}
+
+.report-campaign-funnel__values__chart li span p {
+	top: -50px;
+	color: white;
+	position: relative;
+	margin: auto;
+}
 
 .report-campaign-chart-legend li { position: relative; margin-bottom: 1.25em; padding-left: 1.75em; }
 .report-campaign-chart-legend li:last-child { margin: 0; }
@@ -653,6 +687,41 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 .report-campaign-chart-legend li.is-gray:before { background: #bfc2c7; }
 .report-campaign-chart-legend li.is-gray2:before { background: #d1d6d9; }
 .report-campaign-chart-legend li.is-gray3:before { background: #ebedf0; }
+
+.report-campaign-chart-legend li.is-amaranth:before { background: #E52B50; }
+.report-campaign-chart-legend li.is-amber:before { background: #FFBF00; }
+.report-campaign-chart-legend li.is-amethyst:before { background: #9966CC; }
+.report-campaign-chart-legend li.is-apricot:before { background: #FBCEB1; }
+.report-campaign-chart-legend li.is-aquamarine:before { background: #7FFFD4; }
+.report-campaign-chart-legend li.is-azure:before { background: #007FFF; }
+.report-campaign-chart-legend li.is-baby-blue:before { background: #89CFF0; }
+.report-campaign-chart-legend li.is-beige:before { background: #F5F5DC; }
+.report-campaign-chart-legend li.is-blue:before { background: #0000FF; }
+.report-campaign-chart-legend li.is-blue-green:before { background: #0095B6; }
+.report-campaign-chart-legend li.is-blue-violet:before { background: #8A2BE2; }
+.report-campaign-chart-legend li.is-blush:before { background: #DE5D83; }
+.report-campaign-chart-legend li.is-bronze:before { background: #CD7F32; }
+.report-campaign-chart-legend li.is-brown:before { background: #964B00; }
+.report-campaign-chart-legend li.is-burgundy:before { background: #800020; }
+.report-campaign-chart-legend li.is-byzantium:before { background: #702963; }
+
+.report-campaign-chart-legend li.is-carmine:before { background: #960018; }
+.report-campaign-chart-legend li.is-cerise:before { background: #DE3163; }
+.report-campaign-chart-legend li.is-cerulean:before { background: #007BA7; }
+.report-campaign-chart-legend li.is-champagne:before { background: #F7E7CE; }
+.report-campaign-chart-legend li.is-chartreuse-green:before { background: #7FFF00; }
+.report-campaign-chart-legend li.is-chocolate:before { background: #7B3F00; }
+.report-campaign-chart-legend li.is-cobalt-blue:before { background: #0047AB; }
+.report-campaign-chart-legend li.is-coffee:before { background: #6F4E37; }
+.report-campaign-chart-legend li.is-copper:before { background: #B87333; }
+.report-campaign-chart-legend li.is-coral:before { background: #F88379; }
+.report-campaign-chart-legend li.is-crimson:before { background: #DC143C; }
+.report-campaign-chart-legend li.is-cyan:before { background: #00FFFF; }
+.report-campaign-chart-legend li.is-desert-sand:before { background: #EDC9Af; }
+.report-campaign-chart-legend li.is-electric-blue:before { background: #7DF9FF; }
+.report-campaign-chart-legend li.is-emerald:before { background: #50C878; }
+.report-campaign-chart-legend li.is-erin:before { background: #00FF3F; }
+
 .report-campaign-chart-legend_cols li { display: inline-block; vertical-align: top; padding-right: 30px; width: 45%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
 .report-campaign-funnel__legend {
