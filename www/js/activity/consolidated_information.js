@@ -26,7 +26,7 @@ ActivityConsolidatedInformation.prototype = {
     },
 
     onMakeExport: function(event) {
-        var element = $(event.currentTarget), quarters = [];
+        var element = $(event.currentTarget), quarters = [], self = this;
 
         //Получаем список кварталов для экспорта
         $('.sum-quarters').each(function(i, element) {
@@ -45,6 +45,8 @@ ActivityConsolidatedInformation.prototype = {
             return;
         }
 
+        element.hide();
+        this.getLoader().show();
         $.post(element.data('url'), {
             activity: element.data('activity'),
             year: $("input[name=year]").val(),
@@ -52,7 +54,21 @@ ActivityConsolidatedInformation.prototype = {
             regional_manager: $("input[name=regional_manager_or_dealers]").val()
         }, function(result) {
             if (result.success) {
-                //window.location.href = result.url;
+                element.show();
+                self.getLoader().hide();
+
+                swal({
+                    title: "Экспорт",
+                    text: "Экспорт успешно завершен. </br><a href='" + result.url + "' target='_blank'>Скачай меня</a>",
+                    type: "success",
+                    html: true
+                });
+            } else {
+                swal({
+                    title: "Ошибка экспорта",
+                    text: "Ошибка генерации отчета.",
+                    type: "error",
+                });
             }
         });
     },
@@ -85,4 +101,8 @@ ActivityConsolidatedInformation.prototype = {
     getDealersInformationContainer: function() {
         return $(this.dealers_information_container);
     },
+
+    getLoader: function() {
+        return $('#loader-spinner');
+    }
 }

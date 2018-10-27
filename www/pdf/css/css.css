@@ -312,9 +312,9 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 .d-header_dealer .d-header__manager strong { display: inline; margin-right: 1em; }
 
 #d-content {
-	-ms-flex: 1 1 auto;
+	/*-ms-flex: 1 1 auto;
 	-webkit-flex: 1 1 auto;
-	flex: 1 1 auto;
+	flex: 1 1 auto;*/
 	padding: .5em 0;
 	-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
 }
@@ -625,8 +625,8 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 	flex: 1 1 50%;
 	padding: 0 8%;
 }
-.report-campaign-funnel__values__chart { position: relative; padding-bottom: 87.83783783783784%; background: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel.jpg) 50% no-repeat; background-size: 100%; font-weight: 700; font-size: 3em; color: #fff; text-align: center; }
-.report-campaign-funnel__values__chart ul {
+.report-campaign-funnel__values__chart, .report-campaign-funnel__values__chart_g { position: relative; padding-bottom: 87.83783783783784%; background: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel.jpg) 50% no-repeat; background-size: 100%; font-weight: 700; font-size: 3em; color: #fff; text-align: center; }
+.report-campaign-funnel__values__chart ul, .report-campaign-funnel__values__chart_g ul {
 	-ms-flex-direction: column;
 	-webkit-flex-direction: column;
 	flex-direction: column;
@@ -636,7 +636,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 	left: 0;
 	right: 0;
 }
-.report-campaign-funnel__values__chart li {
+.report-campaign-funnel__values__chart li, .report-campaign-funnel__values__chart_g li {
 	-ms-flex: 1 1 25%;
 	-webkit-flex: 1 1 25%;
 	flex: 1 1 25%;
@@ -645,39 +645,8 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 .report-campaign-funnel__values__chart li:last-child { color: #818285; }
 .report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: none;/*url(http://dm.vw-servicepool.ru/pdf/img/img_funnel_sm.jpg);*/ font-size: 2em; }
 
-.report-campaign-funnel__values__chart li:nth-child(1) span {
-	border-top: 50px solid #0000ff;
-	border-left: 20px solid transparent;
-	border-right: 20px solid transparent;
-	height: 0;
-	margin: auto;
-	width: 125px;
-}
-
-.report-campaign-funnel__values__chart li:nth-child(2) span {
-	border-top: 50px solid #0000ff;
-	border-left: 21px solid transparent;
-	border-right: 21px solid transparent;
-	height: 0;
-	margin: auto;
-	width: 85px;
-}
-
-.report-campaign-funnel__values__chart li:last-child span {
-	border-top: 50px solid #0000ff;
-	border-left: 30px solid #0000ff;
-	border-right: 30px solid #0000ff;
-	height: 0;
-	margin: auto;
-	width: 27px;
-}
-
-.report-campaign-funnel__values__chart li span p {
-	top: -50px;
-	color: white;
-	position: relative;
-	margin: auto;
-}
+.report-campaign-funnel__values__chart_g li div { display: block; width: 100%; }
+.report-campaign-funnel__values__chart_g li:last-child { color: #818285; }
 
 .report-campaign-chart-legend li { position: relative; margin-bottom: 1.25em; padding-left: 1.75em; }
 .report-campaign-chart-legend li:last-child { margin: 0; }
@@ -800,6 +769,20 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 #d-footer { padding: 1em 0 1.5em; }
 .d-footer { position: relative; margin-top: 1.5em; padding-top: .5em; border-top: 3px solid #29abdf; font-size: 1.25em; }
 .d-footer__title { position: absolute; bottom: 100%; left: 0; padding-right: .5em; background: #fff; font-weight: 700; line-height: 1; color: #29abdf; text-transform: uppercase; }
+
+@media (min-width: 1026px) {
+	.report-campaign-funnel__values__chart_g li:nth-child(1) div { border-top: 50px solid #0000ff; border-left: 20px solid transparent; border-right: 20px solid transparent; height: 0; margin: auto; width: 125px; }
+	.report-campaign-funnel__values__chart_g li:nth-child(2) div { border-top: 50px solid #0000ff; border-left: 21px solid transparent; border-right: 21px solid transparent; height: 0; margin: auto; width: 85px; }
+	.report-campaign-funnel__values__chart_g li:last-child div { border-top: 50px solid #0000ff; border-left: 30px solid #0000ff; border-right: 30px solid #0000ff; height: 0; margin: auto; width: 27px; }
+}
+
+@media (max-width: 1025px) {
+	.report-campaign-funnel__values__chart_g li:nth-child(1) div { border-top: 50px solid #0000ff; border-left: 20px solid transparent; border-right: 20px solid transparent; height: 0; margin: auto; width: 125px; }
+	.report-campaign-funnel__values__chart_g li:nth-child(2) div { border-top: 50px solid #0000ff; border-left: 14px solid transparent; border-right: 14px solid transparent; height: 0; margin: auto; width: 85px; }
+	.report-campaign-funnel__values__chart_g li:last-child div { border-top: 50px solid #0000ff; border-left: 30px solid #0000ff; border-right: 30px solid #0000ff; height: 0; margin: auto; width: 27px; }
+}
+
+.report-campaign-funnel__values__chart_g li div p { top: -50px; color: white; position: relative; margin: auto; font-size: 0.9em; }
 
 @page {
 	margin: 0cm;

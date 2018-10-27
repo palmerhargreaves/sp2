@@ -209,144 +209,149 @@ class ActivityConsolidatedInformation
                 }
             }
 
-            //Суммируем данные заполненные дилером
-            $field_values_by_max = array();
-            foreach ($activity_statistic_fields_list as $field) {
-                //Для вычисляемых полей делаем отдельный проход по всем дилерам для получения значений
-                if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_CALC) {
-                    $field_values = array('value' => array());
+            if (!empty($this->_quarters_list)) {
 
-                    foreach ($dealers_ids as $dealer_id) {
-                        $field_values['value'][] = $field->calculateValue($dealer_id);
-                    }
-                }
-                else {
-                    $field_values = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
-                        ->where('field_id = ?', array($field->getId()))
-                        ->andWhereIn('dealer_id', $dealers_ids)
-                        ->andWhere('year = ?', array($this->_year))
-                        ->andWhereIn('quarter', $this->_quarters_list)
-                        ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
-                }
+                //Суммируем данные заполненные дилером
+                $field_values_by_max = array();
+                foreach ($activity_statistic_fields_list as $field) {
+                    //Для вычисляемых полей делаем отдельный проход по всем дилерам для получения значений
+                    if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_CALC) {
+                        $field_values = array('value' => array());
 
-                if (!array_key_exists($field->getId(), $field_values_by_max)) {
-                    $field_values_by_max[$field->getId()] = 0;
-                }
-
-                foreach ($field_values as $field_value) {
-                    if (!empty($field_value['value'])) {
-                        $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'] += floatval($field_value['value']);
+                        foreach ($dealers_ids as $dealer_id) {
+                            $field_values['value'][] = $field->calculateValue($dealer_id);
+                        }
+                    } else {
+                        $field_values = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
+                            ->where('field_id = ?', array($field->getId()))
+                            ->andWhereIn('dealer_id', $dealers_ids)
+                            ->andWhere('year = ?', array($this->_year))
+                            ->andWhereIn('quarter', $this->_quarters_list)
+                            ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
                     }
 
-                    if ($activity_sections_with_fields[$field->getParentId()]['section_data']->getGraphType() == self::GRAPH_TYPE_WATERFALL) {
-                        $field_values_by_max[$field->getId()] = $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'];
+                    if (!array_key_exists($field->getId(), $field_values_by_max)) {
+                        $field_values_by_max[$field->getId()] = 0;
                     }
-                }
-            }
-            arsort($field_values_by_max);
 
-            //Для диаграммы Воронка вычисляем проценты
-            if (!empty($field_values_by_max)) {
+                    foreach ($field_values as $field_value) {
+                        if (!empty($field_value['value'])) {
+                            $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'] += floatval($field_value['value']);
+                        }
 
-            }
-
-            //Прходим по данным и выделяем максимальное значение
-            foreach ($activity_sections_with_fields as $key => $data)  {
-
-                if ($data['section_data']->getGraphType() == self::GRAPH_TYPE_PIE) {
-
-                    $field_id_to_select = 0;
-                    $last_value = 0;
-                    foreach ($data['fields'] as $field_key => $field_data) {
-                        if ($field_data['value'] != 0) {
-                            if ($last_value == 0) {
-                                $last_value = $field_data['value'];
-                            }
-
-                            if ($field_data['value'] >= $last_value) {
-                                $last_value = $field_data['value'];
-                                $field_id_to_select = $field_key;
-                            }
+                        if ($activity_sections_with_fields[$field->getParentId()]['section_data']->getGraphType() == self::GRAPH_TYPE_WATERFALL) {
+                            $field_values_by_max[$field->getId()] = $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'];
                         }
                     }
-
-                    if ($field_id_to_select != 0) {
-                        $activity_sections_with_fields[$key]['fields'][$field_id_to_select]['is_selected'] = true;
-                    }
                 }
-            }
+                arsort($field_values_by_max);
 
-            //Создаем Pie диаграмму
-            foreach ($activity_sections_with_fields as $key => $data)  {
+                //Для диаграммы Воронка вычисляем проценты
+                if (!empty($field_values_by_max)) {
 
-                if ($data['section_data']->getGraphType() == self::GRAPH_TYPE_PIE) {
-                    $activity_sections_with_fields[$key]['graph_data'] = new PieGraph(400, 250);
+                }
 
-                    $theme_class= new VividTheme;
-                    $activity_sections_with_fields[$key]['graph_data']->SetTheme($theme_class);
+                //Прходим по данным и выделяем максимальное значение
+                foreach ($activity_sections_with_fields as $key => $data) {
 
-                    $graph_data = array();
-                    $graph_colors = array();
+                    if ($data['section_data']->getGraphType() == self::GRAPH_TYPE_PIE) {
 
-                    $slice_selected = -1;
-                    foreach ($data['fields'] as $field_key => $field_data) {
-                        if ($field_data['value'] != 0) {
-                            $graph_data[] = $field_data['value'];
-                            $graph_colors[] = $field_data['color_value'];
+                        $field_id_to_select = 0;
+                        $last_value = 0;
+                        foreach ($data['fields'] as $field_key => $field_data) {
+                            if ($field_data['value'] != 0) {
+                                if ($last_value == 0) {
+                                    $last_value = $field_data['value'];
+                                }
 
-                            if ($field_data['is_selected']) {
-                                $slice_selected++;
+                                if ($field_data['value'] >= $last_value) {
+                                    $last_value = $field_data['value'];
+                                    $field_id_to_select = $field_key;
+                                }
                             }
                         }
+
+                        if ($field_id_to_select != 0) {
+                            $activity_sections_with_fields[$key]['fields'][$field_id_to_select]['is_selected'] = true;
+                        }
                     }
-
-                    $plot = new PiePlot3D($graph_data);
-                    $activity_sections_with_fields[$key]['graph_data']->Add($plot);
-
-                    $plot->ShowBorder();
-                    $plot->SetColor('black');
-
-                    $plot->ExplodeSlice($slice_selected);
-                    $plot->SetSliceColors($graph_colors);
-
-                    $plot->value->SetFont(VW_HEAD, FS_BOLD, 20);
-
-                    $activity_sections_with_fields[$key]['graph_data']->Stroke(_IMG_HANDLER);
-
-                    $file_name = $data['section_data']->getHeader().'.png';
-                    $path = sfConfig::get('app_root_dir').'www/pdf/images/';
-
-                    $gen_file = new UniqueFileNameGenerator($path);
-                    $gen_file_name = $gen_file->generate($file_name);
-
-                    $activity_sections_with_fields[$key]['graph_data']->img->Stream($path.$gen_file_name);
-                    $activity_sections_with_fields[$key]['graph_url'] = sfConfig::get('app_site_url').DIRECTORY_SEPARATOR.'pdf/images/'.$gen_file_name;
-                }
-            }
-
-            $this->_activity_statistic = array(
-                'statistic_data' => $activity_sections_with_fields,
-                'fields_values_by_max' => $field_values_by_max,
-            );
-        }
-
-        $page_index = 1;
-        $page_items = 1;
-        $per_page = 20;
-
-        foreach ($this->_dealers_completed_levels as $level => $level_items) {
-            foreach ($level_items as $level_item) {
-                if (!array_key_exists($page_index, $this->_dealers_pages)) {
-                    $this->_dealers_pages[$page_index] = array();
-                    $this->_dealers_pages[$page_index][$level] = array();
                 }
 
-                $this->_dealers_pages[$page_index][$level][] = $level_item;
+                //Создаем Pie диаграмму
+                foreach ($activity_sections_with_fields as $key => $data) {
 
-                if (ceil($page_items % $per_page) == 0) {
-                    $page_index++;
+                    if ($data['section_data']->getGraphType() == self::GRAPH_TYPE_PIE) {
+                        $graph_data = array();
+                        $graph_colors = array();
+
+                        $slice_selected = -1;
+                        foreach ($data['fields'] as $field_key => $field_data) {
+                            if ($field_data['value'] != 0) {
+                                $graph_data[] = $field_data['value'];
+                                $graph_colors[] = $field_data['color_value'];
+
+                                if ($field_data['is_selected']) {
+                                    $slice_selected++;
+                                }
+                            }
+                        }
+
+                        //Создаем диаграмму только если есть данные
+                        if (!empty($graph_data)) {
+                            $activity_sections_with_fields[$key]['graph_data'] = new PieGraph(400, 250);
+
+                            $theme_class = new VividTheme;
+                            $activity_sections_with_fields[$key]['graph_data']->SetTheme($theme_class);
+
+                            $plot = new PiePlot3D($graph_data);
+                            $activity_sections_with_fields[$key]['graph_data']->Add($plot);
+
+                            $plot->ShowBorder();
+                            $plot->SetColor('black');
+
+                            $plot->ExplodeSlice($slice_selected);
+                            $plot->SetSliceColors($graph_colors);
+
+                            $plot->value->SetFont(VW_HEAD, FS_BOLD, 20);
+
+                            $activity_sections_with_fields[$key]['graph_data']->Stroke(_IMG_HANDLER);
+
+                            $file_name = $data['section_data']->getHeader() . '.png';
+                            $path = sfConfig::get('app_root_dir') . 'www/pdf/images/';
+
+                            $gen_file = new UniqueFileNameGenerator($path);
+                            $gen_file_name = $gen_file->generate($file_name);
+
+                            $activity_sections_with_fields[$key]['graph_data']->img->Stream($path . $gen_file_name);
+                            $activity_sections_with_fields[$key]['graph_url'] = sfConfig::get('app_site_url') . DIRECTORY_SEPARATOR . 'pdf/images/' . $gen_file_name;
+                        }
+                    }
                 }
-                $page_items++;
+
+                $this->_activity_statistic = array(
+                    'statistic_data' => $activity_sections_with_fields,
+                    'fields_values_by_max' => $field_values_by_max,
+                );
+
+                $page_index = 1;
+                $page_items = 1;
+                $per_page = 20;
+
+                foreach ($this->_dealers_completed_levels as $level => $level_items) {
+                    foreach ($level_items as $level_item) {
+                        if (!array_key_exists($page_index, $this->_dealers_pages)) {
+                            $this->_dealers_pages[$page_index] = array();
+                            $this->_dealers_pages[$page_index][$level] = array();
+                        }
+
+                        $this->_dealers_pages[$page_index][$level][] = $level_item;
+
+                        if (ceil($page_items % $per_page) == 0) {
+                            $page_index++;
+                        }
+                        $page_items++;
+                    }
+                }
             }
         }
     }
