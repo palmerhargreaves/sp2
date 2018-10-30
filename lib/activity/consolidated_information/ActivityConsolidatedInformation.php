@@ -71,7 +71,10 @@ class ActivityConsolidatedInformation
     public function filterData(sfWebRequest $request = null)
     {
         $activity_id = $this->_activity->getId();
-        $query = DealerTable::getInstance()->createQuery()->select('id, name, number')->where('status = ?', array(true))->orderBy('id ASC');
+        $query = DealerTable::getInstance()->createQuery()->select('id, name, number')
+            ->where('status = ?', array(true))
+            ->andWhereIn('dealer_type', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))
+            ->orderBy('id ASC');
 
         if (!is_null($request)) {
             //Сохраняем список кварталов
@@ -212,7 +215,7 @@ class ActivityConsolidatedInformation
             $activity_sections_with_fields = array();
 
             //Делаем проверку на возможность вывода блоков (только диаграммы)
-            foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type != ?', array($activity_id, 'none'))->orderBy('id ASC')->execute() as $section) {
+            foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type != ?', array($activity_id, 'none'))->orderBy('position ASC')->execute() as $section) {
                 $activity_sections_with_fields[$section->getId()] = array('section_data' => $section, 'fields' => array(), 'graph_data' => null, 'graph_url' => '');
             }
 
@@ -234,7 +237,7 @@ class ActivityConsolidatedInformation
             //Получаем остальные блоки, без привязки к диаграммам, только для выгрузки
             if (!empty($this->_quarters_list)) {
                 $activity_sections_with_fields_no_graph = array();
-                foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type = ?', array($activity_id, 'none'))->orderBy('id ASC')->execute() as $section) {
+                foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type = ?', array($activity_id, 'none'))->orderBy('id ASC')->orderBy('position ASC')->execute() as $section) {
                     $activity_sections_with_fields_no_graph[$section->getId()] = array('section_data' => $section, 'fields' => array(), 'graph_data' => null, 'graph_url' => '');
                 }
 

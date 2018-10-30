@@ -1247,7 +1247,6 @@ class agreement_activity_model_managementActions extends ActionsWithJsonForm
         }
 
         $this->concepts = $query->execute();
-
     }
 
     protected function attachAgreementModelCommentsFileToMessage(AgreementModel $model, Message $message)

@@ -32,7 +32,7 @@ class AgreementSpecialConceptStatusUtilsByImporter extends AgreementModelStatusU
         $message->setUserName($user->selectName());
         $message->setText($text);
         $message->setSystem(true);
-        $message->setMsgShow(false);
+        $message->setMsgShow($show_msg);
         $message->setMsgStatus($this->_msg_status);
         $message->setMsgType($this->_msg_type);
         $message->save();

@@ -643,7 +643,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 }
 .report-campaign-funnel__values__chart li span { display: block; width: 100%; }
 .report-campaign-funnel__values__chart li:last-child { color: #818285; }
-.report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: none;/*url(http://dm.vw-servicepool.ru/pdf/img/img_funnel_sm.jpg);*/ font-size: 2em; }
+.report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel_sm.jpg); font-size: 2em; }
 
 .report-campaign-funnel__values__chart_g li div { display: block; width: 100%; }
 .report-campaign-funnel__values__chart_g li:last-child { color: #818285; }
@@ -769,20 +769,6 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 #d-footer { padding: 1em 0 1.5em; }
 .d-footer { position: relative; margin-top: 1.5em; padding-top: .5em; border-top: 3px solid #29abdf; font-size: 1.25em; }
 .d-footer__title { position: absolute; bottom: 100%; left: 0; padding-right: .5em; background: #fff; font-weight: 700; line-height: 1; color: #29abdf; text-transform: uppercase; }
-
-@media (min-width: 1026px) {
-	.report-campaign-funnel__values__chart_g li:nth-child(1) div { border-top: 50px solid #0000ff; border-left: 20px solid transparent; border-right: 20px solid transparent; height: 0; margin: auto; width: 125px; }
-	.report-campaign-funnel__values__chart_g li:nth-child(2) div { border-top: 50px solid #0000ff; border-left: 21px solid transparent; border-right: 21px solid transparent; height: 0; margin: auto; width: 85px; }
-	.report-campaign-funnel__values__chart_g li:last-child div { border-top: 50px solid #0000ff; border-left: 30px solid #0000ff; border-right: 30px solid #0000ff; height: 0; margin: auto; width: 27px; }
-}
-
-@media (max-width: 1025px) {
-	.report-campaign-funnel__values__chart_g li:nth-child(1) div { border-top: 50px solid #0000ff; border-left: 20px solid transparent; border-right: 20px solid transparent; height: 0; margin: auto; width: 125px; }
-	.report-campaign-funnel__values__chart_g li:nth-child(2) div { border-top: 50px solid #0000ff; border-left: 14px solid transparent; border-right: 14px solid transparent; height: 0; margin: auto; width: 85px; }
-	.report-campaign-funnel__values__chart_g li:last-child div { border-top: 50px solid #0000ff; border-left: 30px solid #0000ff; border-right: 30px solid #0000ff; height: 0; margin: auto; width: 27px; }
-}
-
-.report-campaign-funnel__values__chart_g li div p { top: -50px; color: white; position: relative; margin: auto; font-size: 0.9em; }
 
 @page {
 	margin: 0cm;

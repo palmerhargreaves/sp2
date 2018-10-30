@@ -36,7 +36,7 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
                         <div class="report-campaign-chart-row__body">
                             <div class="report-campaign-funnel report-campaign-funnel_sm is-flexbox is-flexbox_center">
                                 <div class="report-campaign-funnel__values">
-                                    <div class="report-campaign-funnel__values__chart_g">
+                                    <div class="report-campaign-funnel__values__chart">
                                         <ul class="d-plain is-flexbox">
                                             <?php if (!empty($fields_values_by_max)): ?>
                                                 <?php
@@ -55,7 +55,7 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
                                                         break;
                                                     } ?>
                                                     <li class="is-flexbox is-flexbox_center">
-                                                        <div style="<?php echo $field_index == 3 ? "border-left-color: " . $field['color'] . "; border-right-color: " . $field['color'] . ";" : ""; ?>border-top-color: <?php echo $field['color']; ?>"><p><?php echo $field['value']; ?></p></div>
+                                                        <span><?php echo $field['value']; ?></span>
                                                     </li>
                                                     <?php $field_index++; endforeach; ?>
                                             <?php endif; ?>
@@ -67,13 +67,17 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
                         <div class="report-campaign-chart-row__legend">
                             <h3><?php echo $statistic_item['section_data']->getHeader(); ?></h3>
                             <ul class="report-campaign-chart-legend d-plain">
-                                <?php $field_index = 1; ?>
+                                <?php
+                                    $field_index = 1;
+                                    $field_colors = arraY('is-blue', 'is-blue2', 'is-gray', 'is-gray2', 'is-gray3');
+                                ?>
+
                                 <?php foreach ($statistic_fields_list as $field_id => $field): ?>
                                     <?php if ($field_index > 3) {
                                         break;
                                     } ?>
-                                    <li class="is-<?php echo $field['color_name']; ?>"><?php echo $field['name']; ?></li>
-                                <?php endforeach; ?>
+                                    <li class="<?php echo $field_colors[$field_index - 1]; ?>"><?php echo $field['name']; ?></li>
+                                <?php $field_index++; endforeach; ?>
                             </ul>
                         </div>
                     </div>
