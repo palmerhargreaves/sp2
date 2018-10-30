@@ -49,7 +49,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         //Страница данных по дилерам
         $this->generateDealersPage($css, 3);
 
-                return $this->sendJson(array('success' => $this->convertHtmlToPdf(), 'url' => sfConfig::get('app_site_url').'pdf/output.pdf'));
+        return $this->sendJson(array('success' => $this->convertHtmlToPdf(), 'url' => sfConfig::get('app_site_url').'pdf/output.pdf'));
     }
 
     private function convertHtmlToPdf($page_size = '1024px') {
@@ -72,7 +72,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         }
 
         $save_to = sfConfig::get('app_root_dir').'www/pdf/output.pdf';
-        unlink($save_to);
+        @unlink($save_to);
 
         //Генерация пдф с картинок
         exec('convert '.implode(' ', $images_files_list).' '.$save_to);

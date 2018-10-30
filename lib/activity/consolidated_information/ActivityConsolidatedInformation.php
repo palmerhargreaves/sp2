@@ -30,6 +30,12 @@ class ActivityConsolidatedInformation
     private $_dealers_completed_levels = array();
     private $_dealers_pages = array();
 
+    private $_models_total_cash = array();
+
+    private $_activity_have_fields_with_targets = 0;
+
+    private $_others_fields_blocks_data = null;
+
     public function __construct(Activity $activity, sfWebRequest $request = null)
     {
         $this->_year = date('Y');
@@ -90,6 +96,15 @@ class ActivityConsolidatedInformation
         //Кампания активности
         $this->_activity_company = ActivityCompanyTypeTable::getInstance()->find($this->_activity->getTypeCompanyId());
 
+        //Для кампаний сохраняем файл в директорию сайта
+        $company_img = sfConfig::get('app_root_dir').'www/images/company/'. $this->_activity_company->getImage()->getPath();
+        if (!file_exists($company_img)) {
+            $company_img_data = file_get_contents('http://dm-ng.palmer-hargreaves.ru/admin/files/company_types/'.$this->_activity_company->getImage()->getPath());
+            if (!empty($company_img_data)) {
+                file_put_contents($company_img, $company_img_data);
+            }
+        }
+
         //Общее количество дилеров
         $this->_dealers['count'] = count($dealers_list);
 
@@ -110,11 +125,12 @@ class ActivityConsolidatedInformation
 
         if (!empty($dealers_ids)) {
             //Получаем количество дилеров создавших заявку в активности
-            $models_count = AgreementModelTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->groupBy('dealer_id')->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+            $models_count = AgreementModelTable::getInstance()->createQuery()->select('dealer_id, cost')->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->groupBy('dealer_id')->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
             //Получаем количество дилеров участвующих в акции, если не формы нет берем количестов дилеров по созданным заявкам
             if (DealersServiceDataTable::getInstance()->createQuery('sd')->innerJoin('sd.Dialog d')->andWhere('d.activity_id = ?', $activity_id)->count() > 0) {
                 $service_action_count = DealersServiceDataTable::getInstance()->createQuery('sd')
+                    ->select()
                     ->innerJoin('sd.Dialog d')
                     ->andWhereIn('sd.dealer_id', $dealers_ids)
                     ->andWhere('d.activity_id = ?', $activity_id)
@@ -122,6 +138,11 @@ class ActivityConsolidatedInformation
                     ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
             } else {
                 $service_action_count = $models_count;
+            }
+
+            //Вычисляем общую сумму заявок
+            foreach ($models_count as $model_cash) {
+                $this->_models_total_cash[] = $model_cash['cost'];
             }
 
             $this->_dealers['service_action_count'] = count($service_action_count);
@@ -184,30 +205,124 @@ class ActivityConsolidatedInformation
                     'models_completed' => $models_completed
                 );
 
-                //Получаем данные по статистики активности
-                //Получаем список полей которые должны выводиться в выгрузке, максимальное количестов полей - 5
-                $activity_sections_with_fields = array();
+            }
 
-                //Делаем проверку на возможность вывода блоков
-                foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type != ?', array($activity_id, 'none'))->orderBy('id ASC')->execute() as $section) {
-                    $activity_sections_with_fields[$section->getId()] = array('section_data' => $section, 'fields' => array(), 'graph_data' => null, 'graph_url' => '');
+            //Получаем данные по статистики активности
+            //Получаем список полей которые должны выводиться в выгрузке, максимальное количестов полей - 5
+            $activity_sections_with_fields = array();
+
+            //Делаем проверку на возможность вывода блоков (только диаграммы)
+            foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type != ?', array($activity_id, 'none'))->orderBy('id ASC')->execute() as $section) {
+                $activity_sections_with_fields[$section->getId()] = array('section_data' => $section, 'fields' => array(), 'graph_data' => null, 'graph_url' => '');
+            }
+
+            $activity_statistic_fields_list = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ? and show_in_export = ?', array($activity_id, true))->orderBy('position ASC')->execute();
+            foreach ($activity_statistic_fields_list as $field_item) {
+                if (array_key_exists($field_item->getParentId(), $activity_sections_with_fields)) {
+                    $field_color = self::randColors();
+
+                    $activity_sections_with_fields[$field_item->getParentId()]['fields'][$field_item->getId()] = array(
+                        'value' => 0,
+                        'name' => $field_item->getHeader(),
+                        'color_name' => $field_color['name'],
+                        'color_value' => $field_color['value'],
+                        'is_selected' => false
+                    );
+                }
+            }
+
+            //Получаем остальные блоки, без привязки к диаграммам, только для выгрузки
+            if (!empty($this->_quarters_list)) {
+                $activity_sections_with_fields_no_graph = array();
+                foreach (ActivityExtendedStatisticSectionsTable::getInstance()->createQuery()->where('activity_id = ? and graph_type = ?', array($activity_id, 'none'))->orderBy('id ASC')->execute() as $section) {
+                    $activity_sections_with_fields_no_graph[$section->getId()] = array('section_data' => $section, 'fields' => array(), 'graph_data' => null, 'graph_url' => '');
                 }
 
-                $activity_statistic_fields_list = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ? and show_in_export = ?', array($activity_id, true))->execute();
-                foreach ($activity_statistic_fields_list as $field_item) {
-                    if (array_key_exists($field_item->getParentId(), $activity_sections_with_fields)) {
+                $activity_statistic_fields_no_graph_list = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ? and show_in_export = ?', array($activity_id, true))->orderBy('position ASC')->execute();
+                foreach ($activity_statistic_fields_no_graph_list as $field_item) {
+                    if (array_key_exists($field_item->getParentId(), $activity_sections_with_fields_no_graph)) {
                         $field_color = self::randColors();
 
-                        $activity_sections_with_fields[$field_item->getParentId()]['fields'][$field_item->getId()] = array(
+                        $activity_sections_with_fields_no_graph[$field_item->getParentId()]['fields'][$field_item->getId()] = array(
                             'value' => 0,
                             'name' => $field_item->getHeader(),
                             'color_name' => $field_color['name'],
                             'color_value' => $field_color['value'],
-                            'is_selected' => false
+                            'is_selected' => false,
+                            'custom_function' => $field_item->haveCustomFunction()
                         );
                     }
                 }
+
+                foreach ($activity_statistic_fields_no_graph_list as $field) {
+                    //Для вычисляемых полей делаем отдельный проход по всем дилерам для получения значений
+                    if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_CALC) {
+                        $field_values = array();
+
+                        foreach ($dealers_ids as $dealer_id) {
+                            $custom_value = 0;
+                            $custom_function_name = $field->haveCustomFunction();
+
+                            if (!is_null($custom_function_name)) {
+                                $function_name = implode('', array_map(function($item) {
+                                    return ucfirst($item);
+                                }, explode('_', $custom_function_name)));
+
+                                $custom_value = AgreementModel::$function_name($activity_id, $dealers_ids);
+                            }
+
+                            $field_values[] = $field->calculateValue($dealer_id, null, null, array(
+                                'custom_function_name' => $custom_function_name,
+                                'custom_values' => $custom_value
+                            ));
+                        }
+                    } else {
+                        $field_values = array_map(function($item) { return $item['value']; }, ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
+                            ->where('field_id = ?', array($field->getId()))
+                            ->andWhereIn('dealer_id', $dealers_ids)
+                            ->andWhere('year = ?', array($this->_year))
+                            ->andWhereIn('quarter', $this->_quarters_list)
+                            ->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+                    }
+
+                    foreach ($field_values as $field_value) {
+                        if ($field_value != 0 && !empty($field_value) && array_key_exists($field->getParentId(), $activity_sections_with_fields_no_graph)) {
+                            $activity_sections_with_fields_no_graph[$field->getParentId()]['fields'][$field->getId()]['value'] += floatval($field_value);
+                        }
+                    }
+                }
+                $this->_others_fields_blocks_data = $activity_sections_with_fields_no_graph;
             }
+
+            //Для эффективности получаем среднее значение по заполненным данным дилера, но только если к полю активности привязан дилер
+            $activity_statistic_fields_with_targets_list = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id != ?', array($activity_id, 0))->execute();
+            $target_fields_ids = array();
+            $target_fields_values = array();
+            foreach ($activity_statistic_fields_with_targets_list as $target_field) {
+                if (!in_array($target_field->getId(), $target_fields_ids)) {
+                    $target_fields_ids[] = $target_field->getId();
+                }
+            }
+
+            $query = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
+                ->where('activity_id = ?', $activity_id)
+                ->andWhereIn('field_id', $target_fields_ids)
+                ->andWhereIn('dealer_id', $dealers_ids)
+                ->andWhere('year = ?', array($this->_year));
+
+            if (!empty($this->_quarters_list)) {
+                $query->andWhereIn('quarter', $this->_quarters_list);
+            }
+            $target_filled_fields = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+            $total_dealers_fill_data = 0;
+            foreach ($target_filled_fields as $value) {
+                if ($value['value'] != 0) {
+                    $target_fields_values[] = $value['value'];
+                    $total_dealers_fill_data++;
+                }
+            }
+            $this->_activity_have_fields_with_targets = $total_dealers_fill_data != 0 ? array_sum($target_fields_values) / $total_dealers_fill_data : 0;
 
             if (!empty($this->_quarters_list)) {
 
@@ -235,21 +350,18 @@ class ActivityConsolidatedInformation
                     }
 
                     foreach ($field_values as $field_value) {
-                        if (!empty($field_value['value'])) {
-                            $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'] += floatval($field_value['value']);
-                        }
+                        if (array_key_exists($field->getParentId(), $activity_sections_with_fields)) {
+                            if (!empty($field_value['value'])) {
+                                $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'] += floatval($field_value['value']);
+                            }
 
-                        if ($activity_sections_with_fields[$field->getParentId()]['section_data']->getGraphType() == self::GRAPH_TYPE_WATERFALL) {
-                            $field_values_by_max[$field->getId()] = $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'];
+                            if ($activity_sections_with_fields[$field->getParentId()]['section_data']->getGraphType() == self::GRAPH_TYPE_WATERFALL) {
+                                $field_values_by_max[$field->getId()] = $activity_sections_with_fields[$field->getParentId()]['fields'][$field->getId()]['value'];
+                            }
                         }
                     }
                 }
                 arsort($field_values_by_max);
-
-                //Для диаграммы Воронка вычисляем проценты
-                if (!empty($field_values_by_max)) {
-
-                }
 
                 //Прходим по данным и выделяем максимальное значение
                 foreach ($activity_sections_with_fields as $key => $data) {
@@ -357,6 +469,14 @@ class ActivityConsolidatedInformation
     }
 
     /**
+     * Для эффектиности формула расчета: среднее число от заполненных данных
+     * @return array
+     */
+    public function getActivityEffectivenessCost() {
+        return $this->_activity_have_fields_with_targets;
+    }
+
+    /**
      * Получить данные по заполненной статистике
      */
     public
@@ -408,6 +528,10 @@ class ActivityConsolidatedInformation
     function getDealersCompletedByLevelsList()
     {
         return $this->_dealers_completed_levels;
+    }
+
+    public function getActivityStatisticOtherBlocks() {
+        return $this->_others_fields_blocks_data;
     }
 
     private static function randColors() {

@@ -97,25 +97,25 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
                 <?php endif; ?>
             <?php endforeach; ?>
 
-            <div class="report-campaign-sum">
-                <h3>Дополнительные показатели акции</h3>
-                <dl class="d-plain is-flexbox is-flexbox_center">
-                    <dt>Сумма проданных аксессуаров по акции (руб., без НДС)</dt>
-                    <dd>2 043 991</dd>
-                </dl>
-                <dl class="d-plain is-flexbox is-flexbox_center">
-                    <dt>Количество аксессуаров, проданных по акции (шт.)</dt>
-                    <dd>1 578</dd>
-                </dl>
-            </div>
+            <?php
+            $other_blocks = $consolidated_information->getActivityStatisticOtherBlocks();
+            if (!empty($other_blocks)):
+                foreach ($other_blocks as $block_key => $block_data):
+                    if (count($block_data['fields'])):
+                        ?>
+                        <div class="report-campaign-sum">
+                            <h3><?php echo $block_data['section_data']->getHeader(); ?></h3>
 
-            <div class="report-campaign-sum">
-                <h3>Результатиыность акции</h3>
-                <dl class="d-plain is-flexbox is-flexbox_center">
-                    <dt>Выручка - затраты, руб. (среднее значение)</dt>
-                    <dd class="is-green">2 041 110</dd>
-                </dl>
-            </div>
+                            <?php foreach ($block_data['fields'] as $field): ?>
+                                <dl class="d-plain is-flexbox is-flexbox_center">
+                                    <dt><?php echo $field['name']; ?></dt>
+                                    <dd class="<?php echo !empty($field['custom_function']) ? "is-green" : ""; ?>"><?php echo $field['value']; ?></dd>
+                                </dl>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
         </div>
 

@@ -415,7 +415,7 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 .report-activity__legend__item.is-yellow dt figure { background: #fff200; }
 .report-activity__legend__item.is-orange dt figure { background: #f57f20; }
 .report-activity__legend__item.is-red dt figure { background: #d2232a; }
-.report-activity__legend__item.is-required dt figure { background: url(http://dm.vw-servicepool.rupdf/img/ico_required.png) 50% no-repeat; background-size: auto 2em; }
+.report-activity__legend__item.is-required dt figure { background: url(http://dm.vw-servicepool.ru/pdf/img/ico_required.png) 50% no-repeat; background-size: auto 2em; }
 
 .tbl_campaign_intro { margin: 0 0 1.5em !important; font-size: 1.25em; text-transform: uppercase; }
 .tbl_campaign_intro td { padding: 0 1.5em .25em 0; border: 0; vertical-align: bottom; }

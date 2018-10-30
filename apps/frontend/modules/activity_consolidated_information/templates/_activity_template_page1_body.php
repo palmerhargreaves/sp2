@@ -23,9 +23,10 @@ $manager = $consolidated_information->getManager();
             <span><?php echo $consolidated_information->getActivity()->getId(); ?>.</span>
             <span><?php echo $consolidated_information->getActivity()->getName(); ?></span>
         </h2>
+
         <div class="report-campaign-box">
             <div class="report-campaign-descr is-flexbox">
-                <div class="report-campaign-descr__img" style="background-image:url(http://dm.vw-servicepool.ru/pdf/img/ico_person.png)"></div>
+                <div class="report-campaign-descr__img" style="background-image:url(http://dm.vw-servicepool.ru/images/company/<?php echo $consolidated_information->getCompany()->getImage()->getPath(); ?>)"></div>
                 <div class="report-campaign-descr__txt is-flexbox">
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Сроки</dt>
@@ -79,6 +80,10 @@ $manager = $consolidated_information->getManager();
 
 </main>
 
+<?php
+$effectiveness = $consolidated_information->getActivityEffectivenessCost();
+if ($effectiveness != 0):
+?>
 <footer id="d-footer">
     <div class="d-grid">
 
@@ -87,10 +92,11 @@ $manager = $consolidated_information->getManager();
         </h2>
         <div class="report-campaign-box">
             <dl class="report-campaign-effsum d-plain is-flexbox is-flexbox_center is-flexbox_justify">
-                <dt>Средний % достижения цели</dt>
-                <dd>50%</dd>
+                <dt>Среднее число выполненных целей</dt>
+                <dd><?php echo Utils::numberFormat($effectiveness, ''); ?> руб.</dd>
             </dl>
         </div>
 
     </div>
 </footer>
+<?php endif; ?>

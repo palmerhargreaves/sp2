@@ -54,9 +54,6 @@ ActivityConsolidatedInformation.prototype = {
             regional_manager: $("input[name=regional_manager_or_dealers]").val()
         }, function(result) {
             if (result.success) {
-                element.show();
-                self.getLoader().hide();
-
                 swal({
                     title: "Экспорт",
                     text: "Экспорт успешно завершен. </br><a href='" + result.url + "' target='_blank'>Скачай меня</a>",
@@ -70,6 +67,8 @@ ActivityConsolidatedInformation.prototype = {
                     type: "error",
                 });
             }
+            element.show();
+            self.getLoader().hide();
         });
     },
 

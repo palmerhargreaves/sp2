@@ -1540,6 +1540,27 @@ class AgreementModel extends BaseAgreementModel
 
         return sprintf('%s %d', count($title_text) ? '['.implode(', ', $title_text).']' : '', $this->getId());
     }
+
+    /**
+     * @param $activity_id
+     * @param $dealers_ids
+     * @return float|int
+     */
+    public static function CustomFunctionActivityModelsTotalCash($activity_id, $dealers_ids) {
+        return array_sum(array_map(function($item) {
+            return $item['cost'];
+        },
+            AgreementModelTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->execute(array(), Doctrine_Core::HYDRATE_ARRAY)));
+    }
+
+    /**
+     * @param $activity_id
+     * @param $dealers_ids
+     * @return
+     */
+    public static function CustomFunctionActivityModelsCount($activity_id, $dealers_ids) {
+        return AgreementModelTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->andWhereIn('dealer_id', $dealers_ids)->count();
+    }
 }
 
 

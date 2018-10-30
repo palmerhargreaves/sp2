@@ -273,7 +273,24 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
         return isset($values[ 1 ]) && $values[ 1 ] != 0 ? $values[ 0 ] * 100 / $values[ 1 ] : 0;
     }
 
-    public function calculateValue ( $user, $createdAt = '', $concept = null )
+    //Проверка на кастомную функцию привязанную к полю
+    public function haveCustomFunction() {
+        $custom_function = ActivityExtendedStatisticFieldsCalculatedTable::getInstance()->createQuery()->where('parent_field = ? and custom_name != ?', array($this->getId(), ''))->fetchOne();
+        if ($custom_function) {
+            return $custom_function->getCustomName();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $user
+     * @param string $createdAt
+     * @param null $concept
+     * @param array $params
+     * @return float|int|string
+     */
+    public function calculateValue ( $user, $createdAt = '', $concept = null, $params = array() )
     {
         if (is_numeric($user)) {
             $dealerId = $user;
@@ -294,27 +311,36 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
             if ($checkField && $checkField->getValueType() == self::FIELD_TYPE_CALC) {
                 $values[] = $checkField->calculateValue($user, $createdAt, $concept);
             } else {
-                $query = ActivityExtendedStatisticFieldsDataTable::getInstance()
-                    ->createQuery()
-                    ->where('field_id = ? and dealer_id = ?',
-                        array(
-                            $field->getCalcField(),
-                            $dealerId,
-                        )
-                    );
+                $custom_function_name = $field->getCustomName();
 
-                if (!is_null($concept)) {
-                    $query->andWhere('concept_id = ?', $concept);
+                //Если  к полю привязана кастомная функция, добавляем в список значений результат вычисления этой функции
+                if (!empty($params) && !empty($custom_function_name) && $custom_function_name == $params['custom_function_name']) {
+                    $values[] = $params['custom_values'];
                 }
+                else {
+                    $query = ActivityExtendedStatisticFieldsDataTable::getInstance()
+                        ->createQuery()
+                        ->where('field_id = ? and dealer_id = ?',
+                            array(
+                                $field->getCalcField(),
+                                $dealerId,
+                            )
+                        );
 
-                if (!empty($createdAt)) {
-                    $query->andWhere('created_at LIKE ?', $createdAt . '%');
-                }
+                    if (!is_null($concept)) {
+                        $query->andWhere('concept_id = ?', $concept);
+                    }
 
-                $calcFields = $query->execute();
-                if ($calcFields) {
-                    foreach ($calcFields as $calcField) {
-                        $values[] = $calcField->getValue();
+                    if (!empty($createdAt)) {
+                        $query->andWhere('created_at LIKE ?', $createdAt . '%');
+                    }
+
+                    $calcFields = $query->execute();
+                    if ($calcFields) {
+                        foreach ($calcFields as $calcField) {
+                            $value = $calcField->getValue();
+                            $values[] = $value;
+                        }
                     }
                 }
             }
@@ -622,6 +648,14 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
             return true;
         }
 
+        //Лимитированный оступ к полю с привязкой к дилеру
+        if (Utils::allowedIps()) {
+            $limit_access = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->select('dealer_id')->where('id = ?', $field_id)->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
+            if ($limit_access['dealer_id'] != 0 && $limit_access['dealer_id'] != $user->getDealer()->getId()) {
+                return true;
+            }
+        }
+
         $query = ActivityExtendedStatisticFieldsDataTable::getInstance()
             ->createQuery()
             ->where('field_id = ? and dealer_id = ?', array( $field_id, $user->getDealer()->getId() ));
@@ -708,15 +742,11 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
      * @param $user
      * @return bool
      */
-    public function isLimitedAccessForUser($user) {
-        if ($this->getDealersGroup() == self::DEALER_GROUP_ALL) {
-            return false;
+    public function allowAccessForUser($user) {
+        if ($user->getAuthUser()->getDealer()->getId() == $this->getDealerId()) {
+            return true;
         }
 
-        if ($user->getAuthUser()->getDealer()->isPKW() && (self::DEALER_GROUP_PKW == $this->getDealersGroup())) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 }

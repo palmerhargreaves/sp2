@@ -25,8 +25,8 @@ foreach ($sections as $section):
 
                 $n = 0;
                 foreach ($fields as $field):
-                    $dealer_group = $field->getDealersGroup();
-                    if (!empty($dealer_group) && $field->isLimitedAccessForUser($sf_user)) {
+                    $dealer_id = $field->getDealerId();
+                    if ($dealer_id != 0 && !$field->allowAccessForUser($sf_user)) {
                         continue;
                     }
 

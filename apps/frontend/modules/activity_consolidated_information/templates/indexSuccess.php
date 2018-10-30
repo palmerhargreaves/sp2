@@ -24,8 +24,11 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                         <div class="fieldset-radios fieldset-radios_wide">
                             <?php foreach ($consolidated_information->getQuarters() as $quarter): ?>
                                 <div class="radio-control">
-                                    <input type="checkbox" name="sum-quart-<?php echo $quarter; ?>" value="<?php echo $quarter; ?>" data-quarter="<?php echo $quarter; ?>" id="sum-quart-<?php echo $quarter; ?>" class="sum-quarters"/>
-                                    <label for="sum-quart-<?php echo $quarter; ?>"><?php echo $roman[$quarter]; ?> квартал</label>
+                                    <input type="checkbox" name="sum-quart-<?php echo $quarter; ?>"
+                                           value="<?php echo $quarter; ?>" data-quarter="<?php echo $quarter; ?>"
+                                           id="sum-quart-<?php echo $quarter; ?>" class="sum-quarters"/>
+                                    <label for="sum-quart-<?php echo $quarter; ?>"><?php echo $roman[$quarter]; ?>
+                                        квартал</label>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -42,12 +45,15 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
 
                             <div class="modal-select-dropdown">
                                 <?php foreach (Utils::getYearsList(2015, 1) as $year_item): ?>
-                                    <div class="modal-select-dropdown-item select-item" data-value="<?php echo $year_item; ?>"><?php echo $year_item; ?> год</div>
+                                    <div class="modal-select-dropdown-item select-item"
+                                         data-value="<?php echo $year_item; ?>"><?php echo $year_item; ?> год
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
 
-                        <div id="" class="modal-select-wrapper select input krik-select" style="padding-right: 18px; width: 170px;">
+                        <div id="" class="modal-select-wrapper select input krik-select"
+                             style="padding-right: 18px; width: 170px;">
                             <span class="select-value">Все дилеры</span>
                             <div class="ico"></div>
                             <input type="hidden" name="regional_manager_or_dealers" value="-1">
@@ -58,9 +64,10 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                                                    ->createQuery('u')
                                                    ->innerJoin('u.Group g')
                                                    ->where('g.id = ?', User::USER_GROUP_REGIONAL_MANAGER)
-                                                    ->orderBy('u.name ASC')
+                                                   ->orderBy('u.name ASC')
                                                    ->execute() as $user): ?>
-                                    <div class="modal-select-dropdown-item select-item" data-value="<?php echo $user->getNaturalPersonId(); ?>"><?php echo $user->selectName(); ?></div>
+                                    <div class="modal-select-dropdown-item select-item"
+                                         data-value="<?php echo $user->getNaturalPersonId(); ?>"><?php echo $user->selectName(); ?></div>
                                 <?php endforeach; ?>
 
                                 <div class="modal-select-dropdown-item select-item" data-value="-1">Все дилеры</div>
@@ -73,14 +80,15 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
 
             <div class="activity-summary__descr">
                 <?php
-                    $company_type_image = ActivityTypeCompanyImagesTable::getInstance()
-                        ->createQuery()
-                        ->where('company_type_id = ?', array($activity->getCompanyType()->getId()))
-                        ->fetchOne();
+                $company_type_image = ActivityTypeCompanyImagesTable::getInstance()
+                    ->createQuery()
+                    ->where('company_type_id = ?', array($activity->getCompanyType()->getId()))
+                    ->fetchOne();
                 ?>
 
                 <?php if ($company_type_image): ?>
-                    <div class="activity-summary__descr__img" style="background-image:url(//dm-ng.palmer-hargreaves.ru/admin/files/company_types/<?php echo $company_type_image->getPath(); ?>"></div>
+                    <div class="activity-summary__descr__img"
+                         style="background-image:url(http://dm.vw-servicepool.ru/images/company/<?php echo $company_type_image->getPath(); ?>"></div>
                 <?php endif; ?>
 
                 <div class="activity-summary__descr__txt">
@@ -94,7 +102,8 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                         <?php echo $activity->getRawValue()->getBrief(); ?>
                     </div>
                     <div class="activity-summary__descr__date">
-                        <?php echo D::toLongRus($activity->getStartDate()); ?> — <?php echo D::toLongRus($activity->getEndDate()); ?>
+                        <?php echo D::toLongRus($activity->getStartDate()); ?>
+                        — <?php echo D::toLongRus($activity->getEndDate()); ?>
                     </div>
                 </div>
             </div>
@@ -107,19 +116,28 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                 <?php include_partial('dealers_information', array('consolidated_information' => $consolidated_information)); ?>
             </div>
 
-            <div class="activity-secton-header activity-secton-header_eff">
-                <div class="activity-secton-title">Эффективность акции*</div>
-            </div>
 
-            <div class="activity-summary__eff">
-                <span>Результативность акции (выручка — затраты, руб.)</span>
-                <strong>2 041 110</strong>
-            </div>
+            <?php
+            $effectiveness = $consolidated_information->getActivityEffectivenessCost();
+            if ($effectiveness != 0):
+
+                ?>
+                <div class="activity-secton-header activity-secton-header_eff">
+                    <div class="activity-secton-title">Эффективность акции*</div>
+                </div>
+
+                <div class="activity-summary__eff">
+                    <span>Результативность акции (среднее число выполненных целей, <?php echo Utils::numberFormat($effectiveness, ''); ?> руб.)</span>
+                    <strong></strong>
+                </div>
+            <?php endif; ?>
 
             <div class="activity-summary__actions">
                 <div>Данные дилерских центров, заполнивших статистику на портале dm.vw-servicepool.ru.</div>
                 <div>
-                    <a id="js-export-consolidated-information" data-activity="<?php echo $activity->getId(); ?>" data-url="<?php echo url_for('@activity_consolidated_information_export'); ?>" target="_blank" href="javascript:;" class="btn btn_light btn_download">Выгрузить в файл</a>
+                    <a id="js-export-consolidated-information" data-activity="<?php echo $activity->getId(); ?>"
+                       data-url="<?php echo url_for('@activity_consolidated_information_export'); ?>" target="_blank"
+                       href="javascript:;" class="btn btn_light btn_download">Выгрузить в файл</a>
                     <div id="loader-spinner" class="spinner" style="display: none; margin-top: 1px;">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
@@ -133,7 +151,7 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
 </div>
 
 <script>
-    $(function() {
+    $(function () {
         window.activity_consolidated_information = new ActivityConsolidatedInformation({
             on_change_manager_url: '<?php echo url_for('@on_consolidated_information_change_manager'); ?>',
             dealers_information_container: '.activity-summary__stats',
