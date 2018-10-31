@@ -22,8 +22,8 @@ efficiencyInfoSuccess:
   javascripts: [filter/filter, table-highlighter/table-highlighter, table-header-fixer/table-header-fixer]
 
 dealersWorkStatisticsSuccess:
-  stylesheets: [ toastr/toastr.css, activities_status_table.css ]
-  javascripts: [ plugins/toastr/toastr.js, messages/messages.js ]
+  stylesheets: [ toastr/toastr.css, activities_status_table.css, multiselect/jquery.multiselect.css ]
+  javascripts: [ plugins/toastr/toastr.js, messages/messages.js, multiselect/jquery.multiselect.js, dealers/consolidated_information_dealer ]
 
 extendedStatisticByStepsSuccess:
   stylesheets: [manager]

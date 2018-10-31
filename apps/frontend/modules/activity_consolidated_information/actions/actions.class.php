@@ -25,6 +25,33 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         return $this->sendJson(array('content' => get_partial('dealers_information', array('consolidated_information' => $this->consolidated_information))));
     }
 
+    public function executeOnChangeManager(sfWebRequest $request) {
+        $dealers_list = array();
+
+        $regional_manager_id = $request->getParameter('manager_id');
+
+        //Получаем список дилеров по типу, если запрос по менеджеру то фиотруем по менеджеру
+        $query = DealerTable::getInstance()->createQuery()->where('dealer_type = ? or dealer_type = ?', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))->orderBy('number ASC');
+        if ($regional_manager_id != 999) {
+            $query->andWhere('regional_manager_id = ?', $regional_manager_id);
+        }
+        $dealers = $query->execute();
+
+        $dealers_list_by_type = array();
+        foreach ($dealers as $dealer) {
+            $dealers_list_by_type[$dealer->getDealerTypeLabel()][] = $dealer;
+        }
+
+        foreach ($dealers_list_by_type as $label => $dealers) {
+            $dealers_list[] = array('options' => $label, 'label' => $label);
+            foreach ($dealers as $dealer) {
+                $dealers_list[] = array('name' => $dealer->getNameAndNumber(), 'value' => $dealer->getId(), 'checked' => false);
+            }
+        }
+
+        return $this->sendJson(array('dealers_list' => $dealers_list));
+    }
+
     /**
      * Создаем пдф файл
      * @param sfWebRequest $request

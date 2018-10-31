@@ -1,4 +1,4 @@
-<h1>Статистика по Сервисным акциям</h1>
+<h1> Выгрузка данных (участие в активности)</h1>
 
 <form id='frmFilterData' action='<?php echo url_for('service_filter_data'); ?>' method='post'>
     <div style="display: block; width: 35%">
