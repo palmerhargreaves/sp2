@@ -18,6 +18,8 @@ DealerConsolidatedInformation.prototype = {
     initEvents: function() {
         $(document).on('change', '#sb-consolidated-information-regional-manager', $.proxy(this.onChangeRegionalManager, this));
 
+        $(document).on('click', '.btn-export-consolidated-information-by-dealers', $.proxy(this.onMakeExport, this));
+
     },
 
     initElements: function() {
@@ -60,16 +62,25 @@ DealerConsolidatedInformation.prototype = {
     },
 
     onMakeExport: function(event) {
-        var element = $(event.currentTarget), quarters = [], self = this;
+        var element = $(event.currentTarget), quarters = null, activities = null, dealers = null, self = this;
 
-        //Получаем список кварталов для экспорта
-        $('.sum-quarters').each(function(i, element) {
-            if ($(element).is(':checked')) {
-                quarters.push($(element).data('quarter'));
-            }
-        });
+        event.preventDefault();
 
-        if (quarters.length == 0) {
+        //Получаем список выбранных активностей
+        //Без выбора активности не пропускаем дальше
+        activities = $('select[name*=sb_consolidated_information_activities]').val();
+        if (activities == null) {
+            swal({
+                title: "Ошибка экспорта",
+                text: "Для продолжения выберите активност(ь,и).",
+                type: "error",
+            });
+
+            return;
+        }
+
+        quarters = $('select[name*=sb_consolidated_information_quarters]').val();
+        if (quarters == null) {
             swal({
                 title: "Ошибка экспорта",
                 text: "Для продолжения выберите квартал(ы).",
@@ -79,13 +90,24 @@ DealerConsolidatedInformation.prototype = {
             return;
         }
 
-        element.hide();
-        this.getLoader().show();
+        dealers = $('select[name*=sb_consolidated_information_dealers]').val();
+        if (dealers == null) {
+            swal({
+                title: "Ошибка экспорта",
+                text: "Для продолжения выберите дилер(а,ов).",
+                type: "error",
+            });
+
+            return;
+        }
+
+        //element.hide();
+        //this.getLoader().show();
         $.post(element.data('url'), {
-            activity: element.data('activity'),
-            year: $("input[name=year]").val(),
+            activities: activities,
             quarters: quarters,
-            regional_manager: $("input[name=regional_manager_or_dealers]").val()
+            dealers: dealers,
+            regional_manager: $("select[name=sb_consolidated_information_regional_manager]").val()
         }, function(result) {
             if (result.success) {
                 swal({
@@ -107,6 +129,6 @@ DealerConsolidatedInformation.prototype = {
     },
 
     getLoader: function() {
-        return $('#loader-spinner');
+        return $('#export-consolidated-information-progress');
     }
 }

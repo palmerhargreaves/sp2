@@ -12,6 +12,11 @@ ini_set("magic_quotes_runtime", 0);
 
 class activity_consolidated_informationActions extends BaseActivityActions {
 
+    //Общая информация по активности
+    private $consolidated_information = null;
+
+    //Общая инцормация по дилерам
+    private $consolidated_information_by_dealers = null;
 
     public function executeIndex(sfWebRequest $request) {
         $this->getConsolidatedInformation($request);
@@ -50,6 +55,15 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         }
 
         return $this->sendJson(array('dealers_list' => $dealers_list));
+    }
+
+    /**
+     * Экспорт информации по активностям / кварталам / рег. менеджерам / дилерам
+     */
+    public function executeExportConsolidatedInformationByDealer(sfWebRequest $request) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
+
+        $this->getConsolidatedInformationByDealers($request);
     }
 
     /**
@@ -178,6 +192,11 @@ class activity_consolidated_informationActions extends BaseActivityActions {
     private function getConsolidatedInformation(sfWebRequest $request) {
         $this->outputActivity($request);
         $this->consolidated_information = new ActivityConsolidatedInformation($this->activity, $request);
+    }
+
+    private function getConsolidatedInformationByDealers($request) {
+        $this->consolidated_information_by_dealers = new ActivityConsolidatedInformationByDealers($request);
+        $this->consolidated_information_by_dealers->getData();
     }
 
 }

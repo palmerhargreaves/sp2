@@ -150,7 +150,7 @@ $current_q = D::getQuarter(time());
                 <div class="d-grid" style="padding-left: 1px; padding-top: 15px;">
                     <div class="d-row">
                         <div class="d-col d-col_sm_8 d-col_md_8 d-col_lg_8">
-                            <select id="sb-consolidated-information-activities" class="form-control" multiple>
+                            <select id="sb-consolidated-information-activities" name="sb_consolidated_information_activities[]" class="form-control" multiple>
                                 <?php foreach (ActivityTable::getInstance()->createQuery()->where('finished = ?', false)->orderBy('id DESC')->execute() as $activity): ?>
                                     <option value="<?php echo $activity->getId(); ?>">
                                         <?php echo sprintf('[%d] - %s', $activity->getId(), $activity->getName()); ?>
@@ -160,7 +160,7 @@ $current_q = D::getQuarter(time());
                         </div>
 
                         <div class="d-col d-col_sm_3 d-col_md_3 d-col_lg_3">
-                            <select id="sb-consolidated-information-quarters" class="form-control" multiple>
+                            <select id="sb-consolidated-information-quarters" name="sb_consolidated_information_quarters[]" class="form-control" multiple>
                                 <?php foreach ($quarters as $q): ?>
                                     <option value="<?php echo $q; ?>"><?php echo $q; ?></option>
                                 <?php endforeach; ?>
@@ -170,7 +170,7 @@ $current_q = D::getQuarter(time());
 
                     <div class="d-row" style="margin-top: 15px;">
                         <div class="d-col d-col_sm_2 d-col_md_2 d-col_lg_2">
-                            <select id="sb-consolidated-information-regional-manager"
+                            <select id="sb-consolidated-information-regional-manager" name="sb_consolidated_information_regional_manager"
                                     data-url="<?php echo url_for('@on_consolidated_information_dealer_change_manager'); ?>"
                                     style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 24px; padding: 0 0 0 10px; font-size: 11px;">
                                 <option value="999">Все менеджеры</option>
@@ -205,7 +205,7 @@ $current_q = D::getQuarter(time());
 
                         ?>
                         <div class="d-col d-col_sm_9 d-col_md_9 d-col_lg_9">
-                            <select id="sb-consolidated-information-dealers" multiple>
+                            <select id="sb-consolidated-information-dealers" name="sb_consolidated_information_dealers[]" multiple>
                                 <?php foreach ($dealers_by_type_list as $label => $dealers): ?>
                                     <optgroup label="<?php echo $label; ?>">
                                         <?php foreach ($dealers as $dealer): ?>
@@ -219,10 +219,12 @@ $current_q = D::getQuarter(time());
 
                     <div class="d-row">
                         <div class="d-col d-col_sm12 d-col_md_12 d-col_lg_12">
-                            <button class="btn-export-activities-steps-data btn btn-mini " style="margin-top: 10px; float: left;">
+                            <button class="btn-export-consolidated-information-by-dealers btn btn-mini "
+                                    data-url="<?php echo url_for('@on_export_consolidated_information_by_dealers'); ?>"
+                                    style="margin-top: 10px; float: left;">
                                 Выгрузить
                             </button>
-                            <img id="export-statistics-data-by-steps-progress" src="/images/loader.gif"
+                            <img id="export-consolidated-information-progress" src="/images/loader.gif"
                                  style="display: none; margin-left: 10px; margin-top: 19px; float: left;"/>
                         </div>
                     </div>
