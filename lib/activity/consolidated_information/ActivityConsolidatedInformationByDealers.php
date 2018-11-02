@@ -92,8 +92,29 @@ class ActivityConsolidatedInformationByDealers
                     $dealer_budget_real = $budget_calculator->calculate();
                     $dealer_budget_plan = $budget_calculator->getPlanBudget();
 
+                    //Заполняем для дилера данные по бюджету (план и факт)
+                    //Вычисляем общий бюджет, сколько выполнено и % и сколько осталось выполнить
+                    $total_plan = 0;
+                    $total_fact = 0;
+                    for($quarter = 1; $quarter <= 4; $quarter++) {
+                        if (isset($dealer_budget_plan[$quarter])) {
+                            $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["plan"] += $dealer_budget_plan[$quarter];
+                            $total_plan += $dealer_budget_plan[$quarter];
+                        }
 
-                    var_dump($dealer_budget_real);
+                        if (isset($dealer_budget_real[$quarter])) {
+                            $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["fact"] += $dealer_budget_real[$quarter];
+                            $total_fact += $dealer_budget_real[$quarter];
+                        }
+                    }
+
+                    //Общие суммы
+                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["plan"] = $total_plan;
+                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["fact"] = $total_fact;
+                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["completed"] = $total_plan != 0 ? $total_fact * 100 / $total_plan : 0;
+                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["left_to_complete"] = $total_fact < $total_plan ? $total_plan - $total_fact : $total_plan;
+
+                    var_dump($manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]);
                     exit;
                 }
             }

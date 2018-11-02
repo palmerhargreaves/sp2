@@ -185,12 +185,12 @@ class budget_by_pointsComponents extends sfComponents
     }
 
     private function outputServiceBooks() {
-        if ($this->getUser()->getAttribute('service_books-' . $this->dealer->getId(), -1, 'service-books') == -1) {
+        if ($this->getUser()->getAttribute('service_books_new-' . $this->dealer->getId(), -1, 'service-books-new') == -1) {
             $this->service_books_count = ServiceBooks::getDealerServiceBookData($this->dealer->getShortNumber());
 
-            $this->getUser()->setAttribute('service_books-' . $this->dealer->getId(), $this->service_books_count, 'service-books');
+            $this->getUser()->setAttribute('service_books_new-' . $this->dealer->getId(), $this->service_books_count, 'service-books-new');
         } else {
-            $this->service_books_count = $this->getUser()->getAttribute('service_books-' . $this->dealer->getId(), -1, 'service-books');
+            $this->service_books_count = $this->getUser()->getAttribute('service_books_new-' . $this->dealer->getId(), -1, 'service-books-new');
         }
     }
 }
