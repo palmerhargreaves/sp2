@@ -63,7 +63,45 @@ class activity_consolidated_informationActions extends BaseActivityActions {
     public function executeExportConsolidatedInformationByDealer(sfWebRequest $request) {
         sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
 
-        $this->getConsolidatedInformationByDealers($request);
+        $css = implode('', array(
+            file_get_contents(sfConfig::get('app_root_dir').'www/pdf/css/fonts.css'),
+            file_get_contents(sfConfig::get('app_root_dir').'www/pdf/css/css.css')
+        ));
+
+        $managers_dealers_data =$this->getConsolidatedInformationByDealers($request);
+        foreach ($managers_dealers_data as $manager_id => $manager_data) {
+            //Проверяем наличие кварталов в выгрузке
+            for($quarter = 1; $quarter <= 4; $quarter++) {
+                if (array_key_exists($quarter, $manager_data)) {
+                    foreach ($manager_data[$quarter]["dealers"] as $dealer_id => $dealer_data) {
+                        $this->generateDealerBudgetPage(array('manager' => $manager_data["manager"], 'dealer_budget' => $dealer_data['budget'], 'activities' => $dealer_data['activities'], 'dealer_id' => $dealer_id, 'not_work_with_activity' => $dealer_data['not_work_with_activity'], 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+
+                        var_dump('test');
+                        exit;
+                    }
+                }
+            }
+        }
+
+        return $this->sendJson(array('success' => false));
+    }
+
+    /**
+     * Генерация бюджетной страницы для дилера
+     * @internal param $dealer
+     * @internal param $css
+     */
+    private function generateDealerBudgetPage($params) {
+        $header = get_partial('activity_template_page_dealer_budget_header', array('information' => $params));
+        $header = str_replace('<style></style>', '<style>'.$params['css'].'</style>', $header);
+
+        $page1_html = array(
+            $header,
+            get_partial('activity_template_page_dealer_budget_body', array('information' => $params)),
+            get_partial('activity_template_page_dealer_budget_bottom', array())
+        );
+        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_budget_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
+        file_put_contents($file_name, implode('<br/>', $page1_html));
     }
 
     /**
@@ -196,7 +234,8 @@ class activity_consolidated_informationActions extends BaseActivityActions {
 
     private function getConsolidatedInformationByDealers($request) {
         $this->consolidated_information_by_dealers = new ActivityConsolidatedInformationByDealers($request);
-        $this->consolidated_information_by_dealers->getData();
+
+        return $this->consolidated_information_by_dealers->getData();
     }
 
 }

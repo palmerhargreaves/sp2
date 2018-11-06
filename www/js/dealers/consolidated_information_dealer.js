@@ -101,7 +101,6 @@ DealerConsolidatedInformation.prototype = {
             return;
         }
 
-        //element.hide();
         //this.getLoader().show();
         $.post(element.data('url'), {
             activities: activities,

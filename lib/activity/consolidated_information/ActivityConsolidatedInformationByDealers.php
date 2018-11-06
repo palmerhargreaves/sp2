@@ -41,84 +41,180 @@ class ActivityConsolidatedInformationByDealers
     {
         $manager_dealers_list = array();
 
+        $active_activities_list = ActivityTable::getInstance()->createQuery()->select('id, name')->where('finished = ?', false)->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
         //Получаем список региональных менеджеров
         foreach ($this->getRegionalManager() as $manager) {
             if (!array_key_exists($manager->getId(), $manager_dealers_list)) {
                 $manager_dealers_list[$manager->getId()] = array(
-                    'dealers' => array()
+                    1 => array('dealers' => array()),
+                    2 => array('dealers' => array()),
+                    3 => array('dealers' => array()),
+                    4 => array('dealers' => array()),
+                    'manager' => $manager
                 );
             }
 
             //Получаем список дилеров
-            foreach (DealerTable::getInstance()->createQuery()
-                         ->where('status = ?', true)
-                         ->andWhereIn('id', $this->_dealers)
-                         ->andWhere('(regional_manager_id = ? or nfz_regional_manager_id = ?)', array($manager->getId(), $manager->getId()))
-                         ->execute() as $dealer) {
+            $dealers_list = DealerTable::getInstance()->createQuery()
+                ->where('status = ?', true)
+                ->andWhereIn('id', $this->_dealers)
+                ->andWhere('(regional_manager_id = ? or nfz_regional_manager_id = ?)', array($manager->getId(), $manager->getId()))
+                ->execute();
 
-                //Заполняем основную информацию по дилерам
-                if (!array_key_exists($dealer->getId(), $manager_dealers_list[$manager->getId()]["dealers"])) {
-                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()] = array(
-                        "dealer" => $dealer->getId(),
-                        "budget" => array(
-                            "quarters" => array(
-                                1 => array(
-                                    "plan" => 0,
-                                    "fact" => 0,
-                                ),
-                                2 => array(
-                                    "plan" => 0,
-                                    "fact" => 0,
-                                ),
-                                3 => array(
-                                    "plan" => 0,
-                                    "fact" => 0,
-                                ),
-                                4 => array(
-                                    "plan" => 0,
-                                    "fact" => 0,
-                                )
-                            ),
-                            "all_year" => array(
+            //Вычисляем бюджеты для дилеров
+            $dealers_budgets = array();
+            foreach ($dealers_list as $dealer) {
+                if (!array_key_exists($dealer->getId(), $dealers_budgets)) {
+                    $dealers_budgets[$dealer->getId()] = array(
+                        "quarters" => array(
+                            1 => array(
                                 "plan" => 0,
                                 "fact" => 0,
-                                "completed" => 0,
-                                "left_to_complete" => 0
+                            ),
+                            2 => array(
+                                "plan" => 0,
+                                "fact" => 0,
+                            ),
+                            3 => array(
+                                "plan" => 0,
+                                "fact" => 0,
+                            ),
+                            4 => array(
+                                "plan" => 0,
+                                "fact" => 0,
                             )
                         ),
+                        "all_year" => array(
+                            "plan" => 0,
+                            "fact" => 0,
+                            "completed" => 0,
+                            "left_to_complete" => 0
+                        )
                     );
+                }
+                $budget_calculator = new RealBudgetCalculator($dealer, $this->_year);
+                $dealer_budget_real = $budget_calculator->calculate();
+                $dealer_budget_plan = $budget_calculator->getPlanBudget();
 
-                    $budget_calculator = new RealBudgetCalculator($dealer, $this->_year);
-                    $dealer_budget_real = $budget_calculator->calculate();
-                    $dealer_budget_plan = $budget_calculator->getPlanBudget();
-
-                    //Заполняем для дилера данные по бюджету (план и факт)
-                    //Вычисляем общий бюджет, сколько выполнено и % и сколько осталось выполнить
-                    $total_plan = 0;
-                    $total_fact = 0;
-                    for($quarter = 1; $quarter <= 4; $quarter++) {
-                        if (isset($dealer_budget_plan[$quarter])) {
-                            $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["plan"] += $dealer_budget_plan[$quarter];
-                            $total_plan += $dealer_budget_plan[$quarter];
-                        }
-
-                        if (isset($dealer_budget_real[$quarter])) {
-                            $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["fact"] += $dealer_budget_real[$quarter];
-                            $total_fact += $dealer_budget_real[$quarter];
-                        }
+                //Заполняем для дилера данные по бюджету (план и факт)
+                //Вычисляем общий бюджет, сколько выполнено и % и сколько осталось выполнить
+                $total_plan = 0;
+                $total_fact = 0;
+                for ($quarter = 1; $quarter <= 4; $quarter++) {
+                    if (isset($dealer_budget_plan[$quarter])) {
+                        $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["plan"] += $dealer_budget_plan[$quarter];
+                        $total_plan += $dealer_budget_plan[$quarter];
                     }
 
-                    //Общие суммы
-                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["plan"] = $total_plan;
-                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["fact"] = $total_fact;
-                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["completed"] = $total_plan != 0 ? $total_fact * 100 / $total_plan : 0;
-                    $manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]["budget"]["all_year"]["left_to_complete"] = $total_fact < $total_plan ? $total_plan - $total_fact : $total_plan;
+                    if (isset($dealer_budget_real[$quarter])) {
+                        $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["fact"] += $dealer_budget_real[$quarter];
+                        $total_fact += $dealer_budget_real[$quarter];
+                    }
+                }
 
-                    var_dump($manager_dealers_list[$manager->getId()]["dealers"][$dealer->getId()]);
-                    exit;
+                //Общие суммы
+                $dealers_budgets[$dealer->getId()]["all_year"]["plan"] = $total_plan;
+                $dealers_budgets[$dealer->getId()]["all_year"]["fact"] = $total_fact;
+                $dealers_budgets[$dealer->getId()]["all_year"]["completed"] = $total_plan != 0 ? $total_fact * 100 / $total_plan : 0;
+                $dealers_budgets[$dealer->getId()]["all_year"]["left_to_complete"] = $total_fact < $total_plan ? $total_plan - $total_fact : $total_plan;
+            }
+
+            foreach ($this->_quarters as $main_quarter) {
+
+                //Полачем список обязательных активностей по кварталу и году
+                $slots = QuartersSlotsTable::getInstance()->createQuery()->where('quarter = ? and year = ?', array( $main_quarter, $this->_year ))->execute();
+
+                $mandatory_activities_list = array();
+                foreach ($slots as $slot) {
+                    $slot_activities = $slot->getSlotActivities();
+
+                    foreach ($slot_activities as $activity) {
+                        if (!in_array($activity->getActivityId(), $mandatory_activities_list)) {
+                            $mandatory_activities_list[] = $activity->getActivityId();
+                        }
+                    }
+                }
+
+                foreach ($dealers_list as $dealer) {
+                    //Заполняем основную информацию по дилерам
+                    if (!array_key_exists($dealer->getId(), $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"])) {
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()] = array(
+                            "dealer" => $dealer,
+                            "budget" => array(
+                                "quarters" => array(
+                                    1 => array(
+                                        "plan" => 0,
+                                        "fact" => 0,
+                                    ),
+                                    2 => array(
+                                        "plan" => 0,
+                                        "fact" => 0,
+                                    ),
+                                    3 => array(
+                                        "plan" => 0,
+                                        "fact" => 0,
+                                    ),
+                                    4 => array(
+                                        "plan" => 0,
+                                        "fact" => 0,
+                                    )
+                                ),
+                                "all_year" => array(
+                                    "plan" => 0,
+                                    "fact" => 0,
+                                    "completed" => 0,
+                                    "left_to_complete" => 0
+                                )
+                            ),
+                            "activities" => array(),
+                            "not_work_with_activity" => array()
+                        );
+
+                        //Заполняем для дилера данные по бюджету (план и факт)
+                        //Вычисляем общий бюджет, сколько выполнено и % и сколько осталось выполнить
+                        for ($quarter = 1; $quarter <= 4; $quarter++) {
+                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["plan"] = $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["plan"];
+                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["fact"] = $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["fact"];
+                        }
+
+                        //Общие суммы
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["plan"] = $dealers_budgets[$dealer->getId()]["all_year"]["plan"];
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["fact"] = $dealers_budgets[$dealer->getId()]["all_year"]["fact"];
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["completed"] = $dealers_budgets[$dealer->getId()]["all_year"]["completed"];
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["left_to_complete"] = $dealers_budgets[$dealer->getId()]["all_year"]["left_to_complete"];
+
+                        $activities_ids = array_map(function($item) {
+                            return $item['activity_id'];
+                        }, AgreementModelTable::getInstance()->createQuery()->select('activity_id')->where('dealer_id = ?', $dealer->getId())
+                            ->andWhere('year(created_at) = ?', $this->_year)
+                            ->groupBy('activity_id')->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+
+                        //Получаем подробную информацию по активностям дилера за текущий год
+                        $activities_ids = array_merge($activities_ids, $mandatory_activities_list);
+                        $activities = ActivityTable::getInstance()->createQuery()->whereIn('id', $activities_ids)->orderBy('id DESC')->execute();
+                        foreach ($activities as $activity) {
+                            if (!array_key_exists($activity->getId(), $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"])) {
+                                $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"][$activity->getId()] = array(
+                                    'name' => $activity->getName(),
+                                    'status' => $activity->getStatusBudgetPointsByQuarter($dealer->getId(), $main_quarter, false, $this->_year),
+                                    'mandatory_activity' => in_array($activity->getId(), $mandatory_activities_list)
+                                );
+                            }
+                        }
+
+                        //Определяем список активностей с которыми дилер не работал в тек. году
+                        foreach ($active_activities_list as $activity_data) {
+                            if (!in_array($activity_data['id'], $activities_ids)) {
+                                $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["not_work_with_activity"][$activity_data['id']] = array('name' => $activity_data['name'], 'mandatory_activity' => in_array($activity_data['id'], $mandatory_activities_list));
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        return $manager_dealers_list;
     }
 
     /**

@@ -352,9 +352,9 @@ body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
 	-webkit-flex-flow: row wrap;
 	-ms-flex-flow: row wrap;
 	flex-flow: row wrap;
-	width: -webkit-calc(60% + 60px);
-	width: -moz-calc(60% + 60px);
-	width: calc(60% + 60px);
+	width: -webkit-calc(83% + 60px);
+	width: -moz-calc(83% + 60px);
+	width: calc(83% + 60px);
 }
 
 .report-activity dt, .report-activity dd { margin: 0; padding: .375em 0; }
