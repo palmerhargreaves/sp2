@@ -8,7 +8,7 @@
  */
 class ActivityConsolidatedInformationByDealers
 {
-    const FIELDS_PER_PAGE = 13;
+    const FIELDS_PER_PAGE = 12;
 
     //Список активностей для выгрузки
     private $_activities = array();
