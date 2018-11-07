@@ -8,6 +8,7 @@
  */
 class ActivityConsolidatedInformationByDealers
 {
+    const FIELDS_PER_PAGE = 13;
 
     //Список активностей для выгрузки
     private $_activities = array();
@@ -168,7 +169,8 @@ class ActivityConsolidatedInformationByDealers
                                 )
                             ),
                             "activities" => array(),
-                            "not_work_with_activity" => array()
+                            "not_work_with_activity" => array(),
+                            "completed_statistics" => array()
                         );
 
                         //Заполняем для дилера данные по бюджету (план и факт)
@@ -198,17 +200,60 @@ class ActivityConsolidatedInformationByDealers
                                 $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"][$activity->getId()] = array(
                                     'name' => $activity->getName(),
                                     'status' => $activity->getStatusBudgetPointsByQuarter($dealer->getId(), $main_quarter, false, $this->_year),
-                                    'mandatory_activity' => in_array($activity->getId(), $mandatory_activities_list)
+                                    'mandatory_activity' => in_array($activity->getId(), $mandatory_activities_list),
+                                    'company_name' => $activity->getCompanyType()->getName()
                                 );
                             }
                         }
 
+                        //Определяем выполнения статистики
+                        foreach ($this->_activities as $activity_id) {
+                            $statistic_status = ActivityExtendedStatisticStepStatusTable::getInstance()->createQuery()
+                                ->select('concept_id, activity_id')
+                                ->where('activity_id = ? and dealer_id = ? and year = ? and quarter = ? and status = ?',
+                                    array
+                                    (
+                                        $activity_id,
+                                        $dealer->getId(),
+                                        $this->_year,
+                                        $main_quarter,
+                                        true
+                                    ))
+                                ->groupBy('concept_id')
+                                ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+                            //Если статистика заполнена по кварталу и году
+                            if (!empty($statistic_status)) {
+
+                                $activity_statistic_fields_count = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->count();
+                                $fields_per_page = self::FIELDS_PER_PAGE;
+                                $total_pages = $activity_statistic_fields_count > $fields_per_page ? ceil($activity_statistic_fields_count / $fields_per_page) : 1;
+
+                                foreach ($statistic_status as $status) {
+                                    if (!array_key_exists($status['concept_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["completed_statistics"])) {
+
+                                        //Проверяем на наличие акитивности в финальной выгрузке и заполняем данные по активности
+                                        if (array_key_exists($status['activity_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"])) {
+                                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["completed_statistics"][$status['concept_id']] = array(
+                                                'activity_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"][$status['activity_id']]['name'],
+                                                'activity_company_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"][$status['activity_id']]['company_name'],
+                                                'total_pages' => $total_pages,
+                                                'activity_id' => $activity_id,
+                                                'quarter' => $main_quarter,
+                                                'year' => $this->_year
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         //Определяем список активностей с которыми дилер не работал в тек. году
-                        foreach ($active_activities_list as $activity_data) {
+                        /*foreach ($active_activities_list as $activity_data) {
                             if (!in_array($activity_data['id'], $activities_ids)) {
                                 $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["not_work_with_activity"][$activity_data['id']] = array('name' => $activity_data['name'], 'mandatory_activity' => in_array($activity_data['id'], $mandatory_activities_list));
                             }
-                        }
+                        }*/
                     }
                 }
             }

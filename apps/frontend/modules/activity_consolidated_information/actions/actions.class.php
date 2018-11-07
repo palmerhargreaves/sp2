@@ -74,10 +74,13 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             for($quarter = 1; $quarter <= 4; $quarter++) {
                 if (array_key_exists($quarter, $manager_data)) {
                     foreach ($manager_data[$quarter]["dealers"] as $dealer_id => $dealer_data) {
-                        $this->generateDealerBudgetPage(array('manager' => $manager_data["manager"], 'dealer_budget' => $dealer_data['budget'], 'activities' => $dealer_data['activities'], 'dealer_id' => $dealer_id, 'not_work_with_activity' => $dealer_data['not_work_with_activity'], 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+                        //Первая страница выгрузки (основная информация по дилеру)
+                        //$this->generateDealerBudgetPage(array('manager' => $manager_data["manager"], 'dealer_budget' => $dealer_data['budget'], 'activities' => $dealer_data['activities'], 'dealer_id' => $dealer_id, 'not_work_with_activity' => $dealer_data['not_work_with_activity'], 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
 
-                        var_dump('test');
-                        exit;
+                        //Вторая страница выгрузки (информация по статистики дилера)
+                        if (!is_null($dealer_data['completed_statistics'])) {
+                            $this->generateDealerStatisticPages(array('manager' => $manager_data["manager"], 'completed_statistics' => $dealer_data['completed_statistics'], 'dealer_id' => $dealer_id, 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+                        }
                     }
                 }
             }
@@ -98,10 +101,124 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         $page1_html = array(
             $header,
             get_partial('activity_template_page_dealer_budget_body', array('information' => $params)),
-            get_partial('activity_template_page_dealer_budget_bottom', array())
+            get_partial('activity_template_page_dealer_bottom', array())
         );
         $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_budget_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
         file_put_contents($file_name, implode('<br/>', $page1_html));
+    }
+
+    /**
+     * Генерация старицы статистики по дилеру
+     * @param $params
+     */
+    private function generateDealerStatisticPages($params) {
+        $header = get_partial('activity_template_page_dealer_budget_header', array('information' => $params));
+        $header = str_replace('<style></style>', '<style>'.$params['css'].'</style>', $header);
+
+        //Получаем список доступных шагов
+        $activity_statistic_steps_list = array();
+        foreach ($params['completed_statistics'] as $concept_id => $statistic_params) {
+            foreach (ActivityExtendedStatisticStepsTable::getInstance()->createQuery()->where('activity_id = ?', $statistic_params['activity_id'])->orderBy('position ASC')->execute(array(), Doctrine_Core::HYDRATE_ARRAY) as $step) {
+                $activity_statistic_steps_list[$step['id']] = $step['header'];
+            }
+        }
+
+        //Делаем проход по всем концепциям привязанным к статистике и делаем выборку заполненных данных
+        $activity_statistic_completed_fields_list = array();
+        foreach ($params['completed_statistics'] as $concept_id => $statistic_params) {
+            $activity_statistic_steps_list = ActivityExtendedStatisticStepsTable::getInstance()->createQuery()->where('activity_id = ?', $statistic_params['activity_id'])->orderBy('position ASC')->execute();
+
+            $page = 1;
+            $total_fields = 0;
+            $step = 1;
+            foreach ($activity_statistic_steps_list as $step) {
+                //Присваиваем нормер странички (начиниаем с первой)
+                if (!array_key_exists($page, $activity_statistic_completed_fields_list)) {
+                    $activity_statistic_completed_fields_list[$page] = array();
+                }
+
+                //Создаем ключ концепции
+                if (!array_key_exists($concept_id, $activity_statistic_completed_fields_list[$page])) {
+                    $activity_statistic_completed_fields_list[$page][$concept_id] = array();
+                }
+
+                //Создаем ключ шага привязанного к концепции
+                if (!array_key_exists($step->getId(), $activity_statistic_completed_fields_list[$page][$concept_id])) {
+                    $activity_statistic_completed_fields_list[$page][$concept_id][$step->getId()] = array();
+                }
+
+                $sections = $step->getSectionsList();
+                foreach ($sections as $section_id => $section) {
+                    $fields = $section[ 'fields' ];
+
+                    //Инициализируем данные по разделу (название раздела и массив полей)
+                    if (!array_key_exists($section_id, $activity_statistic_completed_fields_list[$page][$concept_id][$step->getId()])) {
+                        $activity_statistic_completed_fields_list[$page][$concept_id][$step->getId()][$section_id] = array('section_header' => $section['data'], 'fields' => array());
+                    }
+
+                    foreach ($fields as $field) {
+                        $fieldValue = $field->getStepFieldUserValue(null, $params['dealer_id'], $concept_id, $statistic_params['year'], $statistic_params['quarter']);
+
+                        if (empty($activity_statistic_completed_fields_list[$page][$concept_id][$step->getId()][$section_id]['section_header'])) {
+                            $activity_statistic_completed_fields_list[$page][$concept_id][$step->getId()][$section_id]['section_header'] = $section['data'];
+                        }
+
+                        //Обычное текстовое поле пропускаем
+                        if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_TEXT) {
+                            continue;
+                        }
+
+                        //Получаем значение заполненных полей в зависимости от типа
+                        if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_DATE) {
+                            $value = explode("-", $fieldValue->getValue());
+                            $value = implode('-', array(isset($value[ 0 ]) && !empty($value[ 0 ]) ? $value[ 0 ] : '', isset($value[ 1 ]) && !empty($value[ 1 ]) ? $value[ 1 ] : ''));
+                        } else if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_MONEY) {
+                            $value = explode(':', $fieldValue->getValue());
+                            $value = implode(' ', array(isset($value[ 0 ]) && !empty($value[ 0 ]) ? $value[ 0 ] : '', isset($value[ 1 ]) && !empty($value[ 1 ]) ? $value[ 1 ] : ''));
+                        } else if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_CALC) {
+                            $value = $field->calculateValue($params['dealer_id'], '', $concept_id);
+                        } else if ($field->getValueType() == ActivityExtendedStatisticFields::FIELD_TYPE_FILE) {
+                            $value = $fieldValue->getValue();
+                        } else  {
+                            $value = $fieldValue->getValue();
+                        }
+
+                        //Присваиваем данные поля
+                        $activity_statistic_completed_fields_list[$page][$concept_id][$step->getId()][$section_id]['fields'][] = array(
+                            'header' => $field->getHeader(),
+                            'value' => $value,
+                        );
+
+                        //Если количестов полей на одной страничке превышает допустимое количество, переходим на др. страницу
+                        if ($total_fields++ > ActivityConsolidatedInformationByDealers::FIELDS_PER_PAGE) {
+                            $total_fields = 0;
+                            $page++;
+                        }
+                    }
+                }
+                $step++;
+            }
+
+            //Делаем проходы по полученным данным, создаем файлы
+            foreach ($activity_statistic_completed_fields_list as $page => $page_data) {
+                foreach ($page_data as $concept_id => $concept_data) {
+                    foreach ($concept_data as $step_id => $step_data) {
+                        $page1_html = array(
+                            $header,
+                            get_partial('activity_template_page_dealer_statistic_body', array('information' => $params, 'step_header' => array_key_exists($step_id, $activity_statistic_steps_list) ? $activity_statistic_steps_list[$step_id] : '',  'statistic_data' => $step_data,  'statistic_params' => $statistic_params)),
+                            get_partial('activity_template_page_dealer_bottom', array())
+                        );
+
+                        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_statistic_page_'.$page.'_'.$concept_id."_".$params['quarter'].'_'.$params['dealer_id'].'.html';
+                        file_put_contents($file_name, implode('<br/>', $page1_html));
+                    }
+                }
+            }
+
+        }
+
+
+
     }
 
     /**

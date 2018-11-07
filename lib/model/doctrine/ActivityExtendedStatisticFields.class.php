@@ -132,12 +132,18 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
      */
     public function getStepFieldUserValue ( $activity, $user, $concept, $year = null, $quarter = null )
     {
-        $user = $user->getAuthUser();
+        //Если передаваемое значение числовое (передается индекс дилера)
+        if (is_numeric($user)) {
+            $dealer = DealerTable::getInstance()->createQuery('d')->where('id = ?', $user)->fetchOne();
+        } else {
+            $user = $user->getAuthUser();
 
-        $userDealer = $user->getDealerUsers()->getFirst();
-        $dealer = null;
-        if ($userDealer)
-            $dealer = DealerTable::getInstance()->createQuery('d')->where('id = ?', $userDealer->getDealerId())->fetchOne();
+            $userDealer = $user->getDealerUsers()->getFirst();
+            $dealer = null;
+            if ($userDealer) {
+                $dealer = DealerTable::getInstance()->createQuery('d')->where('id = ?', $userDealer->getDealerId())->fetchOne();
+            }
+        }
 
         if (!$dealer)
             return '';
