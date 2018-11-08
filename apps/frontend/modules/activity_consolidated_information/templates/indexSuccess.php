@@ -9,7 +9,6 @@
 $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
 
 ?>
-
 <div class="activity">
     <?php include_partial('activity/activity_head', array('activity' => $activity, 'year' => $year, 'active' => 'settings', 'current_q' => $current_q, 'current_year' => $current_year, 'quartersModels' => $quartersModels)); ?>
     <div class="content-wrapper">

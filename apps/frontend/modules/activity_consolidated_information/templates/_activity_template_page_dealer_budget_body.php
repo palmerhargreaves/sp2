@@ -56,48 +56,48 @@ $information = $information->getRawValue();
                     </dl>
                 </div>
             </div>
-
         </div>
+
+        <?php
+            //Разделяем общее количетсов активностей на два столбца
+
+            $items_per_col = count($information['activities']) / 2;
+            $item_index = 0;
+            $column_index = 0;
+
+            $activities_per_column = array();
+            foreach ($information['activities'] as $activity_id => $activity) {
+                if (!array_key_exists($column_index, $activities_per_column)) {
+                    $activities_per_column[$column_index] = array();
+                }
+
+                $activities_per_column[$column_index][] = $activity;
+
+                if ($item_index++ > $items_per_col) {
+                    $item_index = 0;
+                    $column_index++;
+                }
+            }
+        ?>
 
         <h2 class="h1 d-ttu">Участие в активностях</h2>
         <div class="report-activity is-flexbox is-flexbox_justify">
 
+            <?php foreach ($activities_per_column as $column_index => $activities): ?>
             <div class="report-activity__col">
                 <dl class="report-activity__header ff_head d-tac">
                     <dt>Статус</dt>
                     <dd>Кампания</dd>
                 </dl>
 
-                <?php foreach ($information['activities'] as $activity_id => $activity): ?>
+                <?php foreach ($activities as $activity): ?>
                 <dl class="report-activity__row is-<?php echo $activity['status']['status']; ?> <?php echo $activity['mandatory_activity'] ? 'is-required' : ''; ?>">
                     <dt><figure></figure></dt>
                     <dd><?php echo $activity['name']; ?></dd>
                 </dl>
                 <?php endforeach; ?>
-
-                <!--<dl class="report-activity__row is-yellow">
-                    <dt><figure></figure></dt>
-                    <dd>Название кампании Название кампании</dd>
-                </dl>
-                <dl class="report-activity__row is-orange is-required">
-                    <dt><figure></figure></dt>
-                    <dd>Название кампании Название кампании Название кампании</dd>
-                </dl>-->
             </div>
-
-            <div class="report-activity__col">
-                <dl class="report-activity__header ff_head d-tac">
-                    <dt>Статус</dt>
-                    <dd>Кампания</dd>
-                </dl>
-
-                <?php foreach ($information['not_work_with_activity'] as $activity_id => $activity): ?>
-                <dl class="report-activity__row is-red <?php echo $activity['mandatory_activity'] ? 'is-required' : ''; ?>">
-                    <dt><figure></figure></dt>
-                    <dd><?php echo $activity['name']; ?></dd>
-                </dl>
-                <?php endforeach; ?>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 

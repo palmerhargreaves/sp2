@@ -122,7 +122,6 @@ if (!$customDate) {
                                 $activities_task_statistics[$q] = true;
                             }
 
-
                             ?>
                             <li id="statistic-tab-<?php echo $q; ?>"
                                 class="activity-quarter-data <?php echo $selected_q == $q && $y_key == $current_year ? "active" : ""; ?>"
@@ -132,7 +131,7 @@ if (!$customDate) {
                                    style="padding: 5px;">
                                 <span>
                                     <i class="icon">
-                                    <img src="<?php echo ($qDataItem['completed'] && $is_activity_complete) ? "/images/ok-icon-active.png" : "/images/ok-icon.png"; ?>"
+                                    <img src="<?php echo ($qDataItem['completed'] && $activities_task_statistics[$q]) ? "/images/ok-icon-active.png" : "/images/ok-icon.png"; ?>"
                                          alt=""/></i>
                                     <?php echo sprintf('%s - %s', $qDataItem['year'], $roman[$q]); ?> квартал
                                 </span>

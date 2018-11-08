@@ -9,24 +9,32 @@
 $roman = array( 1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV' );
 
 $steps_list = $steps_list->getRawValue();
+$activities_list = $activities_list->getRawValue();
+
+$activity = null;
+if (array_key_exists($activity_id, $activities_list)) {
+    $activity = $activities_list[$activity_id];
+}
 ?>
 
 <main id="d-content">
 
     <div class="d-grid">
 
+        <?php if ($activity): ?>
         <table class="tbl_campaign_intro">
             <tbody>
             <tr>
                 <td>Тип кампании:</td>
-                <td>Сервисная</td>
+                <td><?php echo $activity['company_name']; ?></td>
             </tr>
             <tr>
                 <td>Название кампании:</td>
-                <td><strong>Service Clinic</strong></td>
+                <td><strong><?php echo $activity['activity_name']; ?></strong></td>
             </tr>
             </tbody>
         </table>
+        <?php endif; ?>
 
         <?php foreach ($statistic_data as $step_id => $sections_data): ?>
             <div class="report-campaign-stats">

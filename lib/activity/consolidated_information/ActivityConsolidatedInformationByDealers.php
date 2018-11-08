@@ -1,5 +1,9 @@
 <?php
 
+require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph.php');
+require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph_pie.php');
+require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph_pie3d.php');
+
 /**
  * Created by PhpStorm.
  * User: kostet
@@ -248,12 +252,25 @@ class ActivityConsolidatedInformationByDealers
                             }
                         }
 
-                        //Определяем список активностей с которыми дилер не работал в тек. году
-                        /*foreach ($active_activities_list as $activity_data) {
-                            if (!in_array($activity_data['id'], $activities_ids)) {
-                                $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["not_work_with_activity"][$activity_data['id']] = array('name' => $activity_data['name'], 'mandatory_activity' => in_array($activity_data['id'], $mandatory_activities_list));
-                            }
-                        }*/
+                        //Получаем список выполненных заявок по дилеру и периоду
+                        $completed_models_factory = DealerStatisticFactory::getInstance()->getDealerStatistic('completed',
+                            array
+                            (
+                                'request' => null,
+                                'default_filter' => array
+                                (
+                                    'dealer_id' => $dealer->getId(),
+                                    'quarter' => $main_quarter,
+                                    'year' => $this->_year
+                                )
+                            )
+                        );
+
+                        $completed_models = $completed_models_factory->getModelsList();
+                        foreach ($completed_models as $model) {
+                            var_dump($model['model']->getId());
+                        }
+                        exit;
                     }
                 }
             }

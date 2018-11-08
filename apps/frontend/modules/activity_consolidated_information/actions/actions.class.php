@@ -6,20 +6,14 @@
  * Time: 14:26
  */
 
-require_once sfConfig::get('sf_lib_dir').'/vendor/autoload.php';
-
-ini_set("magic_quotes_runtime", 0);
-
 class activity_consolidated_informationActions extends BaseActivityActions {
-
-    //Общая информация по активности
-    private $consolidated_information = null;
 
     //Общая инцормация по дилерам
     private $consolidated_information_by_dealers = null;
 
     public function executeIndex(sfWebRequest $request) {
         $this->getConsolidatedInformation($request);
+
     }
 
     public function executeFilterData(sfWebRequest $request) {
@@ -68,25 +62,50 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             file_get_contents(sfConfig::get('app_root_dir').'www/pdf/css/css.css')
         ));
 
+        $pages = array();
         $managers_dealers_data =$this->getConsolidatedInformationByDealers($request);
         foreach ($managers_dealers_data as $manager_id => $manager_data) {
             //Проверяем наличие кварталов в выгрузке
             for($quarter = 1; $quarter <= 4; $quarter++) {
                 if (array_key_exists($quarter, $manager_data)) {
                     foreach ($manager_data[$quarter]["dealers"] as $dealer_id => $dealer_data) {
+                        if (!array_key_exists($dealer_id, $pages)) {
+                            $pages[$dealer_id] = array();
+                        }
+
+                        if (!array_key_exists($quarter, $pages[$dealer_id])) {
+                            $pages[$dealer_id][$quarter] = array('budget' => array(), 'statistic' => array(), 'graphs' => array());
+                        }
+
                         //Первая страница выгрузки (основная информация по дилеру)
-                        //$this->generateDealerBudgetPage(array('manager' => $manager_data["manager"], 'dealer_budget' => $dealer_data['budget'], 'activities' => $dealer_data['activities'], 'dealer_id' => $dealer_id, 'not_work_with_activity' => $dealer_data['not_work_with_activity'], 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+                        /*$result = $this->generateDealerBudgetPage(array('manager' => $manager_data["manager"], 'dealer_budget' => $dealer_data['budget'], 'activities' => $dealer_data['activities'], 'dealer_id' => $dealer_id, 'not_work_with_activity' => $dealer_data['not_work_with_activity'], 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+                        $pages[$dealer_id][$quarter]['budget'] = array_merge($pages[$dealer_id][$quarter]['budget'], $result);
 
                         //Вторая страница выгрузки (информация по статистики дилера)
                         if (!empty($dealer_data['completed_statistics'])) {
-                            $this->generateDealerStatisticPages(array('manager' => $manager_data["manager"], 'completed_statistics' => $dealer_data['completed_statistics'], 'dealer_id' => $dealer_id, 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
-                        }
+                            $result = $this->generateDealerStatisticPages(array('manager' => $manager_data["manager"], 'completed_statistics' => $dealer_data['completed_statistics'], 'dealer_id' => $dealer_id, 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+
+                            $pages[$dealer_id][$quarter]['statistic'] = array_merge($pages[$dealer_id][$quarter]['statistic'], $result);
+                        }*/
+
+                        //Третья страница - Графика
+                        $this->generateGraphPage(array('manager' => $manager_data["manager"], 'graph_data' => $dealer_data['graph_data'], 'dealer_id' => $dealer_id, 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
                     }
                 }
             }
         }
 
+        var_dump($pages);
+
         return $this->sendJson(array('success' => false));
+    }
+
+    /**
+     * Генерация графической части выгрузки
+     * @param $param
+     */
+    private function generateGraphPage($param) {
+
     }
 
     /**
@@ -105,11 +124,14 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         );
         $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_budget_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
         file_put_contents($file_name, implode('<br/>', $page1_html));
+
+        return array($file_name);
     }
 
     /**
      * Генерация старицы статистики по дилеру
      * @param $params
+     * @return array
      */
     private function generateDealerStatisticPages($params) {
         $header = get_partial('activity_template_page_dealer_budget_header', array('information' => $params));
@@ -123,15 +145,27 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             }
         }
 
+        $activities = array();
+
+        $pages = array();
+
         //Делаем проход по всем концепциям привязанным к статистике и делаем выборку заполненных данных
         $activity_statistic_completed_fields_list = array();
         foreach ($params['completed_statistics'] as $concept_id => $statistic_params) {
             $activity_statistic_steps_list = ActivityExtendedStatisticStepsTable::getInstance()->createQuery()->where('activity_id = ?', $statistic_params['activity_id'])->orderBy('position ASC')->execute();
 
+            //Получаем список активностей и название привязанной кампании
+            if (!array_key_exists($statistic_params['activity_id'], $activities)) {
+                $activity = ActivityTable::getInstance()->find($statistic_params['activity_id']);
+                if ($activity) {
+                    $activities[$activity->getId()] = array('activity_name' => $activity->getName(), 'company_name' => $activity->getCompanyType()->getName());
+                }
+            }
+
             $page = 1;
             $total_fields = 0;
             foreach ($activity_statistic_steps_list as $step) {
-                //Присваиваем нормер странички (начиниаем с первой)
+                //Присваиваем номер странички (начиниаем с первой)
                 if (!array_key_exists($page, $activity_statistic_completed_fields_list)) {
                     $activity_statistic_completed_fields_list[$page] = array();
                 }
@@ -197,19 +231,27 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                 foreach ($page_data as $concept_id => $concept_data) {
                     $page1_html = array(
                         $header,
-                        get_partial('activity_template_page_dealer_statistic_body', array('information' => $params, 'steps_list' => $activity_statistic_steps_list_ids,  'statistic_data' => $concept_data,  'statistic_params' => $statistic_params)),
+                        get_partial('activity_template_page_dealer_statistic_body',
+                            array(
+                                'information' => $params,
+                                'steps_list' => $activity_statistic_steps_list_ids,
+                                'statistic_data' => $concept_data,
+                                'statistic_params' => $statistic_params,
+                                'activity_id' => $statistic_params['activity_id'],
+                                'activities_list' => $activities
+                            )),
                         get_partial('activity_template_page_dealer_bottom', array())
                     );
 
                     $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_statistic_page_'.$page.'_'.$concept_id."_".$params['quarter'].'_'.$params['dealer_id'].'.html';
                     file_put_contents($file_name, implode('<br/>', $page1_html));
+
+                    $pages[] = $file_name;
                 }
             }
-
         }
 
-
-
+        return $pages;
     }
 
     /**
@@ -337,6 +379,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
 
     private function getConsolidatedInformation(sfWebRequest $request) {
         $this->outputActivity($request);
+
         $this->consolidated_information = new ActivityConsolidatedInformation($this->activity, $request);
     }
 
