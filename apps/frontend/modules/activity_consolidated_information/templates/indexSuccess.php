@@ -81,7 +81,7 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                 <?php
                 $company_type_image = ActivityTypeCompanyImagesTable::getInstance()
                     ->createQuery()
-                    ->where('company_type_id = ?', array($activity->getCompanyType()->getId()))
+                    ->where('company_type_id = ? and activity_id = ?', array($activity->getCompanyType()->getId(), $activity->getId()))
                     ->fetchOne();
                 ?>
 
