@@ -179,12 +179,13 @@ $current_q = D::getQuarter(time());
                                     $regional_managers = UserTable::getInstance()
                                         ->createQuery('u')
                                         ->innerJoin('u.Group g')
-                                        ->where('g.id = ?', User::USER_GROUP_REGIONAL_MANAGER)
+                                        ->andWhere('u.active = ?', true)
+                                        ->andWhere('u.company_type = ? and u.company_department != ?', array('regional_manager', 0))
                                         ->orderBy('u.name ASC')
                                         ->execute();
                                     $sorted_managers = array();
                                     foreach ($regional_managers as $manager) {
-                                        $sorted_managers[DealerTable::getInstance()->createQuery()->where('regional_manager_id = ?', $manager->getNaturalPersonId())->count()] = array('name' => $manager->selectName(), 'id' => $manager->getNaturalPersonId());
+                                        $sorted_managers[DealerTable::getActiveDealersList()->andWhere('regional_manager_id = ?', $manager->getNaturalPersonId())->count()] = array('name' => $manager->selectName(), 'id' => $manager->getNaturalPersonId());
                                     }
 
                                     krsort($sorted_managers);
@@ -199,7 +200,7 @@ $current_q = D::getQuarter(time());
 
                         <?php
                         $dealers_by_type_list = array();
-                        foreach (DealerTable::getInstance()->createQuery()->where('status = ?', true)->andWhere('dealer_type = ? or dealer_type = ?', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))->orderBy('number ASC')->execute() as $dealer) {
+                        foreach (DealerTable::getActiveDealersList()->andWhere('dealer_type = ? or dealer_type = ?', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))->orderBy('number ASC')->execute() as $dealer) {
                             $dealers_by_type_list[$dealer->getDealerTypeLabel()][] = $dealer;
                         }
 

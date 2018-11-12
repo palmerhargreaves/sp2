@@ -56,7 +56,7 @@ ActivityConsolidatedInformation.prototype = {
             if (result.success) {
                 swal({
                     title: "Экспорт",
-                    text: "Экспорт успешно завершен. </br><a href='" + result.url + "' target='_blank'>Скачай меня</a>",
+                    text: "Экспорт успешно завершен. </br><a href='" + result.url + "' target='_blank'>Скачать файл</a>",
                     type: "success",
                     html: true
                 });

@@ -17,7 +17,7 @@ $manager = $consolidated_information->getManager();
 
         <?php include_partial('quarters_list', array('consolidated_information' => $consolidated_information)); ?>
 
-        <h2 class="h1 d-ttu fw_400"><?php echo $consolidated_information->getCompany()->getName(); ?></h2>
+        <h2 class="h1 d-ttu fw_400">КАМПАНИЯ ПО СЕРВИСУ<?php //echo $consolidated_information->getCompany()->getName(); ?></h2>
 
         <h2 class="report-campaign-title is-flexbox">
             <span><?php echo $consolidated_information->getActivity()->getId(); ?>.</span>
@@ -26,7 +26,7 @@ $manager = $consolidated_information->getManager();
 
         <div class="report-campaign-box">
             <div class="report-campaign-descr is-flexbox">
-                <div class="report-campaign-descr__img" style="background-image:url(http://dm.vw-servicepool.ru/images/company/<?php echo $consolidated_information->getCompany()->getImage()->getPath(); ?>)"></div>
+                <div class="report-campaign-descr__img" style="height: 180px; background-image:url(http://dm.vw-servicepool.ru/images/company/<?php echo $consolidated_information->getCompany()->getImage()->getPath(); ?>)"></div>
                 <div class="report-campaign-descr__txt is-flexbox">
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Сроки</dt>
@@ -92,8 +92,8 @@ if ($effectiveness != 0):
         </h2>
         <div class="report-campaign-box">
             <dl class="report-campaign-effsum d-plain is-flexbox is-flexbox_center is-flexbox_justify">
-                <dt>Среднее число выполненных целей</dt>
-                <dd><?php echo Utils::numberFormat($effectiveness, ''); ?> руб.</dd>
+                <dt>Средний % достижения цели</dt>
+                <dd><?php echo round($effectiveness, 0); ?>%</dd>
             </dl>
         </div>
 

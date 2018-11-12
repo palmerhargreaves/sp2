@@ -31,10 +31,13 @@ EOF;
     {
         set_time_limit(0);
         ini_set('memory_limit', '4000M');
-        
+
         // initialize the database connection
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+
+        $utils = new DealerModelsTotalsCostCalcUtil();
+        $utils->buildData();
 
         // add your code here
     }

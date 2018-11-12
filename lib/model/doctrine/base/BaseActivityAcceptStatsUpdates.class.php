@@ -34,6 +34,11 @@ abstract class BaseActivityAcceptStatsUpdates extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => false,
              ));
+        $this->hasColumn('quarter', 'integer', null, array(
+            'type' => 'integer',
+            'notnull' => false,
+            'default' => 0
+        ));
 
         $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');

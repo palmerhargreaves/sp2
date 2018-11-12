@@ -71,10 +71,7 @@ class ActivityConsolidatedInformation
     public function filterData(sfWebRequest $request = null)
     {
         $activity_id = $this->_activity->getId();
-        $query = DealerTable::getInstance()->createQuery()->select('id, name, number')
-            ->where('status = ?', array(true))
-            ->andWhereIn('dealer_type', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))
-            ->orderBy('id ASC');
+        $query = DealerTable::getActiveDealersList();
 
         if (!is_null($request)) {
             //Сохраняем список кварталов
@@ -99,12 +96,15 @@ class ActivityConsolidatedInformation
         //Кампания активности
         $this->_activity_company = ActivityCompanyTypeTable::getInstance()->find($this->_activity->getTypeCompanyId());
 
-        //Для кампаний сохраняем файл в директорию сайта
-        $company_img = sfConfig::get('app_root_dir').'www/images/company/'. $this->_activity_company->getImage()->getPath();
-        if (!file_exists($company_img)) {
-            $company_img_data = file_get_contents('http://dm-ng.palmer-hargreaves.ru/admin/files/company_types/'.$this->_activity_company->getImage()->getPath());
-            if (!empty($company_img_data)) {
-                file_put_contents($company_img, $company_img_data);
+        $company_image = ActivityTypeCompanyImagesTable::getInstance()->createQuery()->where('company_type_id = ? and activity_id = ?', array($this->_activity->getTypeCompanyId(), $activity_id))->fetchOne();
+        if ($company_image) {
+            //Для кампаний сохраняем файл в директорию сайта
+            $company_img = sfConfig::get('app_root_dir') . 'www/images/company/' . $company_image->getPath();
+            if (!file_exists($company_img)) {
+                $company_img_data = file_get_contents('http://dm-ng.palmer-hargreaves.ru/admin/files/company_types/' . $company_image->getPath());
+                if (!empty($company_img_data)) {
+                    file_put_contents($company_img, $company_img_data);
+                }
             }
         }
 
@@ -316,17 +316,19 @@ class ActivityConsolidatedInformation
             if (!empty($this->_quarters_list)) {
                 $query->andWhereIn('quarter', $this->_quarters_list);
             }
-            $target_filled_fields = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+            $target_filled_fields = $query->execute();
 
-            $total_dealers_fill_data = 0;
+            //Получаем список заполненных данных и список данных по умолчанию
+            $target_dealer_default_data = array();
             foreach ($target_filled_fields as $value) {
                 if ($value['value'] != 0) {
-                    $target_fields_values[] = $value['value'];
-                    $total_dealers_fill_data++;
+                    $target_fields_values[] = $value->getValue();
+                    $target_dealer_default_data[] = $value->getField()->getDefValue();
                 }
             }
-            $this->_activity_have_fields_with_targets = $total_dealers_fill_data != 0 ? array_sum($target_fields_values) / $total_dealers_fill_data : 0;
 
+            //Вычисляем среднее значение по заполненным данным дилера
+            $this->_activity_have_fields_with_targets = !empty($target_dealer_default_data) ? array_sum($target_fields_values) / array_sum($target_dealer_default_data) * 100 : 0;
             if (!empty($this->_quarters_list)) {
 
                 //Суммируем данные заполненные дилером
@@ -539,38 +541,43 @@ class ActivityConsolidatedInformation
 
     private static function randColors() {
         $colors = array(
-            array('name' => 'amaranth', 'value' => '#E52B50'),
+            /*array('name' => 'amaranth', 'value' => '#E52B50'),
             array('name' => 'amber', 'value' => '#FFBF00'),
             array('name' => 'amethyst', 'value' => '#9966CC'),
             array('name' => 'apricot', 'value' => '#FBCEB1'),
-            array('name' => 'aquamarine', 'value' => '#7FFFD4'),
+            array('name' => 'aquamarine', 'value' => '#7FFFD4'),*/
             array('name' => 'azure', 'value' => '#007FFF'),
             array('name' => 'baby-blue', 'value' => '#89CFF0'),
-            array('name' => 'beige', 'value' => '#F5F5DC'),
-            array('name' => 'blue', 'value' => '#0000FF'),
+            /*array('name' => 'beige', 'value' => '#F5F5DC'),
+            array('name' => 'blue', 'value' => '#0000FF'),*/
             array('name' => 'blue-green', 'value' => '#0095B6'),
-            array('name' => 'blue-violet', 'value' => '#8A2BE2'),
+            /*array('name' => 'blue-violet', 'value' => '#8A2BE2'),
             array('name' => 'blush', 'value' => '#DE5D83'),
             array('name' => 'bronze', 'value' => '#CD7F32'),
             array('name' => 'brown', 'value' => '#964B00'),
             array('name' => 'burgundy', 'value' => '#800020'),
             array('name' => 'byzantium', 'value' => '#702963'),
             array('name' => 'carmine', 'value' => '#960018'),
-            array('name' => 'cerise', 'value' => '#DE3163'),
+            array('name' => 'cerise', 'value' => '#DE3163'),*/
             array('name' => 'cerulean', 'value' => '#007BA7'),
-            array('name' => 'champagne', 'value' => '#F7E7CE'),
+            /*array('name' => 'champagne', 'value' => '#F7E7CE'),
             array('name' => 'chartreuse-green', 'value' => '#7FFF00'),
             array('name' => 'chocolate', 'value' => '#7B3F00'),
             array('name' => 'cobalt-blue', 'value' => '#0047AB'),
             array('name' => 'coffee', 'value' => '#6F4E37'),
             array('name' => 'copper', 'value' => '#B87333'),
             array('name' => 'coral', 'value' => '#F88379'),
-            array('name' => 'crimson', 'value' => '#DC143C'),
+            array('name' => 'crimson', 'value' => '#DC143C'),*/
             array('name' => 'cyan', 'value' => '#00FFFF'),
-            array('name' => 'desert-sand', 'value' => '#EDC9Af'),
+            /*array('name' => 'desert-sand', 'value' => '#EDC9Af'),*/
             array('name' => 'electric-blue', 'value' => '#7DF9FF'),
-            array('name' => 'emerald', 'value' => '#50C878'),
-            array('name' => 'erin', 'value' => '#00FF3F'),
+            /*array('name' => 'emerald', 'value' => '#50C878'),
+            array('name' => 'erin', 'value' => '#00FF3F'),*/
+            array('name' => 'blue', 'value' => '#29abdf'),
+            array('name' => 'blue2', 'value' => '#7ecdec'),
+            array('name' => 'gray', 'value' => '#bfc2c7'),
+            array('name' => 'gray2', 'value' => '#d1d6d9'),
+            array('name' => 'gray3', 'value' => '#ebedf0'),
         );
 
         return $colors[mt_rand(0, count($colors) - 1)];

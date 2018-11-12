@@ -61,8 +61,9 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                             <div class="modal-select-dropdown">
                                 <?php foreach (UserTable::getInstance()
                                                    ->createQuery('u')
-                                                   ->innerJoin('u.Group g')
-                                                   ->where('g.id = ?', User::USER_GROUP_REGIONAL_MANAGER)
+                                                   ->where('u.group_id = ?', User::USER_GROUP_REGIONAL_MANAGER)
+                                                   ->andWhere('u.active = ?', true)
+                                                   ->andWhere('u.company_type = ? and u.company_department != ?', array('regional_manager', 0))
                                                    ->orderBy('u.name ASC')
                                                    ->execute() as $user): ?>
                                     <div class="modal-select-dropdown-item select-item"
@@ -126,7 +127,7 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                 </div>
 
                 <div class="activity-summary__eff">
-                    <span>Результативность акции (среднее число выполненных целей, <?php echo Utils::numberFormat($effectiveness, ''); ?> руб.)</span>
+                    <span style="width: 100%;">Результативность акции: <?php echo round($effectiveness, 0); ?>%</span>
                     <strong></strong>
                 </div>
             <?php endif; ?>

@@ -49,13 +49,10 @@ class ActivityConsolidatedInformationByDealers
         //$active_activities_list = ActivityTable::getInstance()->createQuery()->select('id, name')->where('finished = ?', false)->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
         //Проходим по всем активным дилерам и собираем информацию по общей сумме заявок за выбранный период
+        $dealers_query = DealerTable::getActiveDealersList();
         $active_dealers_ids = array_map(function ($item) {
             return $item['id'];
-        }, DealerTable::getInstance()->createQuery()
-            ->select('id')
-            ->where('status = ?', true)
-            ->andWhere('(dealer_type = ? or dealer_type = ?)', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))
-            ->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+        }, $dealers_query->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
 
         $dealers_total_cash_by_models = array();
         foreach ($this->_quarters as $quarter) {
@@ -66,24 +63,28 @@ class ActivityConsolidatedInformationByDealers
 
             //Проходим по всем дилерам для получения общей суммы учтенных заявок за выбранный период (квартал и год)
             foreach ($active_dealers_ids as $dealer_id) {
-                if (!array_key_exists($dealer_id, $dealers_total_cash_by_models[$quarter])) {
-                    $dealers_total_cash_by_models[$quarter][$dealer_id] = array('total_models' => 0, 'total_models_cost' => 0);
-                }
 
                 $models_list = AgreementModelTable::getInstance()->createQuery('am')
-                    ->select('id, cost, dealer_id')
+                    ->select('id, cost, dealer_id, model_category_id')
                     ->innerJoin('am.Report r')
                     ->andWhere('am.dealer_id = ?', $dealer_id)
                     //Удаленные заявки не выбираем
                     ->andWhere('is_deleted = ?', false)
+                    ->andWhereIn('activity_id', $this->_activities)
                     ->andWhere('(am.status = ? and r.status = ?)', array('accepted', 'accepted'))
-                    ->andWhere('(year(created_at) = ? or year(created_at) = ?)', array($this->_year, $this->_year - 1))
+                    //->andWhere('(year(created_at) = ? or year(created_at) = ?)', array($this->_year, $this->_year - 1))
+                    ->andWhere('(year(created_at) = ?)', array($this->_year))
                     ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
                 //Получаемя список заявок с привязкой к индексу заявки и стоимости заявки
                 $models_list_with_cost = array();
                 foreach ($models_list as $model) {
-                    $models_list_with_cost[$model['id']] = $model['cost'];
+                    //Учитываем для категории заявки общую сумму
+                    if (!array_key_exists($model['model_category_id'], $dealers_total_cash_by_models[$quarter])) {
+                        $dealers_total_cash_by_models[$quarter][$model['model_category_id']] = array();
+                    }
+
+                    $models_list_with_cost[$model['id']] = array('cost' => floatval($model['cost']), 'model_category_id' => $model['model_category_id']);
                 }
 
                 //Получаем индексы заявок для получения точной даты выполнения заявки
@@ -91,8 +92,14 @@ class ActivityConsolidatedInformationByDealers
                     return $item['id'];
                 }, $models_list);
 
+                //Если нет заявок переходим к сл. дилеру
+                if (empty($models_list)) {
+                    continue;
+                }
+
                 //Список выполненных заявок с корректными датами
                 $models_dates = Utils::getModelDateFromLogEntryWithYear($models_ids);
+
                 foreach ($models_dates as $model_item) {
                     if (array_key_exists($model_item['object_id'], $models_list_with_cost)) {
                         //Дата выполнения заявки
@@ -103,17 +110,17 @@ class ActivityConsolidatedInformationByDealers
                         $model_year = D::getYear($model_date);
 
                         //Делаем проверку на квартал и год выполнения
-                        if ($model_quarter == $quarter && $model_year == $this->_year) {
-                            /*$dealers_total_cash_by_models[$quarter][$dealer_id]['total_models_cost'] += $models_list_with_cost[$model_item['object_id']]['cost'];
-                            $dealers_total_cash_by_models[$quarter][$dealer_id]['total_models']++;*/
+                        if (in_array($model_quarter, $this->_quarters) && $model_year == $this->_year) {
+                            $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models_cost'] += $models_list_with_cost[$model_item['object_id']]['cost'];
+                            $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models']++;
                         }
                     }
                 }
             }
         }
 
-        var_dump($dealers_total_cash_by_models);
-        exit;
+        //Аккамулируем сумму по категориям заявок для каждого дилера с учетом квартала
+        $dealer_total_models_cost_by_categories = array();
 
         //Получаем список региональных менеджеров
         foreach ($this->getRegionalManager() as $manager) {
@@ -328,24 +335,37 @@ class ActivityConsolidatedInformationByDealers
                                 (
                                     'dealer_id' => $dealer->getId(),
                                     'quarter' => $main_quarter,
-                                    'year' => $this->_year
+                                    'year' => $this->_year,
+                                    'activity' => $activity_id
                                 )
                             )
                         );
 
                         $completed_models = $completed_models_factory->getModelsList();
                         foreach ($completed_models as $model) {
-                            var_dump($model['model']->getId());
+                            if (!array_key_exists($main_quarter, $dealer_total_models_cost_by_categories)) {
+                                $dealer_total_models_cost_by_categories[$main_quarter] = array();
+                            }
+
+                            if (!array_key_exists($dealer->getId(), $dealer_total_models_cost_by_categories[$main_quarter])) {
+                                $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()] = array();
+                            }
+
+                            if (!array_key_exists($model['model']->getModelCategoryId(), $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()])) {
+                                $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()][$model['model']->getModelCategoryId()] = array('total_models' => 0, 'total_cost' => 0);
+                            }
+
+                            $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()][$model['model']->getModelCategoryId()]['total_cost'] += $model['model']->getCost();
+                            $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()][$model['model']->getModelCategoryId()]['total_models']++;
                         }
 
                         unset($completed_models_factory);
-                        exit;
                     }
                 }
             }
         }
 
-        return $manager_dealers_list;
+            return array('managers_dealers_data' => $manager_dealers_list, 'dealer_total_models_cost_by_categories' => $dealer_total_models_cost_by_categories, 'dealers_total_cost' => $dealers_total_cash_by_models);
     }
 
     /**
@@ -360,8 +380,9 @@ class ActivityConsolidatedInformationByDealers
         if ($regional_manager_id == 999) {
             foreach (UserTable::getInstance()->createQuery('u')
                          ->innerJoin('u.Group g')
-                         ->where('g.id = ?', User::USER_GROUP_REGIONAL_MANAGER)
-                         ->orderBy('u.name ASC')
+                         ->where('u.group_id = ?', User::USER_GROUP_REGIONAL_MANAGER)
+                         ->andWhere('u.active = ?', true)
+                         ->andWhere('u.company_type = ? and u.company_department != ?', array('regional_manager', 0))
                          ->execute() as $manager) {
                 $regional_managers_list[] = $manager->getNaturalPerson();
             }

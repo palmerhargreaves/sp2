@@ -18,7 +18,7 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
 
         <?php include_partial('quarters_list', array('consolidated_information' => $consolidated_information)); ?>
 
-        <h2 class="h1 d-ttu fw_400"><?php echo $consolidated_information->getCompany()->getName(); ?></h2>
+        <h2 class="h1 d-ttu fw_400">КАМПАНИЯ ПО СЕРВИСУ<?php //echo $consolidated_information->getCompany()->getName(); ?></h2>
 
         <h2 class="report-campaign-title is-flexbox">
             <span><?php echo $consolidated_information->getActivity()->getId(); ?>.</span>

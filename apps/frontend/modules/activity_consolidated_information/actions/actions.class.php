@@ -30,7 +30,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         $regional_manager_id = $request->getParameter('manager_id');
 
         //Получаем список дилеров по типу, если запрос по менеджеру то фиотруем по менеджеру
-        $query = DealerTable::getInstance()->createQuery()->where('dealer_type = ? or dealer_type = ?', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))->orderBy('number ASC');
+        $query = DealerTable::getActiveDealersList()->andWhere('dealer_type = ? or dealer_type = ?', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))->orderBy('number ASC');
         if ($regional_manager_id != 999) {
             $query->andWhere('regional_manager_id = ?', $regional_manager_id);
         }
@@ -63,7 +63,9 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         ));
 
         $pages = array();
-        $managers_dealers_data =$this->getConsolidatedInformationByDealers($request);
+        $data = $this->getConsolidatedInformationByDealers($request);
+        $managers_dealers_data = $data['managers_dealers_data'];
+
         foreach ($managers_dealers_data as $manager_id => $manager_data) {
             //Проверяем наличие кварталов в выгрузке
             for($quarter = 1; $quarter <= 4; $quarter++) {
@@ -89,23 +91,46 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                         }*/
 
                         //Третья страница - Графика
-                        $this->generateGraphPage(array('manager' => $manager_data["manager"], 'graph_data' => $dealer_data['graph_data'], 'dealer_id' => $dealer_id, 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+                        $pages[$dealer_id]['graphs'][] = $this->generateGraphPage(array(
+                            'dealers_total_cost' => $data['dealers_total_cost'][$quarter],
+                            'dealer_total_models_cost_by_categories' => $data['dealer_total_models_cost_by_categories'][$quarter][$dealer_id],
+                            'manager' => $manager_data["manager"],
+                            'graph_data' => $dealer_data['graph_data'],
+                            'dealer_id' => $dealer_id,
+                            'dealer' => $dealer_data["dealer"],
+                            'css' => $css,
+                            'quarter' => $quarter));
+                        exit;
                     }
                 }
             }
         }
-
-        var_dump($pages);
 
         return $this->sendJson(array('success' => false));
     }
 
     /**
      * Генерация графической части выгрузки
-     * @param $param
+     * @param $params
+     * @return array
+     * @internal param $param
      */
-    private function generateGraphPage($param) {
+    private function generateGraphPage($params) {
 
+
+
+        $header = get_partial('activity_template_page_dealer_budget_header', array('information' => $params));
+        $header = str_replace('<style></style>', '<style>'.$params['css'].'</style>', $header);
+
+        $page1_html = array(
+            $header,
+            get_partial('activity_template_page_dealer_graph_body', array('data' => $params)),
+            get_partial('activity_template_page_dealer_bottom', array())
+        );
+        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_graph_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
+        file_put_contents($file_name, implode('<br/>', $page1_html));
+
+        return array($file_name);
     }
 
     /**

@@ -41,6 +41,10 @@ abstract class DealerModelsAbstract {
             $this->_filter['quarter'] = $this->_params['default_filter']['quarter'];
             $this->_filter['year'] = $this->_params['default_filter']['year'];
             $this->_filter['dealer_id'] = $this->_params['default_filter']['dealer_id'];
+
+            if (isset($this->_params['default_filter']['activity_id'])) {
+                $this->_filter['activity'] = $this->_params['default_filter']['activity'];
+            }
         } else {
             $this->_filter['quarter'] = $this->_request->getPostParameter('quarter', D::getQuarter(D::calcQuarterData(time())));
             $this->_filter['year'] = $this->_request->getPostParameter('year', D::getYear(D::calcQuarterData(time())));
