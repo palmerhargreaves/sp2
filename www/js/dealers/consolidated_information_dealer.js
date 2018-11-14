@@ -2,33 +2,35 @@
  * Created by kostet on 10.10.2018.
  */
 
-var DealerConsolidatedInformation = function(config) {
+var DealerConsolidatedInformation = function (config) {
 
     $.extend(this, config);
+
+    this.is_running = false;
 }
 
 DealerConsolidatedInformation.prototype = {
-    start: function() {
+    start: function () {
         this.initEvents();
         this.initElements();
 
         return this;
     },
 
-    initEvents: function() {
+    initEvents: function () {
         $(document).on('change', '#sb-consolidated-information-regional-manager', $.proxy(this.onChangeRegionalManager, this));
 
         $(document).on('click', '.btn-export-consolidated-information-by-dealers', $.proxy(this.onMakeExport, this));
 
     },
 
-    initElements: function() {
+    initElements: function () {
         this.createSelectBox('#sb-consolidated-information-activities', 'Выберите активност(ь, и)', 'Выбранные активности', true);
         this.createSelectBox('#sb-consolidated-information-quarters', 'Выберите квартал(ы) кварталы', 'Выбранные кварталы', true);
         this.createSelectBox('#sb-consolidated-information-dealers', 'Выберите дилера', 'Выбранные дилеры', true);
     },
 
-    onChangeRegionalManager: function(event) {
+    onChangeRegionalManager: function (event) {
         var element = $(event.currentTarget);
 
         $.post(element.data('url'), {
@@ -36,15 +38,15 @@ DealerConsolidatedInformation.prototype = {
         }, $.proxy(this.onChangeManagerResult, this));
     },
 
-    onChangeManagerResult: function(data) {
+    onChangeManagerResult: function (data) {
         this.reinitSelectBox('#sb-consolidated-information-dealers', data.dealers_list);
     },
 
-    reinitSelectBox: function(id, data) {
+    reinitSelectBox: function (id, data) {
         $(id).multiselect('loadOptions', data);
     },
 
-    createSelectBox: function(id, placeholder, selectedOptionsLabel, selectAll, showCheckBox) {
+    createSelectBox: function (id, placeholder, selectedOptionsLabel, selectAll, showCheckBox) {
         $(id).multiselect({
             search: true,
             columns: 2,
@@ -61,8 +63,8 @@ DealerConsolidatedInformation.prototype = {
         });
     },
 
-    onMakeExport: function(event) {
-        var element = $(event.currentTarget), quarters = null, activities = null, dealers = null, self = this;
+    onMakeExport: function (event) {
+        var element = $(event.currentTarget), self = this;
 
         event.preventDefault();
 
@@ -101,17 +103,28 @@ DealerConsolidatedInformation.prototype = {
             return;
         }
 
-        //this.getLoader().show();
+        if (this.is_running) {
+            swal({
+                title: "Экспорт",
+                text: "Дождитесь завершения экспорта!",
+                type: "error",
+            });
+
+            return;
+        }
+
+        this.getLoader().show();
+        this.is_running = true;
         $.post(element.data('url'), {
             activities: activities,
             quarters: quarters,
             dealers: dealers,
             regional_manager: $("select[name=sb_consolidated_information_regional_manager]").val()
-        }, function(result) {
+        }, function (result) {
             if (result.success) {
                 swal({
                     title: "Экспорт",
-                    text: "Экспорт успешно завершен. </br><a href='" + result.url + "' target='_blank'>Скачай меня</a>",
+                    text: "Экспорт успешно завершен. </br><a href='" + result.url + "' target='_blank'>Скачать файл</a>",
                     type: "success",
                     html: true
                 });
@@ -122,12 +135,14 @@ DealerConsolidatedInformation.prototype = {
                     type: "error",
                 });
             }
+
             element.show();
             self.getLoader().hide();
+            self.is_running = false;
         });
     },
 
-    getLoader: function() {
+    getLoader: function () {
         return $('#export-consolidated-information-progress');
     }
 }

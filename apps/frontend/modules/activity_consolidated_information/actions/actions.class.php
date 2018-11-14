@@ -66,7 +66,12 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         $data = $this->getConsolidatedInformationByDealers($request);
         $managers_dealers_data = $data['managers_dealers_data'];
 
+        $exists_activities = array();
+        $by_manager = 0;
+
         foreach ($managers_dealers_data as $manager_id => $manager_data) {
+            $by_manager = $manager_id;
+
             //Проверяем наличие кварталов в выгрузке
             for($quarter = 1; $quarter <= 4; $quarter++) {
                 if (array_key_exists($quarter, $manager_data)) {
@@ -80,7 +85,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                         }
 
                         //Первая страница выгрузки (основная информация по дилеру)
-                        /*$result = $this->generateDealerBudgetPage(array('manager' => $manager_data["manager"], 'dealer_budget' => $dealer_data['budget'], 'activities' => $dealer_data['activities'], 'dealer_id' => $dealer_id, 'not_work_with_activity' => $dealer_data['not_work_with_activity'], 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+                        $result = $this->generateDealerBudgetPage(array('manager' => $manager_data["manager"], 'dealer_budget' => $dealer_data['budget'], 'activities' => $dealer_data['activities'], 'dealer_id' => $dealer_id, 'not_work_with_activity' => $dealer_data['not_work_with_activity'], 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
                         $pages[$dealer_id][$quarter]['budget'] = array_merge($pages[$dealer_id][$quarter]['budget'], $result);
 
                         //Вторая страница выгрузки (информация по статистики дилера)
@@ -88,25 +93,90 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                             $result = $this->generateDealerStatisticPages(array('manager' => $manager_data["manager"], 'completed_statistics' => $dealer_data['completed_statistics'], 'dealer_id' => $dealer_id, 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
 
                             $pages[$dealer_id][$quarter]['statistic'] = array_merge($pages[$dealer_id][$quarter]['statistic'], $result);
-                        }*/
+                        }
 
                         //Третья страница - Графика
-                        $pages[$dealer_id]['graphs'][] = $this->generateGraphPage(array(
-                            'dealers_total_cost' => $data['dealers_total_cost'][$quarter],
-                            'dealer_total_models_cost_by_categories' => $data['dealer_total_models_cost_by_categories'][$quarter][$dealer_id],
-                            'manager' => $manager_data["manager"],
-                            'graph_data' => $dealer_data['graph_data'],
-                            'dealer_id' => $dealer_id,
-                            'dealer' => $dealer_data["dealer"],
-                            'css' => $css,
-                            'quarter' => $quarter));
-                        exit;
+                        //Только для кварталов с заполненной статистикой
+                        if (array_key_exists($dealer_id, $data['dealer_total_models_cost_by_categories']) && array_key_exists($quarter, $data['dealer_total_models_cost_by_categories'][$dealer_id])) {
+                            foreach ($data['dealer_total_models_cost_by_categories'][$dealer_id][$quarter] as $activity_id => $dealers_data) {
+                                if (!array_key_exists($activity_id, $exists_activities)) {
+                                    $exists_activities[$activity_id] = ActivityTable::getInstance()->find($activity_id);
+                                }
+
+                                $result = $this->generateGraphPage(array(
+                                    'dealers_total_cost' => $data['dealers_total_cost'][$quarter],
+                                    'dealer_total_models_cost_by_categories' => $dealers_data,
+                                    'manager' => $manager_data["manager"],
+                                    'dealer_id' => $dealer_id,
+                                    'dealer' => $dealer_data["dealer"],
+                                    'activity_data' => array('activity_name' => $exists_activities[$activity_id]->getName(), 'company_name' => $exists_activities[$activity_id]->getCompanyType()->getName()),
+                                    'tick_values' => $data['graph_tick_values'],
+                                    'css' => $css,
+                                    'quarter' => $quarter));
+
+                                $pages[$dealer_id][$quarter]['graphs'] = array_merge($pages[$dealer_id][$quarter]['graphs'], $result);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        return $this->sendJson(array('success' => false));
+        $this->convertDealersHtmlPagesToPdf($pages, $by_manager);
+
+        return $this->sendJson(array('success' => true, 'url' => sfConfig::get('app_site_url').'pdf/gen_files/dealers_consolidate_information.pdf'));
+    }
+
+    /**
+     * Создаем страницу пдф на основе созданных html
+     * @param $pages
+     * @param $manager_id
+     * @param string $page_size
+     * @return string
+     */
+    private function convertDealersHtmlPagesToPdf($pages, $manager_id, $page_size = '1024px') {
+        $generated_png = array();
+
+        //Создаем на основе сгенерированной картинки пдф файл
+        $output_file_name = 'dealers_consolidate_information';
+        $save_to = sfConfig::get('app_root_dir').'www/pdf/gen_files/'.$output_file_name.'.pdf';
+        @unlink($save_to);
+
+        foreach ($pages as $dealer_id => $dealer_data) {
+
+
+            foreach ($dealer_data as $quarter => $pages) {
+                //Для страниц бюджета
+                foreach ($pages['budget'] as $page) {
+                    $file_data = pathinfo($page);
+                    $file_name = $file_data['filename'];
+
+                    exec('phantomjs '.sfConfig::get('app_root_dir').'www/js/pdf/rasterize.js ' . $page .' '. sfConfig::get('app_root_dir') . 'www/pdf/data/dealers/budget/' . $file_name . '.png '.$page_size);
+                    $generated_png[] =  sfConfig::get('app_root_dir') . 'www/pdf/data/dealers/budget/' . $file_name . '.png';
+                }
+
+                //Для страниц статистики
+                foreach ($pages['statistic'] as $page) {
+                    $file_data = pathinfo($page);
+                    $file_name = $file_data['filename'];
+
+                    exec('phantomjs '.sfConfig::get('app_root_dir').'www/js/pdf/rasterize.js ' . $page .' '. sfConfig::get('app_root_dir') . 'www/pdf/data/dealers/statistics/' . $file_name . '.png '.$page_size);
+                    $generated_png[] =  sfConfig::get('app_root_dir') . 'www/pdf/data/dealers/statistics/' . $file_name . '.png';
+                }
+
+                //Для страниц графики
+                foreach ($pages['graphs'] as $page) {
+                    $file_data = pathinfo($page);
+                    $file_name = $file_data['filename'];
+
+                    exec('phantomjs '.sfConfig::get('app_root_dir').'www/js/pdf/rasterize.js ' . $page .' '. sfConfig::get('app_root_dir') . 'www/pdf/data/dealers/graphs/' . $file_name . '.png '.$page_size);
+                    $generated_png[] =  sfConfig::get('app_root_dir') . 'www/pdf/data/dealers/graphs/' . $file_name . '.png';
+                }
+            }
+        }
+
+        //Генерация пдф с картинок
+        exec('convert '.implode(' ', $generated_png).' '.$save_to);
     }
 
     /**
@@ -116,9 +186,6 @@ class activity_consolidated_informationActions extends BaseActivityActions {
      * @internal param $param
      */
     private function generateGraphPage($params) {
-
-
-
         $header = get_partial('activity_template_page_dealer_budget_header', array('information' => $params));
         $header = str_replace('<style></style>', '<style>'.$params['css'].'</style>', $header);
 
@@ -127,7 +194,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             get_partial('activity_template_page_dealer_graph_body', array('data' => $params)),
             get_partial('activity_template_page_dealer_bottom', array())
         );
-        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_graph_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
+        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/dealers/graphs/activity_consolidated_information_dealer_graph_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
         file_put_contents($file_name, implode('<br/>', $page1_html));
 
         return array($file_name);
@@ -147,7 +214,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             get_partial('activity_template_page_dealer_budget_body', array('information' => $params)),
             get_partial('activity_template_page_dealer_bottom', array())
         );
-        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_budget_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
+        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/dealers/budget/activity_consolidated_information_dealer_budget_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
         file_put_contents($file_name, implode('<br/>', $page1_html));
 
         return array($file_name);
@@ -268,7 +335,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                         get_partial('activity_template_page_dealer_bottom', array())
                     );
 
-                    $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/dealers/activity_consolidated_information_dealer_statistic_page_'.$page.'_'.$concept_id."_".$params['quarter'].'_'.$params['dealer_id'].'.html';
+                    $file_name = sfConfig::get('app_root_dir').'www/pdf/data/dealers/statistics/activity_consolidated_information_dealer_statistic_page_'.$page.'_'.$concept_id."_".$params['quarter'].'_'.$params['dealer_id'].'.html';
                     file_put_contents($file_name, implode('<br/>', $page1_html));
 
                     $pages[] = $file_name;
@@ -303,10 +370,16 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         //Страница данных по дилерам
         $this->generateDealersPage($css, 3);
 
-        return $this->sendJson(array('success' => $this->convertHtmlToPdf(), 'url' => sfConfig::get('app_site_url').'pdf/output.pdf'));
+        $output_file_name = sprintf('consolidated_information_%s.pdf',$this->activity->getId());
+        return $this->sendJson(array('success' => $this->convertHtmlToPdf($output_file_name), 'url' => sfConfig::get('app_site_url').'pdf/gen_files/'.$output_file_name));
     }
 
-    private function convertHtmlToPdf($page_size = '1024px') {
+    /**
+     * @param $output_file_name
+     * @param string $page_size
+     * @return array
+     */
+    private function convertHtmlToPdf($output_file_name, $page_size = '1024px') {
         $page_name = 'activity_consolidated_information_';
 
         $page_index = 1;
@@ -314,18 +387,18 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         //Генерация картинок с html
         while(1) {
             $file_name = $page_name.$page_index++;
-            $file = 'http://dm.vw-servicepool.ru/js/pdf/data/'.$file_name.'.html';
-            $local_file = sfConfig::get('app_root_dir') . 'www/js/pdf/data/'.$file_name.'.html';
+            $file = 'http://dm.vw-servicepool.ru/pdf/data/activity/'.$file_name.'.html';
+            $local_file = sfConfig::get('app_root_dir') . 'www/pdf/data/activity/'.$file_name.'.html';
 
             if (!file_exists($local_file)) {
                 break;
             }
 
-            exec('phantomjs '.sfConfig::get('app_root_dir').'www/js/pdf/rasterize.js ' . $file .' '. sfConfig::get('app_root_dir') . 'www/js/pdf/data/' . $file_name . '.png '.$page_size);
-            $images_files_list[] = sfConfig::get('app_root_dir') . 'www/js/pdf/data/' . $file_name . '.png';
+            exec('phantomjs '.sfConfig::get('app_root_dir').'www/js/pdf/rasterize.js ' . $file .' '. sfConfig::get('app_root_dir') . 'www/pdf/data/activity/' . $file_name . '.png '.$page_size);
+            $images_files_list[] = sfConfig::get('app_root_dir') . 'www/pdf/data/activity/' . $file_name . '.png';
         }
 
-        $save_to = sfConfig::get('app_root_dir').'www/pdf/output.pdf';
+        $save_to = sfConfig::get('app_root_dir').'www/pdf/gen_files/'.$output_file_name;
         @unlink($save_to);
 
         //Генерация пдф с картинок
@@ -345,7 +418,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             get_partial('activity_template_page1_body', array('consolidated_information' => $this->consolidated_information)),
             get_partial('activity_template_page1_bottom', array())
         );
-        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/activity_consolidated_information_'.$page_index.'.html';
+        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index.'.html';
         file_put_contents($file_name, implode('<br/>', $page1_html));
     }
 
@@ -359,7 +432,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             get_partial('activity_template_page2_bottom', array())
         );
 
-        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/activity_consolidated_information_'.$page_index.'.html';
+        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index.'.html';
         file_put_contents($file_name, implode('<br/>', $page2_html));
     }
 
@@ -374,7 +447,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             $header,
             get_partial('activity_template_page3_body', array('consolidated_information' => $this->consolidated_information, 'page' => $pages[1])),
         );
-        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/activity_consolidated_information_'.$page_index++.'.html';
+        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index++.'.html';
         file_put_contents($file_name, implode('<br/>', $page3_html));
 
         $dealer_header = get_partial('activity_template_page3_dealer_header', array());
@@ -387,7 +460,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                 get_partial('activity_template_page3_body', array('consolidated_information' => $this->consolidated_information, 'page' => $pages[$index])),
                 get_partial('activity_template_page3_dealer_bottom', array())
             );
-            $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/activity_consolidated_information_'.$page_index++.'.html';
+            $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index++.'.html';
             file_put_contents($file_name, implode('<br/>', $dealer_page_html));
         }
 
@@ -398,7 +471,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             get_partial('activity_template_page3_body', array('consolidated_information' => $this->consolidated_information, 'page' => $pages[$pages_count])),
             get_partial('activity_template_page3_bottom', array())
         );
-        $file_name = sfConfig::get('app_root_dir').'www/js/pdf/data/activity_consolidated_information_'.$page_index.'.html';
+        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index.'.html';
         file_put_contents($file_name, implode('<br/>', $dealer_last_page_html));
     }
 

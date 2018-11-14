@@ -54,6 +54,7 @@ class ActivityConsolidatedInformationByDealers
             return $item['id'];
         }, $dealers_query->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
 
+        $max_models_cost = 0;
         $dealers_total_cash_by_models = array();
         foreach ($this->_quarters as $quarter) {
             //Учитываем квартал
@@ -81,7 +82,7 @@ class ActivityConsolidatedInformationByDealers
                 foreach ($models_list as $model) {
                     //Учитываем для категории заявки общую сумму
                     if (!array_key_exists($model['model_category_id'], $dealers_total_cash_by_models[$quarter])) {
-                        $dealers_total_cash_by_models[$quarter][$model['model_category_id']] = array();
+                        $dealers_total_cash_by_models[$quarter][$model['model_category_id']] = array('total_models_cost' => 0, 'total_models' => 0, 'percent' => 0);
                     }
 
                     $models_list_with_cost[$model['id']] = array('cost' => floatval($model['cost']), 'model_category_id' => $model['model_category_id']);
@@ -110,11 +111,25 @@ class ActivityConsolidatedInformationByDealers
                         $model_year = D::getYear($model_date);
 
                         //Делаем проверку на квартал и год выполнения
-                        if (in_array($model_quarter, $this->_quarters) && $model_year == $this->_year) {
+                        if ($model_quarter == $quarter && $model_year == $this->_year) {
                             $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models_cost'] += $models_list_with_cost[$model_item['object_id']]['cost'];
                             $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models']++;
+
+                            //Максимальная сумма заявок по категориям
+                            if ($dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models_cost'] > $max_models_cost) {
+                                $max_models_cost = $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models_cost'];
+                            }
                         }
                     }
+                }
+            }
+        }
+
+        //Вычисяляем проценты от максимальной суммы заявок
+        if ($max_models_cost > 0) {
+            foreach ($dealers_total_cash_by_models as $quarter => $model_item) {
+                foreach ($model_item as $model_category_id => $model_category) {
+                    $dealers_total_cash_by_models[$quarter][$model_category_id]['percent'] = $model_category['total_models_cost'] * 100 / $max_models_cost;
                 }
             }
         }
@@ -323,49 +338,67 @@ class ActivityConsolidatedInformationByDealers
                                         }
                                     }
                                 }
+
+
+                                //Получаем список выполненных заявок по дилеру и периоду
+                                $completed_models_factory = DealerStatisticFactory::getInstance()->getDealerStatistic('completed',
+                                    array
+                                    (
+                                        'request' => null,
+                                        'default_filter' => array
+                                        (
+                                            'dealer_id' => $dealer->getId(),
+                                            'quarter' => $main_quarter,
+                                            'year' => $this->_year,
+                                            'activity' => $activity_id
+                                        )
+                                    )
+                                );
+
+                                $completed_models = $completed_models_factory->getModelsList();
+                                foreach ($completed_models as $model) {
+                                    if (!array_key_exists($dealer->getId(), $dealer_total_models_cost_by_categories)) {
+                                        $dealer_total_models_cost_by_categories[$dealer->getId()] = array();
+                                    }
+
+                                    if (!array_key_exists($main_quarter, $dealer_total_models_cost_by_categories[$dealer->getId()])) {
+                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter] = array();
+                                    }
+
+                                    if (!array_key_exists($activity_id, $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter])) {
+                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id] = array();
+                                    }
+
+                                    if (!array_key_exists($model['model']->getModelCategoryId(), $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id])) {
+                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()] = array('total_models' => 0, 'total_cost' => 0, 'percent' => 0);
+                                    }
+
+                                    $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['total_cost'] += $model['model']->getCost();
+                                    $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['total_models']++;
+
+                                    if ($max_models_cost > 0) {
+                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['percent'] = $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['total_cost'] * 100 / $max_models_cost;
+                                    }
+                                }
+
+                                unset($completed_models_factory);
                             }
                         }
-
-                        //Получаем список выполненных заявок по дилеру и периоду
-                        $completed_models_factory = DealerStatisticFactory::getInstance()->getDealerStatistic('completed',
-                            array
-                            (
-                                'request' => null,
-                                'default_filter' => array
-                                (
-                                    'dealer_id' => $dealer->getId(),
-                                    'quarter' => $main_quarter,
-                                    'year' => $this->_year,
-                                    'activity' => $activity_id
-                                )
-                            )
-                        );
-
-                        $completed_models = $completed_models_factory->getModelsList();
-                        foreach ($completed_models as $model) {
-                            if (!array_key_exists($main_quarter, $dealer_total_models_cost_by_categories)) {
-                                $dealer_total_models_cost_by_categories[$main_quarter] = array();
-                            }
-
-                            if (!array_key_exists($dealer->getId(), $dealer_total_models_cost_by_categories[$main_quarter])) {
-                                $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()] = array();
-                            }
-
-                            if (!array_key_exists($model['model']->getModelCategoryId(), $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()])) {
-                                $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()][$model['model']->getModelCategoryId()] = array('total_models' => 0, 'total_cost' => 0);
-                            }
-
-                            $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()][$model['model']->getModelCategoryId()]['total_cost'] += $model['model']->getCost();
-                            $dealer_total_models_cost_by_categories[$main_quarter][$dealer->getId()][$model['model']->getModelCategoryId()]['total_models']++;
-                        }
-
-                        unset($completed_models_factory);
                     }
                 }
             }
         }
 
-            return array('managers_dealers_data' => $manager_dealers_list, 'dealer_total_models_cost_by_categories' => $dealer_total_models_cost_by_categories, 'dealers_total_cost' => $dealers_total_cash_by_models);
+        $graph_ticks_values = array();
+
+        $tick_step_value = ceil($max_models_cost) / 10;
+        $tick_next_value = 0;
+        for($tick_index = 0; $tick_index <= 10; $tick_index++) {
+            $graph_ticks_values[] = $tick_next_value;
+            $tick_next_value += $tick_step_value;
+        }
+
+        return array('managers_dealers_data' => $manager_dealers_list, 'graph_tick_values' => $graph_ticks_values, 'dealer_total_models_cost_by_categories' => $dealer_total_models_cost_by_categories, 'dealers_total_cost' => $dealers_total_cash_by_models);
     }
 
     /**

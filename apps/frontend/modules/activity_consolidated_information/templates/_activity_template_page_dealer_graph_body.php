@@ -8,8 +8,12 @@
 
 $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
 
-$information = $information->getRawValue();
 
+$dealers_total_cost = $data['dealers_total_cost']->getRawValue();
+$dealer_total_models_cost_by_categories = $data['dealer_total_models_cost_by_categories']->getRawValue();
+
+$activity = $data['activity_data']->getRawValue();
+$tick_values = $data['tick_values']->getRawValue();
 ?>
 
 <main id="d-content">
@@ -32,73 +36,31 @@ $information = $information->getRawValue();
         <h2 class="h1 d-ttu">Затраты на продвижение <span class="d-ttn">(руб.)</span></h2>
 
         <div class="report-chart">
+            <?php
 
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Интернет-продвижение</div>
-                <div class="report-chart__item" style="width:20%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:13%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:5%;"><span> 13 333,99</span></div>
-            </div>
-
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Закупки</div>
-                <div class="report-chart__item" style="width:50%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:30%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:10%;"><span> 13 333,99</span></div>
-            </div>
-
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Мероприятия для клиентов</div>
-                <div class="report-chart__item" style="width:20%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:13%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:5%;"><span> 13 333,99</span></div>
-            </div>
-
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Электронные файлы</div>
-                <div class="report-chart__item" style="width:50%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:30%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:10%;"><span> 13 333,99</span></div>
-            </div>
-
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Печатные материалы</div>
-                <div class="report-chart__item" style="width:20%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:13%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:5%;"><span> 13 333,99</span></div>
-            </div>
-
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Текстовые файлы</div>
-                <div class="report-chart__item" style="width:50%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:30%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:10%;"><span> 13 333,99</span></div>
-            </div>
-
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Видеофайлы</div>
-                <div class="report-chart__item" style="width:20%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:13%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:5%;"><span> 13 333,99</span></div>
-            </div>
-
-            <div class="report-chart__row">
-                <div class="report-chart__caption">Аудиофайлы</div>
-                <div class="report-chart__item" style="width:100%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-orange" style="width:30%;"><span> 13 333,99</span></div>
-                <div class="report-chart__item is-blue" style="width:10%;"><span> 13 333,99</span></div>
-            </div>
+            foreach ($dealers_total_cost as $category_id => $category_data):
+                $category = AgreementModelCategoriesTable::getInstance()->find($category_id);
+                if ($category && !$category->getIsBlank()):
+            ?>
+                <div class="report-chart__row">
+                    <div class="report-chart__caption"><?php echo $category->getName(); ?></div>
+                    <div class="report-chart__item" style="width:<?php echo round($category_data['percent'], 0); ?>%;">
+                        <span> <?php echo Utils::format_number($category_data['total_models_cost'], 0); ?></span>
+                    </div>
+                    <!--<div class="report-chart__item is-orange" style="width:13%;"><span> 13 333,99</span></div>-->
+                    <?php if (array_key_exists($category_id, $dealer_total_models_cost_by_categories)): ?>
+                        <div class="report-chart__item is-blue" style="width:<?php echo round($dealer_total_models_cost_by_categories[$category_id]['percent'],0); ?>%;">
+                            <span> <?php echo Utils::format_number($dealer_total_models_cost_by_categories[$category_id]['total_cost'], 0); ?></span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
 
             <div class="report-chart__axis">
-                <div><span>0</span></div>
-                <div><span>5 000</span></div>
-                <div><span>10 000</span></div>
-                <div><span>15 000</span></div>
-                <div><span>20 000</span></div>
-                <div><span>25 000</span></div>
-                <div><span>30 000</span></div>
-                <div><span>35 000</span></div>
-                <div><span>40 000</span></div>
+                <?php foreach ($tick_values as $value): ?>
+                    <div><span><?php echo Utils::format_number($value, 0); ?></span></div>
+                <?php endforeach; ?>
             </div>
 
         </div>

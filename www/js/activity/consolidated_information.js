@@ -53,6 +53,7 @@ ActivityConsolidatedInformation.prototype = {
             quarters: quarters,
             regional_manager: $("input[name=regional_manager_or_dealers]").val()
         }, function(result) {
+            console.log(result);
             if (result.success) {
                 swal({
                     title: "Экспорт",
