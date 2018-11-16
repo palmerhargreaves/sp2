@@ -44,30 +44,37 @@ class dealer_userActions extends sfActions
             ->createQuery('u')
             ->select('u.*')
             ->innerJoin('u.DealerUsers du with dealer_id=?', $this->dealer->getId())
+            ->where('u.active = ?', true)
             ->execute();
     }
 
     public function executeDelete(sfWebRequest $request)
     {
         $user = UserTable::getInstance()->find($request->getParameter('id'));
-        if (!$user)
+        if (!$user) {
             $this->redirect('dealer_user/index');
+        }
 
+        //Получаем привязанного дилера к пользователю
         $dealer_user = $this->getUser()->getAuthUser()->getDealerUsers()->getFirst();
-
-        if (!$dealer_user || !$dealer_user->getManager())
+        if (!$dealer_user || !$dealer_user->getManager()) {
             $this->redirect('dealer_user/index');
+        }
 
+        //Делаем проверку на дилера в бд
         $this->dealer = $dealer_user->getDealer();
-
-        if (!$this->dealer)
+        if (!$this->dealer) {
             $this->redirect('dealer_user/index');
+        }
 
-        $dealer_user = $user->getDealerUsers()->getFirst();
-        if (!$dealer_user || $dealer_user->getDealerId() != $this->dealer->getId())
+        /*$dealer_user = $user->getDealerUsers()->getFirst();
+        if (!$dealer_user || $dealer_user->getDealerId() != $this->dealer->getId()) {
             $this->redirect('dealer_user/index');
+        }*/
 
-        $user->delete();
+        //$user->delete();
+        $user->setActive(false);
+        $user->save();
 
         LogEntryTable::getInstance()->addEntry(
             $this->getUser()->getAuthUser(),
