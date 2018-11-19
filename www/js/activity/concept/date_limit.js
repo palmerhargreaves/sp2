@@ -20,7 +20,7 @@ ActivityConceptDateLimit.prototype = {
         this.initDatePicker('input.dates-field', 2, '+');
     },
 
-    initDatePicker: function(element, plus_days, symbol) {
+    initDatePicker: function(element, plus_days, symbol, callback) {
         $(element).datepicker({
             dateFormat: "dd.mm.yy",
             beforeShowDay: function (date) {
@@ -58,11 +58,22 @@ ActivityConceptDateLimit.prototype = {
                 return [false];
             }
         }).on("change", function() {
+            /*var self = this;
+
             try {
-                $.datepicker.parseDate('dd.mm.yy', this.value)
+                $.datepicker.parseDate('dd.mm.yy', this.value);
             } catch (e) {
-                this.value = '';
+                self.value = '';
+                $(self).popmessage('show', 'error', 'Неправильный формат даты');
+
+                setTimeout(function() {
+                    $(self).popmessage('hide');
+                }, 3000);
             }
+
+            if (callback != undefined) {
+                callback();
+            }*/
         });
     }
 };

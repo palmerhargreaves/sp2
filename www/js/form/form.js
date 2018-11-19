@@ -231,7 +231,7 @@ utils.extend(Form, utils.Observable, {
                     return;
                 }
 
-                var re = new RegExp($field.data('format-expression'), $field.data('format-expression-flags'));
+                var re = new RegExp($field.data('format-expression'), $field.data('format-expression-flags') != undefined ? $field.data('format-expression-flags') : '');
                 if (!re.test(value)) {
                     var msg = "Введено неверное значение.";
                     if ($field.data('right-format')) {
@@ -245,8 +245,8 @@ utils.extend(Form, utils.Observable, {
 
             if (valid) {
                 if ($("input[name*=dates_of_service_action_start]").length > 0) {
-                    var start_date = new Date($("input[name*=dates_of_service_action_start]").val().replace(/\./g, '-')).getTime(),
-                        end_date = new Date($("input[name*=dates_of_service_action_end]").val().replace(/\./g, '-')).getTime();
+                    var start_date = new Date($("input[name*=dates_of_service_action_start]").val().replace(/\./g, '-').split('-').reverse().join('-')).getTime(),
+                        end_date = new Date($("input[name*=dates_of_service_action_end]").val().replace(/\./g, '-').split('-').reverse().join('-')).getTime();
 
                     if (end_date <= start_date) {
                         $("input[name*=dates_of_service_action_end]").popmessage('show', 'error', 'Неверный диапазон проведения мероприятия.');
@@ -260,6 +260,10 @@ utils.extend(Form, utils.Observable, {
 
                 return true;
             }
+
+            /*setTimeout(function() {
+                $('.model-concept-form .error .message').fadeOut();
+            }, 3000);*/
         }
 
         return false;
