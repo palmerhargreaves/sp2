@@ -54,6 +54,10 @@ abstract class BaseActivityCompanyType extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        
+
+        $this->hasOne('ActivityTypeCompanyImages as Image', array(
+            'local' => 'id',
+            'foreign' => 'company_type_id'
+        ));
     }
 }

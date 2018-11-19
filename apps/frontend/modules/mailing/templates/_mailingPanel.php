@@ -95,7 +95,7 @@ $dt->modify('-1 month');
             }
 
             //Если загружено за три месяца
-            if ($quarters_mails_loaded == 3) {
+            if (count($dealer_mailings_plan)) {
                 $avg_per_quarter = ceil($avg_per_quarter / 3);
             } else {
                 $avg_per_quarter = 0;
@@ -111,7 +111,7 @@ $dt->modify('-1 month');
                         <div class="white"></div>
                         <?php $display_percent = isset($dealer_mailings[$month_number2]) ? $dealer_mailings[$month_number2] / ($quater_month[$month_number2] / 100) : 0; ?>
                         <div class="blue" data-percent="21.034949090909"
-                             style="display: block; width:<?= $display_percent > 100 ? 100 : $display_percent; ?>%;">
+                             style="display: block; width:<?= $display_percent >= 100 ? 100 : $display_percent; ?>%;">
                             <img src="/images/blue-end.png" alt=""></div>
                     </div>
                     <div class="done">
@@ -129,11 +129,12 @@ $dt->modify('-1 month');
                         <div class="label">&nbsp;</div>
                         <div class="label">
                             <?= $budQuater[$quarter]; ?>
-                            <?php if ($avg_per_quarter != 0):
-                                echo sprintf('(%s%%)', $avg_per_quarter);
+
+                            <?php if ($avg_per_quarter != 0 && count($dealer_mailings_plan->getRawValue()) > 2):
+                                echo '(' . (!empty($total_dealer_mailings) && !empty($total_plan) ? round($total_dealer_mailings / ($total_plan / 100)) : 0).'%)';
                             elseif (count($dealer_mailings_plan->getRawValue()) > 2): ?>
                                 <?php if (isset($dealer_mailings_plan[$quarter]) && $dealer_mailings_plan[$quarter]): ?>
-                                    (<?= (!empty($total_dealer_mailings) && !empty($total_plan) ? round($total_dealer_mailings / ($total_plan / 100)) : 0); ?>%)
+                                    (<?php echo (!empty($total_dealer_mailings) && !empty($total_plan) ? $total_dealer_mailings / ($total_plan / 100) : 0); ?>%)
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>

@@ -160,7 +160,7 @@ foreach ($fields as $field):
                                 или перетащите
                                 их сюда
                             </div>
-                            <input type="file" class="js-dealer-statistics-upload-file" name="field_file_<?php echo $field->getId(); ?>" style="height: 100px;"
+                            <input type="file" class="js-dealer-statistics-upload-file" name="field_file_<?php echo $field->getId(); ?>" style="height: 150px; position: absolute;"
                                 <?php echo !$allow_to_edit ? "disabled" : "" ; ?>
                                    class='field-<?php echo $field->getId(); ?>' size="1"
                                 <?php echo $field->getReq() ? "required" : ""; ?>

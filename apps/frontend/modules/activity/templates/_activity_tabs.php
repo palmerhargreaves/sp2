@@ -4,12 +4,18 @@
                     href="<?php echo url_for('activity/settings?activity=' . $activity->getId()) ?>">Параметры</a></li>
     <?php endif; ?>
 
+    <?php if (Utils::allowedIps() && ($sf_user->getRawValue()->getAuthUser()->isAdmin() || $sf_user->getRawValue()->getAuthUser()->isImporter() || $sf_user->getRawValue()->getAuthUser()->isRegionalManager())): ?>
+        <li id="information-tab" class="tab<?php if ($active == 'consolidated') echo ' active' ?>"><a
+                    href="<?php echo url_for('@activity_consolidated_information?activity=' . $activity->getId()) ?>">Сводная информация</a></li>
+    <?php endif; ?>
+
     <?php if ($activity->getRawValue()->getDescription() || $activity->getInfoData()->count() > 0): ?>
         <li id="information-tab" class="tab<?php if ($active == 'info') echo ' active' ?>"><a
                 href="<?php echo url_for('activity/index?activity=' . $activity->getId()) ?>">Информация</a></li>
     <?php endif; ?>
-    <?php
 
+
+    <?php
     $activity->callWithModule(function (ActivityModuleDescriptor $descriptor) use ($active) {
         foreach ($descriptor->getActivityTabs() as $identifier => $tab):
             ?>

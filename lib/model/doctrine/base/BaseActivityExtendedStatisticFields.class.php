@@ -120,6 +120,17 @@ abstract class BaseActivityExtendedStatisticFields extends sfDoctrineRecord
             'default' => true,
         ));
 
+        $this->hasColumn('dealer_id', 'integer', null, array(
+            'type' => 'integer',
+            'notnull' => false,
+        ));
+
+        $this->hasColumn('is_revenue_field', 'boolean', null, array(
+            'type' => 'boolean',
+            'notnull' => true,
+            'default' => true,
+        ));
+
         $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');
         $this->option('charset', 'utf8');

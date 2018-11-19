@@ -85,7 +85,7 @@
             <li class="item"><a href="<?php echo sfConfig::get('app_site_url'); ?>/history">История заявок</a></li>
         <?php endif; ?>
 
-        <?php if ($sf_user->isDealerUser()): ?>
+        <?php $show_tour = false; if ($sf_user->isDealerUser() && $show_tour): ?>
             <li id="intro-button" class="item"><a href="<?php echo url_for('@homepage') ?>?start-tour=yes">Демонстрационный тур</a></li>
         <?php endif; ?>
         <li class="item last"><a href="<?php echo url_for('auth/logout') ?>">Выход</a></li>

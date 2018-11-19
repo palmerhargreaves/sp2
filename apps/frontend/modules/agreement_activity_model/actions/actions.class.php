@@ -897,8 +897,9 @@ class agreement_activity_modelActions extends BaseActivityActions
 
             //$saved_files = $this->saveModelFiles($model, $upload_files_ids, $model_type_id);
 
-            $modelType = AgreementModelTypeTable::getInstance()->find($model_type_id);
-            $model->setModelType($modelType);
+            /*$modelType = AgreementModelTypeTable::getInstance()->find($model_type_id);
+            $model->setModelType($modelType);*/
+
             $model->setAgreementComments('');
 
             $model->setUserAgent($_SERVER['HTTP_USER_AGENT']);

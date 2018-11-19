@@ -42,6 +42,7 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                 $total_models = 0;
 
                 $models_completed = 0;
+                $models_completed_total_cash = 0;
                 $models_in_work = 0;
                 ?>
                 <fieldset class="agreeemnt-activities-dealers-fieldset">
@@ -80,6 +81,7 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                                                 $total_models++;
                                                 if ($model->getStatus() == "accepted" && $model->getReport() && $model->getReport()->getStatus() == "accepted") {
                                                     $models_completed++;
+                                                    $models_completed_total_cash += $model->getCost();
                                                 } else {
                                                     $models_in_work++;
                                                 }
@@ -176,8 +178,8 @@ $roman = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
                         <tr>
                             <td>Макет добавлен:</td>
                             <td><?php echo $not_work; ?></td>
-                            <td></td>
-                            <td></td>
+                            <td>Суммарные затраты</td>
+                            <td><?php echo Utils::format_amount($models_completed_total_cash); ?></td>
                         </tr>
                         </tbody>
                     </table>

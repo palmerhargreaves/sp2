@@ -13,6 +13,23 @@ class ActivityBudgetPointsStatuses extends ActivityStatusBase {
         //Получаем данные по заявкам и статистики
         parent::getStatus();
 
+        //Получаем данные по заполненной статистки
+        $this->fields_values = ActivityExtendedStatisticFieldsDataTable::getInstance()
+            ->createQuery()
+            ->where('dealer_id = ?', $this->dealer->getId())
+            ->andWhere('activity_id = ?', $this->activity->getId())
+            ->andWhere('quarter = ?', $this->quarter)
+            ->andWhere('year = ?', $this->year)
+            ->count();
+
+        //Если нет заполненных данных, проверяем активность на наличие привязанной статистики
+        if ($this->fields_values == 0) {
+            $this->fields_values = ActivityExtendedStatisticFieldsTable::getInstance()
+                ->createQuery()
+                ->andWhere('activity_id = ?', $this->activity->getId())
+                ->count();
+        }
+
         //Принудительное выполнение активности
         if (ActivitiesStatusByUsersTable::checkActivityStatus($this->activity->getId(), $this->dealer->getId(), $this->year, $this->quarter)) {
             return array( 'status' => ActivitiesBudgetByControlPoints::ACTIVITY_TOTAL_COMPLETED, 'msg' => 'Активность выполнена' );

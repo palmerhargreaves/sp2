@@ -21,14 +21,19 @@
 
                     <tbody>
                     <?php foreach ($binded_dealers as $bind_dealer): ?>
-                        <tr class="row-binded-dealer-<?php echo $bind_dealer->getDealerId(); ?>">
-                            <td><?php echo sprintf('%s (%s)', $bind_dealer->getDealer()->getNameAndNumber(), $bind_dealer->getDealer()->getDealerTypeLabel()); ?></td>
-                            <td>
-                                <button class="btn btn-mini btn-warning bt-unbind-dealer-from-user"
-                                        data-dealer-id="<?php echo $bind_dealer->getDealerId(); ?>"
-                                        data-user-id="<?php echo $bind_dealer->getUserId(); ?>">Отвязать</button>
-                            </td>
-                        </tr
+                        <?php $dealer_id = $bind_dealer->getDealerId(); ?>
+
+                        <?php if (!is_null($dealer_id)): ?>
+                            <tr class="row-binded-dealer-<?php echo $bind_dealer->getDealerId(); ?>">
+                                <td><?php echo sprintf('%s (%s)', $bind_dealer->getDealer()->getNameAndNumber(), $bind_dealer->getDealer()->getDealerTypeLabel()); ?></td>
+                                <td>
+                                    <button class="btn btn-mini btn-warning bt-unbind-dealer-from-user"
+                                            data-dealer-id="<?php echo $bind_dealer->getDealerId(); ?>"
+                                            data-user-id="<?php echo $bind_dealer->getUserId(); ?>">Отвязать
+                                    </button>
+                                </td>
+                            </tr
+                        <?php endif; ?>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -42,10 +47,10 @@
 
                 <div class="controls">
                     <select id="sb_user_dealer_to_bind">
-                    <?php foreach ($dealers_list as $dealer): ?>
-                        <option
-                            value="<?php echo $dealer->getId(); ?>"><?php echo sprintf('%s (%s)', $dealer->getNameAndNumber(), $dealer->getDealerTypeLabel()); ?></option>
-                    <?php endforeach; ?>
+                        <?php foreach ($dealers_list as $dealer): ?>
+                            <option
+                                    value="<?php echo $dealer->getId(); ?>"><?php echo sprintf('%s (%s)', $dealer->getNameAndNumber(), $dealer->getDealerTypeLabel()); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>

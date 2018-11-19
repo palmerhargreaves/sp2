@@ -1175,3 +1175,132 @@ table.models img.delete-model, table.models img.undo-delete-model { position: ab
 .grid-activities__link__action_completed { background-position: 50% 0; }
 .grid-activities__link__action_wait { background-position: 50% -32px; }
 .grid-activities__link__action_progress { background-position: 50% -64px; }
+
+.activity-secton-header { margin-bottom: 20px; padding: 15px; background: #e7ecef 15px 50% no-repeat; }
+.activity-secton-header_stats { background-image: url(../img/icon_stats.png); }
+.activity-secton-header_eff { background-image: url(../img/icon_eff.png); }
+.activity-secton-filter {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.activity-secton-filter__radio {
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    border-right: 1px solid #c7c7c7;
+    color: #4e5152;
+}
+.activity-secton-filter__select {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.activity-secton-filter__select .select { margin-bottom: 0; margin-left: 15px; background: #fff; }
+.activity-secton-title { padding-left: 64px; padding-bottom: 2px; font-weight: 700; font-size: 22px; line-height: 1; }
+
+.activity-summary__descr {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    margin-bottom: 20px;
+    background: #e7ecef;
+}
+.activity-summary__descr__img {
+    -ms-flex: 1 1 48%;
+    -webkit-flex: 1 1 48%;
+    flex: 1 1 48%;
+    margin-right: 2%;
+    background: 50% no-repeat;
+    background-size: cover;
+}
+.activity-summary__descr__txt {
+    -ms-flex: 1 1 50%;
+    -webkit-flex: 1 1 50%;
+    flex: 1 1 50%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    position: relative;
+    padding: 0 30px 25px 2%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    min-height: 290px;
+}
+.activity-summary__descr__label { margin-bottom: 1em; font-size: 12px; }
+.activity-summary__descr__label span { display: inline-block; padding: 3px 10px 5px 10px; background: #7caed3; color: #fff; }
+.activity-summary__descr__title {
+    margin-bottom: .75em;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.125;
+}
+.activity-summary__descr__text {
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+.activity-summary__descr__date {
+    margin-top: .5em;
+    padding: 2px 0 2px 40px;
+    background: url(/img/icon_calendar.png) 0 50% no-repeat;
+    font-weight: 700;
+    font-size: 22px;
+}
+.activity-summary__stats {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0 -.5%;
+    padding-bottom: 10px;
+}
+.activity-summary__stats__item {
+    -ms-flex: 1 1 25%;
+    -webkit-flex: 1 1 25%;
+    flex: 1 1 25%;
+    padding: 0 2% 20px;
+}
+.activity-summary__stats__item strong {
+    display: block;
+    font-size: 22px;
+}
+.activity-summary__eff { margin-bottom: 20px; padding: 0 15px; }
+.activity-summary__eff span { display: inline-block; width: 320px; padding-right: 15px; }
+.activity-summary__actions {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding: 25px 0 10px 15px;
+    border-top: 1px solid #cfd7d9;
+}

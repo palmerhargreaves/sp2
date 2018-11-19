@@ -20,6 +20,7 @@ class User extends BaseUser
 
     const USER_GROUP_ADMIN = 1;
     const USER_GROUP_IMPORTER = 2;
+    const USER_GROUP_REGIONAL_MANAGER = 28;
 
     const DESIGNER_ID = 22;
 
@@ -239,14 +240,13 @@ class User extends BaseUser
 
     function updateDealersList($dealers)
     {
+        UserDealersTable::getInstance()
+            ->createQuery()
+            ->delete()
+            ->where('user_id = ?', array($this->getId()))
+            ->execute();
+
         if ($dealers) {
-            UserDealersTable::getInstance()
-                ->createQuery()
-                ->delete()
-                ->where('user_id = ?', array($this->getId()))
-                ->execute();
-
-
             foreach ($dealers as $dealer) {
                 $row = new UserDealers();
 

@@ -1,0 +1,12 @@
+all:
+  stylesheets: [manager, fancybox/jquery.fancybox.min.css,pace/pace-theme-minimal.css, plugins/sweetalert/sweetalert.css]
+  javascripts:
+    - plugins/loaders/pace.min.js
+    - activity/activity_quarters_data.js
+    - activity/efficiency/activity_efficiency_graph_arrow.js
+    - libs/jquery.animateNumber.min.js
+    - plugins/tinymce/tinymce.min.js
+    - fancybox/jquery.fancybox.min.js
+    - activity/consolidated_information.js
+    - plugins/sweetalert/sweetalert.min.js
+

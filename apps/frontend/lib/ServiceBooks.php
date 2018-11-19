@@ -35,7 +35,12 @@ class ServiceBooks {
             $rowData = array_values($sheet->rangeToArray('A'.$row.':'.$highCol.$row, null, true, false));
 
             if (!empty($rowData) && isset($rowData[0])) {
-                $service_books_data[$rowData[0][0]] = $rowData[0][2];
+                $service_books_data[$rowData[0][0]] = array(
+                    'count_of_services_books' => $rowData[0][2],
+                    'count_of_services_books_for_tuareg' => $rowData[0][3],
+                    'count_of_stickers_for_first_part' => $rowData[0][4],
+                    'count_of_buklets_michlen' => $rowData[0][5]
+                );
             }
         }
 

@@ -15,7 +15,7 @@ $current_q = D::getQuarter(time());
     <thead>
     <tr>
         <td class="header" style="height: 185px; ">
-            <h1>Выгрузка</h1>
+            <h1>Выгрузка статуса выполнения обязательных требований</h1>
 
             <?php $current_year = date('Y'); ?>
             <form action="" method="get">
@@ -61,7 +61,7 @@ $current_q = D::getQuarter(time());
     <thead>
     <tr>
         <td class="header" style="height: 185px; ">
-            <h1>Выгрузка данных по сервисным акциям</h1>
+            <h1>Выгрузка данных (участие в активности)</h1>
 
             <form action="" method="get">
                 <select id="sb-activities-list" class="">
@@ -96,7 +96,7 @@ $current_q = D::getQuarter(time());
     <thead>
     <tr>
         <td class="header" style="height: 185px; ">
-            <h1>Выгрузка данных по ServiceClinic (выполнение по шагам)</h1>
+            <h1>Выгрузка ServiceClinic (Статистика (дилеры), по шагам)</h1>
 
             <form action="" method="get">
                 <select id="sb-activities-steps-list" class="">
@@ -137,9 +137,116 @@ $current_q = D::getQuarter(time());
 
     </tbody>
 </table>
+<br/>
+
+<table style="z-index:9; width: 100%;">
+    <thead>
+    <tr>
+        <td class="header">
+            <h1>Сводная маркетинговая выгрузка</h1>
+
+            <form action="" method="get">
+
+                <div class="d-grid" style="padding-left: 1px; padding-top: 15px;">
+                    <div class="d-row">
+                        <div class="d-col d-col_sm_8 d-col_md_8 d-col_lg_8">
+                            <select id="sb-consolidated-information-activities" name="sb_consolidated_information_activities[]" class="form-control" multiple>
+                                <?php foreach (ActivityTable::getInstance()->createQuery()->whereIn('id', $activities_ids)->execute() as $activity): ?>
+                                    <option value="<?php echo $activity->getId(); ?>">
+                                        <?php echo sprintf('[%d] - %s', $activity->getId(), $activity->getName()); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="d-col d-col_sm_3 d-col_md_3 d-col_lg_3">
+                            <select id="sb-consolidated-information-quarters" name="sb_consolidated_information_quarters[]" class="form-control" multiple>
+                                <?php foreach ($quarters as $q): ?>
+                                    <option value="<?php echo $q; ?>"><?php echo $q; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-row" style="margin-top: 15px;">
+                        <div class="d-col d-col_sm_2 d-col_md_2 d-col_lg_2">
+                            <select id="sb-consolidated-information-regional-manager" name="sb_consolidated_information_regional_manager"
+                                    data-url="<?php echo url_for('@on_consolidated_information_dealer_change_manager'); ?>"
+                                    style="width: 168px; border: 1px solid #d3d3d3; border-radius: 3px; height: 24px; padding: 0 0 0 10px; font-size: 11px;">
+                                <option value="999">Все менеджеры</option>
+                                <?php
+                                    //Сортируем список региональных менеджер по количеству привязанных дилеров
+                                    $regional_managers = UserTable::getInstance()
+                                        ->createQuery('u')
+                                        ->innerJoin('u.Group g')
+                                        ->andWhere('u.active = ?', true)
+                                        ->andWhere('u.company_type = ? and u.company_department != ?', array('regional_manager', 0))
+                                        ->orderBy('u.name ASC')
+                                        ->execute();
+                                    $sorted_managers = array();
+                                    foreach ($regional_managers as $manager) {
+                                        $sorted_managers[DealerTable::getActiveDealersList()->andWhere('regional_manager_id = ?', $manager->getNaturalPersonId())->count()] = array('name' => $manager->selectName(), 'id' => $manager->getNaturalPersonId());
+                                    }
+
+                                    krsort($sorted_managers);
+                                ?>
+                                <?php foreach ($sorted_managers as $dealers_count => $data): ?>
+                                    <option value="<?php echo $data['id']; ?>">
+                                        <?php echo sprintf('[%d] %s', $dealers_count, $data['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <?php
+                        $dealers_by_type_list = array();
+                        foreach (DealerTable::getActiveDealersList()->andWhere('dealer_type = ? or dealer_type = ?', array(Dealer::TYPE_PKW, Dealer::TYPE_NFZ_PKW))->orderBy('number ASC')->execute() as $dealer) {
+                            $dealers_by_type_list[$dealer->getDealerTypeLabel()][] = $dealer;
+                        }
+
+                        ?>
+                        <div class="d-col d-col_sm_9 d-col_md_9 d-col_lg_9">
+                            <select id="sb-consolidated-information-dealers" name="sb_consolidated_information_dealers[]" multiple>
+                                <?php foreach ($dealers_by_type_list as $label => $dealers): ?>
+                                    <optgroup label="<?php echo $label; ?>">
+                                        <?php foreach ($dealers as $dealer): ?>
+                                            <option value="<?php echo $dealer->getId(); ?>"><?php echo $dealer->getNameAndNumber(); ?></option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-row">
+                        <div class="d-col d-col_sm12 d-col_md_12 d-col_lg_12">
+                            <button class="btn-export-consolidated-information-by-dealers btn btn-mini "
+                                    data-url="<?php echo url_for('@on_export_consolidated_information_by_dealers'); ?>"
+                                    style="margin-top: 10px; float: left;">
+                                Выгрузить
+                            </button>
+                            <img id="export-consolidated-information-progress" src="/images/loader.gif"
+                                 style="display: none; margin-left: 10px; margin-top: 19px; float: left;"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+        </td>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    </tbody>
+</table>
 
 <script type="text/javascript">
     $(function () {
+
+        new DealerConsolidatedInformation({}).start();
+
         $(document).on('click', '.btn-export-data', function () {
             var q = $('#sb-quarters-list').val(),
                 year = $('#sb-years-list').val(),

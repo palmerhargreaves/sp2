@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="08981257-3a02-444f-8ded-fef7b1a16a01" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/frontend/templates/layout.php" afterPath="$PROJECT_DIR$/apps/frontend/templates/layout.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/utils/utils.class.php" afterPath="$PROJECT_DIR$/lib/utils/utils.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apps/frontend/modules/dealer_user/actions/actions.class.php" afterPath="$PROJECT_DIR$/apps/frontend/modules/dealer_user/actions/actions.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/activity/concept/date_limit.js" afterPath="$PROJECT_DIR$/www/js/activity/concept/date_limit.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,22 +15,72 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="layout.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/apps/frontend/templates/layout.php">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="routing.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/frontend/config/routing.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="240" column="16" lean-forward="false" selection-start-line="240" selection-start-column="16" selection-end-line="240" selection-end-column="16" />
+            <state relative-caret-position="10132">
+              <caret line="596" column="20" lean-forward="false" selection-start-line="596" selection-start-column="20" selection-end-line="596" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/utils/utils.class.php">
+      <file leaf-file-name="actions.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/frontend/modules/dealer_user/actions/actions.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="642" column="10" lean-forward="false" selection-start-line="642" selection-start-column="10" selection-end-line="642" selection-end-column="10" />
+            <state relative-caret-position="1207">
+              <caret line="71" column="49" lean-forward="false" selection-start-line="71" selection-start-column="49" selection-end-line="71" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="form.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/form/form.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="actions.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/actions/actions.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="600">
+              <caret line="480" column="68" lean-forward="false" selection-start-line="480" selection-start-column="68" selection-end-line="480" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivityConsolidatedInformation.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/activity/consolidated_information/ActivityConsolidatedInformation.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="314">
+              <caret line="245" column="108" lean-forward="false" selection-start-line="245" selection-start-column="69" selection-end-line="245" selection-end-column="108" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_activity_template_page2_body.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page2_body.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="104" column="86" lean-forward="false" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="86" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="date_limit.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/activity/concept/date_limit.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="986">
+              <caret line="58" column="13" lean-forward="false" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -41,43 +91,51 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>activity/extended/statistic/data/cancel</find>
-      <find>cancelExtendedStatisticData</find>
-      <find>onSaveDataCompleted</find>
-      <find>$to_importer</find>
-      <find>Blocks</find>
-      <find>activity_check_allow_to_edit_cancel_stat_data</find>
-      <find>checkAllowToEditCancelStatData</find>
-      <find>pre_check_statistic</find>
-      <find>checkAllowToEdit</find>
-      <find>disable_importer</find>
-      <find>extendedStatisticByBlocks</find>
-      <find>activity_statistic</find>
-      <find>executeStat</find>
-      <find>executeExt</find>
-      <find>on_save_importer_video_record_statistic</find>
-      <find>onSaveImporterVideoRecordStatisticData</find>
-      <find>saveVideoRecordStatisticData</find>
-      <find>calcData</find>
-      <find>getFieldVal</find>
-      <find>binde</find>
-      <find>concept</find>
-      <find>calculateValue</find>
-      <find>$concept</find>
-      <find>getFieldUserValue</find>
-      <find>$bindedConcept</find>
-      <find>bindedConcept</find>
-      <find>on_save_video_record_statistic</find>
-      <find>onSaveVideoRecordStatisticData</find>
+      <find>fields_values</find>
+      <find>activities/statistic</find>
+      <find>getAllowSpecialAgreement</find>
+      <find>consolida</find>
+      <find>$active_activities_list</find>
+      <find>active_activities_list</find>
+      <find>$active_dealers_ids</find>
+      <find>_activity_company</find>
+      <find>.activity-summary__eff span</find>
+      <find>activity-summary__eff span</find>
+      <find>activity-summary__eff</find>
       <find>activity/module/agreement/activities/status</find>
       <find>activitiesStatus</find>
+      <find>isRegionalManager</find>
+      <find>d-con</find>
+      <find>activity-summary__descr</find>
+      <find>d-contetn</find>
+      <find>d-co</find>
+      <find>d-content</find>
+      <find>is-blue</find>
+      <find>randColors</find>
+      <find>is-gray2</find>
+      <find>dealer_total_models_cost_by_categories</find>
+      <find>activities/dealers/work/statistics</find>
+      <find>dealer_user</find>
+      <find>start_date</find>
+      <find>dates_of_service_action_start</find>
+      <find>dates-concept-field</find>
+      <find>getActivityStatisticOtherBlocks</find>
+      <find>_others_fields_blocks_data</find>
     </findStrings>
+    <replaceStrings>
+      <replace>//dm.vw-servicepool.ru</replace>
+      <replace>&quot;</replace>
+      <replace>/var/www/vwgroup/data/www/dm.vw-servicepool.ru/www</replace>
+      <replace>file:///var/www/vwgroup/data/www/dm.vw-servicepool.ru/www</replace>
+      <replace>'value' =&gt; '#'</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -85,39 +143,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/www/js/activity/statictic/special_agreement_concept_target_statistic.js" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activities.php" />
-        <option value="$PROJECT_DIR$/www/js/activity/special_agreement_concept_bind_target_statistic.js" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/config/view.yml" />
-        <option value="$PROJECT_DIR$/apps/frontend/config/routing.yml" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/onSpecialAgreementChangeConceptBindTargetAndStatisticSuccess.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_special_agreement_concept_targets.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_video_record_statistic.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_special_agreement_concept_target.php" />
-        <option value="$PROJECT_DIR$/www/js/activity/special_agreement_concept_bind_target_and_statistic.js" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_head.php" />
-        <option value="$PROJECT_DIR$/lib/model/doctrine/Activity.class.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/statisticSuccess.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_extended_statistic_by_blocks.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByStepsSuccess.php" />
-        <option value="$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityExtendedStatisticFields.class.php" />
-        <option value="$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityExtendedStatisticSections.class.php" />
+        <option value="$PROJECT_DIR$/www/pdf/css/fonts.css" />
+        <option value="$PROJECT_DIR$/apps/frontend/templates/_menu_service.php" />
+        <option value="$PROJECT_DIR$/www/js/pdf/rasterize.js" />
         <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php" />
-        <option value="$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheckFactory.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_tabs.php" />
-        <option value="$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticSuccess.php" />
-        <option value="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFieldsTable.class.php" />
-        <option value="$PROJECT_DIR$/www/js/activity/activity_video_record_statistic.js" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php" />
-        <option value="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php" />
-        <option value="$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticPreCheckAbstract.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity/templates/activitiesStatusSuccess.php" />
-        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity/actions/actions.class.php" />
-        <option value="$PROJECT_DIR$/lib/utils/utils.class.php" />
+        <option value="$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityExtendedStatisticFieldsCalculated.class.php" />
+        <option value="$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityExtendedStatisticFields.class.php" />
+        <option value="$PROJECT_DIR$/lib/model/doctrine/AgreementModel.class.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity_model_management/actions/actions.class.php" />
+        <option value="$PROJECT_DIR$/lib/activity/module/agreement/models/special_agreement/AgreementSpecialConceptStatusUtilsByImporter.class.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity_special_model_importer/templates/modelSuccess.php" />
+        <option value="$PROJECT_DIR$/www/js/activity/consolidated_information_dealer.js" />
+        <option value="$PROJECT_DIR$/www/js/multiselect/jquery.multiselect.js" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity_model/actions/actions.class.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/config/view.yml" />
+        <option value="$PROJECT_DIR$/www/css/multiselect/jquery.multiselect.css" />
+        <option value="$PROJECT_DIR$/apps/frontend/config/routing.yml" />
+        <option value="$PROJECT_DIR$/apps/frontend/lib/ServiceBooks.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/budget_by_points/actions/components.class.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/budget_by_points/templates/_budgetPanel.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_header_fields_list.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_budget_bottom.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_budget_header.php" />
+        <option value="$PROJECT_DIR$/lib/model/doctrine/Activity.class.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity/templates/_activity_dealers_quarters.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity/templates/_activity_dealers_all.php" />
         <option value="$PROJECT_DIR$/apps/frontend/templates/layout.php" />
+        <option value="$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_statistic_body.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_budget_body.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_head.php" />
+        <option value="$PROJECT_DIR$/lib/activity/activity_statuses/budget_by_points_status/ActivityBudgetPointsStatuses.php" />
+        <option value="$PROJECT_DIR$/config/doctrine/schema.yml" />
+        <option value="$PROJECT_DIR$/lib/task/spDealersModelsTotalCostTask.class.php" />
+        <option value="$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityAcceptStatsUpdates.class.php" />
+        <option value="$PROJECT_DIR$/lib/budget/DealerModelsTotalsCostCalcUtil.php" />
+        <option value="$PROJECT_DIR$/lib/task/sfDealerActivitiesStatsTask.class.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/agreement_activity/actions/actions.class.php" />
+        <option value="$PROJECT_DIR$/lib/statistic/models/DealerModelsAbstract.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity/templates/dealersWorkStatisticsSuccess.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/indexSuccess.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page2_body.php" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page1_body.php" />
+        <option value="$PROJECT_DIR$/www/pdf/css/css.css" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_graph_body.php" />
+        <option value="$PROJECT_DIR$/lib/activity/consolidated_information/ActivityConsolidatedInformationByDealers.php" />
+        <option value="$PROJECT_DIR$/www/js/activity/consolidated_information.js" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/actions/actions.class.php" />
+        <option value="$PROJECT_DIR$/www/js/dealers/consolidated_information_dealer.js" />
+        <option value="$PROJECT_DIR$/apps/frontend/modules/dealer_user/actions/actions.class.php" />
+        <option value="$PROJECT_DIR$/www/js/activity/concept/date_limit.js" />
+        <option value="$PROJECT_DIR$/lib/activity/consolidated_information/ActivityConsolidatedInformation.php" />
       </list>
     </option>
   </component>
@@ -131,6 +207,9 @@
   </component>
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/www/js/plugins/medium/node_modules" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="PhpServers">
     <servers />
@@ -160,6 +239,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -183,6 +263,148 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pdf" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pdf" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="form" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="concept" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -201,11 +423,47 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
+              <option name="myItemId" value="statistic" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="doctrine" />
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="statistic" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="budget" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -237,11 +495,113 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consolidated_information" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="doctrine" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="apps" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity_consolidated_information" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -266,6 +626,66 @@
               <option name="myItemId" value="frontend" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity_consolidated_information" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity_consolidated_information" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actions" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2_with_git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sp2" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apps" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -283,19 +703,25 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.settings.deploy.options" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\#__projects\_palmer_group\sp2\apps\frontend\modules\activity\templates" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\#__projects\_palmer_group\sp2\apps\frontend\modules\activity_consolidated_information\config" />
       <recent name="F:\#__projects\_palmer_group\sp2\www\js\activity" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\#__projects\_palmer_group\sp2\apps\frontend\modules\activity_consolidated_information\templates" />
+      <recent name="F:\#__projects\_palmer_group\sp2\www\js\dealers" />
+      <recent name="F:\#__projects\_palmer_group\sp2\www\js\activity" />
+      <recent name="F:\#__projects\_palmer_group\sp2\apps\frontend\modules\activity_consolidated_information\config" />
+      <recent name="F:\#__projects\_palmer_group\sp2\apps\frontend\modules\activity\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -404,33 +830,77 @@
       <workItem from="1538117403898" duration="3381000" />
       <workItem from="1538633293377" duration="1200000" />
       <workItem from="1538660046951" duration="311000" />
+      <workItem from="1538979878468" duration="603000" />
+      <workItem from="1538982209678" duration="3690000" />
+      <workItem from="1539003964992" duration="4000" />
+      <workItem from="1539005938766" duration="604000" />
+      <workItem from="1539067137755" duration="668000" />
+      <workItem from="1539070897434" duration="4885000" />
+      <workItem from="1539165864546" duration="616000" />
+      <workItem from="1539242480092" duration="4571000" />
+      <workItem from="1539325821505" duration="158000" />
+      <workItem from="1539334355902" duration="275000" />
+      <workItem from="1539334789862" duration="2702000" />
+      <workItem from="1539674510638" duration="8764000" />
+      <workItem from="1539762716874" duration="10027000" />
+      <workItem from="1539868878442" duration="3026000" />
+      <workItem from="1539930280342" duration="6869000" />
+      <workItem from="1539955722923" duration="599000" />
+      <workItem from="1540017429910" duration="9564000" />
+      <workItem from="1540188432936" duration="12953000" />
+      <workItem from="1540218840258" duration="2084000" />
+      <workItem from="1540275884445" duration="4000" />
+      <workItem from="1540277851213" duration="603000" />
+      <workItem from="1540288604501" duration="897000" />
+      <workItem from="1540298736302" duration="929000" />
+      <workItem from="1540373530811" duration="339000" />
+      <workItem from="1540379278087" duration="4269000" />
+      <workItem from="1540450433630" duration="21138000" />
+      <workItem from="1540538552182" duration="19847000" />
+      <workItem from="1540623837772" duration="13017000" />
+      <workItem from="1540794839356" duration="20812000" />
+      <workItem from="1540889541411" duration="6513000" />
+      <workItem from="1540977992835" duration="12434000" />
+      <workItem from="1541054858547" duration="9046000" />
+      <workItem from="1541142676493" duration="4721000" />
+      <workItem from="1541165955014" duration="872000" />
+      <workItem from="1541490035416" duration="14732000" />
+      <workItem from="1541575217095" duration="7179000" />
+      <workItem from="1541591500193" duration="8102000" />
+      <workItem from="1541661775833" duration="11989000" />
+      <workItem from="1541752560578" duration="5597000" />
+      <workItem from="1542007371680" duration="18281000" />
+      <workItem from="1542099057415" duration="9397000" />
+      <workItem from="1542183878802" duration="6674000" />
+      <workItem from="1542271649878" duration="8843000" />
+      <workItem from="1542377993218" duration="445000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48170000" />
+    <option name="totallyTimeSpent" value="328132000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25426438" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3276414" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2585288" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32657418" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -448,344 +918,372 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/config/view.yml">
+    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/base/BaseActivity.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="37" lean-forward="true" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/scripts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3385">
-          <caret line="139" column="23" lean-forward="false" selection-start-line="139" selection-start-column="23" selection-end-line="139" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_special_agreement_concept_statistic.php" />
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_special_agreement_concept_target.php" />
-    <entry file="file://$PROJECT_DIR$/www/js/activity/special_agreement_concept_bind_target_and_statistic.js" />
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/agreement_activity_model/templates/indexSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="55" column="12" lean-forward="true" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/agreement_activity_model/actions/actions.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="29" column="11" lean-forward="false" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/ActivityModuleDescriptor.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="96" column="0" lean-forward="true" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/ActivitiesCompanyTypesBuilder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="176" column="40" lean-forward="true" selection-start-line="176" selection-start-column="40" selection-end-line="176" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/home/actions/actions.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="646" column="9" lean-forward="true" selection-start-line="646" selection-start-column="9" selection-end-line="646" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticPreCheckByUser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="-2963">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/activity/activity_statuses/budget_by_points_status/ActivityBudgetPointsStatuses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="50" column="9" lean-forward="true" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_head.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="175" column="22" lean-forward="false" selection-start-line="175" selection-start-column="22" selection-end-line="175" selection-end-column="22" />
+        <state relative-caret-position="17">
+          <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/statisticInfoSuccess.php">
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activities_statistic/templates/_models.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2320">
-          <caret line="116" column="12" lean-forward="false" selection-start-line="116" selection-start-column="12" selection-end-line="116" selection-end-column="12" />
+        <state relative-caret-position="527">
+          <caret line="55" column="35" lean-forward="false" selection-start-line="55" selection-start-column="23" selection-end-line="55" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/indexSuccess.php">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/standard/_types.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+        <state relative-caret-position="610">
+          <caret line="120" column="13" lean-forward="false" selection-start-line="120" selection-start-column="13" selection-end-line="120" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_headers_fields_group_list.php">
+    <entry file="file://$PROJECT_DIR$/config/app.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statisticSuccess.php">
+    <entry file="file://$PROJECT_DIR$/config/doctrine/schema.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1632">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="323">
+          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByStepsSuccess.php">
+    <entry file="file://$PROJECT_DIR$/lib/task/spDealerBudgetStatsTask.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="48" column="56" lean-forward="false" selection-start-line="48" selection-start-column="56" selection-end-line="48" selection-end-column="56" />
+        <state relative-caret-position="-1059">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_extended_statistic_with_steps_data.php">
+    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityAcceptStatsUpdates.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-238">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state relative-caret-position="556">
+          <caret line="36" column="12" lean-forward="false" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityExtendedStatisticSections.class.php">
+    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/BudgetCalendarTable.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="64" column="31" lean-forward="true" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
+        <state relative-caret-position="296">
+          <caret line="24" column="27" lean-forward="false" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/date/D.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="142" column="42" lean-forward="true" selection-start-line="142" selection-start-column="42" selection-end-line="142" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/task/spDealersModelsTotalCostTask.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="45" lean-forward="false" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/budget/DealerModelsTotalsCostCalcUtil.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="556">
+          <caret line="82" column="65" lean-forward="true" selection-start-line="82" selection-start-column="65" selection-end-line="82" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/task/sfDealerActivitiesStatsTask.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="35" lean-forward="false" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/model/doctrine/Dealer.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="590">
-          <caret line="38" column="29" lean-forward="true" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/base/BaseActivityExtendedStatisticFields.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="103" column="0" lean-forward="true" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_extended_statistic_data.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1195">
-          <caret line="33" column="35" lean-forward="false" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/activity/statictic/activity_simple_statistic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1585">
-          <caret line="116" column="4" lean-forward="false" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheck.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" column="52" lean-forward="false" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticCheckFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="709">
-          <caret line="77" column="8" lean-forward="false" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_header_fields_list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2840">
-          <caret line="147" column="20" lean-forward="false" selection-start-line="147" selection-start-column="20" selection-end-line="147" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_tabs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="76" column="95" lean-forward="false" selection-start-line="76" selection-start-column="95" selection-end-line="76" selection-end-column="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_activity_video_record_statistic.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="148" column="59" lean-forward="true" selection-start-line="143" selection-start-column="8" selection-end-line="148" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/activity/activity_extended_statistic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="120" column="6" lean-forward="true" selection-start-line="120" selection-start-column="6" selection-end-line="120" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/_statistic_by_blocks.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="35" lean-forward="false" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticByBlocksSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3060">
-          <caret line="180" column="78" lean-forward="false" selection-start-line="180" selection-start-column="48" selection-end-line="180" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFieldsTable.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/extendedStatisticSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="104" column="110" lean-forward="false" selection-start-line="104" selection-start-column="110" selection-end-line="104" selection-end-column="110" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/actions/actions.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15080">
-          <caret line="754" column="26" lean-forward="false" selection-start-line="754" selection-start-column="26" selection-end-line="754" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/Activity.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28645">
-          <caret line="1685" column="40" lean-forward="false" selection-start-line="1685" selection-start-column="20" selection-end-line="1685" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityFields.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2081">
-          <caret line="129" column="59" lean-forward="true" selection-start-line="129" selection-start-column="59" selection-end-line="129" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/ActivityExtendedStatisticFields.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9384">
-          <caret line="552" column="96" lean-forward="false" selection-start-line="552" selection-start-column="91" selection-end-line="552" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/statistic/ActivityStatisticPreCheckAbstract.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="74" column="47" lean-forward="false" selection-start-line="74" selection-start-column="47" selection-end-line="74" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/material/actions/actions.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1331">
+        <state relative-caret-position="-491">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1532467600000" expanded="true" signature="537:572" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/activity/activity_video_record_statistic.js">
+    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/DealerTable.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="854">
-          <caret line="338" column="0" lean-forward="false" selection-start-line="338" selection-start-column="0" selection-end-line="338" selection-end-column="0" />
+        <state relative-caret-position="408">
+          <caret line="45" column="47" lean-forward="false" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="47" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/ActivityQuartersModelsAndStatistics.php">
+    <entry file="file://$PROJECT_DIR$/lib/model/doctrine/User.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="758">
-          <caret line="277" column="26" lean-forward="true" selection-start-line="277" selection-start-column="26" selection-end-line="277" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/user/actions/actions.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="51" column="33" lean-forward="false" selection-start-line="42" selection-start-column="12" selection-end-line="51" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/activity/ActivityStatisticFieldsBuilder.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1660">
-          <caret line="83" column="28" lean-forward="false" selection-start-line="83" selection-start-column="28" selection-end-line="83" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/statisticSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="7" column="40" lean-forward="false" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/config/routing.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="337" column="63" lean-forward="false" selection-start-line="337" selection-start-column="47" selection-end-line="337" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/agreement_activity/templates/activitiesStatusSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="143" column="0" lean-forward="false" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
+        <state relative-caret-position="287">
+          <caret line="91" column="30" lean-forward="false" selection-start-line="91" selection-start-column="13" selection-end-line="91" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/frontend/modules/agreement_activity/actions/actions.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="632">
-          <caret line="438" column="20" lean-forward="false" selection-start-line="438" selection-start-column="20" selection-end-line="438" selection-end-column="20" />
+        <state relative-caret-position="433">
+          <caret line="352" column="52" lean-forward="true" selection-start-line="352" selection-start-column="52" selection-end-line="352" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/templates/_menu_service.php">
+    <entry file="file://$PROJECT_DIR$/lib/task/sfDealerActivitiesQuartersStatsTask.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/task/spActivityDealerStatisticStatusTask.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2837">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/statistic/models/DealerModelsCompleted.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1071">
+          <caret line="68" column="54" lean-forward="true" selection-start-line="68" selection-start-column="54" selection-end-line="68" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/statistic/DealerStatisticFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/statistic/models/DealerModelsAbstract.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="45" column="87" lean-forward="true" selection-start-line="45" selection-start-column="87" selection-end-line="45" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/css/budget.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="32" column="44" lean-forward="false" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/css/budget_by_points.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="26" column="127" lean-forward="false" selection-start-line="26" selection-start-column="127" selection-end-line="26" selection-end-column="127" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/css/activities.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/agreement_activity/templates/activitiesSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/agreement_activity/templates/activitySuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1678">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/agreement_activity/templates/dealersSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page1_header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page1_body.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="23" column="59" lean-forward="true" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/pdf/css/css.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="687" column="42" lean-forward="false" selection-start-line="687" selection-start-column="42" selection-end-line="687" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_budget_header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="32" column="73" lean-forward="false" selection-start-line="32" selection-start-column="73" selection-end-line="32" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_statistic_body.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="23" column="27" lean-forward="false" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/utils/utils.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="642" column="10" lean-forward="false" selection-start-line="642" selection-start-column="10" selection-end-line="642" selection-end-column="10" />
+        <state relative-caret-position="329">
+          <caret line="41" column="47" lean-forward="true" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/lib/BaseActivityActions.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/activity/consolidated_information.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/frontend/templates/layout.php">
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/indexSuccess.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="240" column="16" lean-forward="false" selection-start-line="240" selection-start-column="16" selection-end-line="240" selection-end-column="16" />
+        <state relative-caret-position="665">
+          <caret line="154" column="67" lean-forward="true" selection-start-line="154" selection-start-column="67" selection-end-line="154" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/activity/consolidated_information/ActivityConsolidatedInformationByDealers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="414" column="19" lean-forward="true" selection-start-line="414" selection-start-column="19" selection-end-line="414" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_graph_body.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="699">
+          <caret line="61" column="76" lean-forward="false" selection-start-line="61" selection-start-column="76" selection-end-line="61" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page_dealer_budget_body.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/dealers/consolidated_information_dealer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="109" column="30" lean-forward="false" selection-start-line="109" selection-start-column="30" selection-end-line="109" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity/templates/dealersWorkStatisticsSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="247" column="30" lean-forward="false" selection-start-line="247" selection-start-column="30" selection-end-line="247" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10132">
+          <caret line="596" column="20" lean-forward="false" selection-start-line="596" selection-start-column="20" selection-end-line="596" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/lib/exception/UserIsNotManagerException.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/dealer_user/actions/actions.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1207">
+          <caret line="71" column="49" lean-forward="false" selection-start-line="71" selection-start-column="49" selection-end-line="71" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/activity/concept/date_limit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="13" lean-forward="false" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/form/form.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/actions/actions.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="480" column="68" lean-forward="false" selection-start-line="480" selection-start-column="68" selection-end-line="480" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/frontend/modules/activity_consolidated_information/templates/_activity_template_page2_body.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="104" column="86" lean-forward="false" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/activity/consolidated_information/ActivityConsolidatedInformation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="245" column="108" lean-forward="false" selection-start-line="245" selection-start-column="69" selection-end-line="245" selection-end-column="108" />
           <folding />
         </state>
       </provider>

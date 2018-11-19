@@ -16,11 +16,11 @@ ActivityConceptDateLimit.prototype = {
     },
 
     initValues: function() {
-        this.initDatePicker('input.dates-concept-field', 2);
-        this.initDatePicker('input.dates-field', 2);
+        this.initDatePicker('input.dates-concept-field', 1, '-');
+        this.initDatePicker('input.dates-field', 2, '+');
     },
 
-    initDatePicker: function(element, plus_days) {
+    initDatePicker: function(element, plus_days, symbol) {
         $(element).datepicker({
             dateFormat: "dd.mm.yy",
             beforeShowDay: function (date) {
@@ -41,7 +41,7 @@ ActivityConceptDateLimit.prototype = {
                 }
 
                 //Получаем текущую дату
-                var today_date_plus = new Date().getTime() + (plus_days * 86400000),
+                var today_date_plus = symbol == '-' ? new Date().getTime() - (plus_days * 86400000) : new Date().getTime() + (plus_days * 86400000),
                     today_date = new Date(today_date_plus);
 
                 if (date.getTime() > today_date.getTime()) {
@@ -56,6 +56,12 @@ ActivityConceptDateLimit.prototype = {
                 }
 
                 return [false];
+            }
+        }).on("change", function() {
+            try {
+                $.datepicker.parseDate('dd.mm.yy', this.value)
+            } catch (e) {
+                this.value = '';
             }
         });
     }

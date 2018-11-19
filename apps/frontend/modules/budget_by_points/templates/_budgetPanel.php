@@ -9,9 +9,12 @@ $summFoQ4 = 0;
     <div class="budget-wrapper">
         <div class="budget">
 
-            <?php if ($service_books_count != -1): ?>
+            <?php if (!empty($service_books_count) && count($service_books_count) > 0): ?>
                 <div style="margin: 5px 0px 10px; width: 100%; display: inline-block; border-bottom: 1px dashed #ccc;">
-                    В августе к вам на склад поступили сервисные книжки (шт.) - <?php echo $service_books_count; ?></br>
+                    К вам на склад поступили сервисные книжки (шт.) - <?php echo $service_books_count['count_of_services_books']; ?></br>
+                    Сервисные книжки для a/м Touareg (шт.) - <?php echo $service_books_count['count_of_services_books_for_tuareg']; ?></br>
+                    Cтикеры для первой партии сервисных книжек (шт.) - <?php echo $service_books_count['count_of_stickers_for_first_part']; ?></br>
+                    Буклеты Michelin (шт.)  - <?php echo $service_books_count['count_of_buklets_michlen']; ?></br>
                     При возникновении вопросов обращайтесь к Степановой Анне
                 </div>
             <?php endif; ?>

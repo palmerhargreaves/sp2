@@ -21,12 +21,12 @@ foreach ($sections as $section):
                 <tbody>
                 <?php
                 $fields = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()
-                    ->where('activity_id = ? and parent_id = ?', array($activity->getId(), $section->getId()))->orderBy('position ASC')->execute();
+                    ->where('activity_id = ? and parent_id = ? and show_in_statistic = true', array($activity->getId(), $section->getId()))->orderBy('position ASC')->execute();
 
                 $n = 0;
                 foreach ($fields as $field):
-                    $dealer_group = $field->getDealersGroup();
-                    if (!empty($dealer_group) && $field->isLimitedAccessForUser($sf_user)) {
+                    $dealer_id = $field->getDealerId();
+                    if ($dealer_id != 0 && !$field->allowAccessForUser($sf_user)) {
                         continue;
                     }
 

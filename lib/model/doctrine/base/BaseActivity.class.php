@@ -294,6 +294,24 @@ abstract class BaseActivity extends sfDoctrineRecord
             'length' => 255,
         ));
 
+        $this->hasColumn('company_target', 'string', 255, array(
+            'type' => 'string',
+            'notnull' => false,
+            'length' => 255,
+        ));
+
+        $this->hasColumn('target_audience', 'string', 255, array(
+            'type' => 'string',
+            'notnull' => false,
+            'length' => 255,
+        ));
+
+        $this->hasColumn('company_mechanics', 'string', 255, array(
+            'type' => 'string',
+            'notnull' => false,
+            'length' => 255,
+        ));
+
         $this->index('importance', array(
              'fields' => 
              array(
@@ -312,7 +330,7 @@ abstract class BaseActivity extends sfDoctrineRecord
         $this->index('has_concept', array(
              'fields' => 
              array(
-              0 => 'has_dconcept',
+              0 => 'has_concept',
              ),
              ));
         $this->index('sort', array(

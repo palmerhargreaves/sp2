@@ -178,6 +178,7 @@ class mailingActions extends BaseActivityActions
                             $count = $count + $QuarterPlanCalculation[$dealer['number']][$a]['count'];
                             $percent = $count / ($plan / 100);
                         }
+
                         $CustomMailingReport[$dealer['number']]['3qr'] = round($percent);
                         unset($a);
                     }

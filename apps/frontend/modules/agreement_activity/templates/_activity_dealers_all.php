@@ -18,6 +18,7 @@ foreach ($extendedStats as $q => $data):
     $completed = 0;
     $not_work = 0;
     $total_models = 0;
+    $models_completed_total_cash = 0;
 
     $models_completed = 0;
     $models_in_work = 0;
@@ -31,22 +32,20 @@ foreach ($extendedStats as $q => $data):
             <?php if ($dealer['all'] > 0): ?>
                 <div class="group">
                     <div class="group-header">
-                <span class="ico">
-<?php if ($dealer['done'] && $dealer['all'] > 0): $completed++; ?>
-    <img src="/images/ok-icon-active.png" alt="Выполнено"/>
-<?php else: ?>
-    <?php if ($dealer['accepted_models'] > 0): $in_work++; ?>
-        <img src="/images/ok-icon.png" alt="В работе"/>
-    <?php else: $not_work++; ?>
-        <img src="/images/error-icon.png" alt="Не приступал"/>
-    <?php endif; ?>
-<?php endif; ?>
-                </span>
-                            <span
-                                class="title"><?php echo $dealer['dealer']->getName(), ' (', substr(strval($dealer['dealer']->getNumber()), -3), ')' ?></span>
+                        <span class="ico">
+                            <?php if ($dealer['done'] && $dealer['all'] > 0): $completed++; ?>
+                                <img src="/images/ok-icon-active.png" alt="Выполнено"/>
+                            <?php else: ?>
+                                <?php if ($dealer['accepted_models'] > 0): $in_work++; ?>
+                                    <img src="/images/ok-icon.png" alt="В работе"/>
+                                <?php else: $not_work++; ?>
+                                    <img src="/images/error-icon.png" alt="Не приступал"/>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </span>
+                        <span class="title"><?php echo $dealer['dealer']->getName(), ' (', substr(strval($dealer['dealer']->getNumber()), -3), ')' ?></span>
 
-                        <div
-                            class="summary"><?php printf('Согласовано %d %s на сумму %s руб.', $dealer['accepted'], RusUtils::pluralModelsEnding($dealer['accepted']), number_format($dealer['sum'], 0, '.', ' ')) ?></div>
+                        <div class="summary"><?php printf('Согласовано %d %s на сумму %s руб.', $dealer['accepted'], RusUtils::pluralModelsEnding($dealer['accepted']), number_format($dealer['sum'], 0, '.', ' ')) ?></div>
                         <div class="group-header-toggle"></div>
                     </div>
                     <div class="group-content">
@@ -58,6 +57,7 @@ foreach ($extendedStats as $q => $data):
                                     $total_models++;
                                     if ($model->getStatus() == "accepted" && $model->getReport() && $model->getReport()->getStatus() == "accepted") {
                                         $models_completed++;
+                                        $models_completed_total_cash += $model->getCost();
                                     } else {
                                         $models_in_work++;
                                     }
@@ -73,7 +73,7 @@ foreach ($extendedStats as $q => $data):
                                             <div class="num">
                                                 № <?php echo $model->getId() ?></div>
                                             <div
-                                                class="date"><?php echo D::toLongRus($model->created_at) ?></div>
+                                                    class="date"><?php echo D::toLongRus($model->created_at) ?></div>
                                         </td>
                                         <td width="180"
                                             data-sort-value="<?php echo $model->getName() ?>">
@@ -83,7 +83,7 @@ foreach ($extendedStats as $q => $data):
                                         <td width="146"
                                             class="placement <?php echo $model->getModelType()->getIdentifier() ?>">
                                             <div
-                                                class="address"><?php echo $model->getValueByType('place') ?></div>
+                                                    class="address"><?php echo $model->getValueByType('place') ?></div>
                                         </td>
                                         <td width="146"><?php echo $model->getValueByType('period') ?></td>
                                         <td width="81"
@@ -100,18 +100,18 @@ foreach ($extendedStats as $q => $data):
                                         <?php $waiting_specialists = $model->countWaitingSpecialists(); ?>
                                         <td class="darker">
                                             <div
-                                                class="<?php echo $model->getCssStatus() ?>"><?php echo $waiting_specialists ? 'x' . $waiting_specialists : '' ?></div>
+                                                    class="<?php echo $model->getCssStatus() ?>"><?php echo $waiting_specialists ? 'x' . $waiting_specialists : '' ?></div>
                                         </td>
                                         <?php $waiting_specialists = $model->countReportWaitingSpecialists(); ?>
                                         <td class="darker">
                                             <div
-                                                class="<?php echo $model->getReportCssStatus() ?>"><?php echo $waiting_specialists ? 'x' . $waiting_specialists : '' ?></div>
+                                                    class="<?php echo $model->getReportCssStatus() ?>"><?php echo $waiting_specialists ? 'x' . $waiting_specialists : '' ?></div>
                                         </td>
                                         <td data-sort-value="<?php echo $new_messages_count ?>"
                                             class="darker">
                                             <?php if ($new_messages_count > 0): ?>
                                                 <div
-                                                    class="message"><?php echo $new_messages_count ?></div>
+                                                        class="message"><?php echo $new_messages_count ?></div>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -154,8 +154,8 @@ foreach ($extendedStats as $q => $data):
             <tr>
                 <td>Макет добавлен:</td>
                 <td><?php echo $not_work; ?></td>
-                <td></td>
-                <td></td>
+                <td>Суммарные затраты</td>
+                <td><?php echo Utils::format_amount($models_completed_total_cash); ?></td>
             </tr>
             </tbody>
         </table>
