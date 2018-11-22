@@ -39,6 +39,11 @@ abstract class BaseActivityAcceptStatsUpdates extends sfDoctrineRecord
             'notnull' => false,
             'default' => 0
         ));
+        $this->hasColumn('activities', 'clob', null, array(
+            'type' => 'clob',
+            'notnull' => false,
+            'default' => 0
+        ));
 
         $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');

@@ -114,7 +114,7 @@ DealerConsolidatedInformation.prototype = {
         }
 
         this.getLoader().show();
-        this.is_running = true;
+        //this.is_running = true;
         $.post(element.data('url'), {
             activities: activities,
             quarters: quarters,

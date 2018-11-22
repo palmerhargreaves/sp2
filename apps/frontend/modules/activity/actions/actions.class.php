@@ -1058,6 +1058,30 @@ class activityActions extends BaseActivityActions
 
     public function executeDealersWorkStatistics(sfWebRequest $request) {
         $this->quarters = range(1, 4);
+
+        //Заполняем список активностей с учетом типа статистики привязанной к активности
+        $activities_list = array('simple' => array('label' => 'Обычная статистика', 'activities' => array()), 'service_clinic' => array('label' => 'Service Clinic', 'activities' => array()));
+        $activities_ids = array_map(function ( $item ) {
+            return $item[ 'activity_id' ];
+        }, ActivityExtendedStatisticStepsTable::getInstance()->createQuery()->select('activity_id')->groupBy('activity_id')->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+
+        $service_clinic_activities = ActivityTable::getInstance()->createQuery()->whereIn('id', $activities_ids)->orderBy('position ASC')->execute();
+        foreach ($service_clinic_activities as $activity) {
+            $activities_list['service_clinic']['activities'][] = $activity;
+        }
+
+        //Обычный тип статистики
+        $activities_ids = array_map(function($item) {
+            return $item['activity_id'];
+        }, ActivityFieldsTable::getInstance()->createQuery()->select('activity_id')->groupBy('activity_id')->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+
+        $simple_activities_list = ActivityTable::getInstance()->createQuery()->whereIn('id', $activities_ids)->andWhere('finished = ?', false)->orderBy('position ASC')->execute();
+        foreach ($simple_activities_list as $activity) {
+            $activities_list['simple']['activities'][] = $activity;
+        }
+
+        $this->consolidated_information_activities = $activities_list;
+
     }
 
     public function executeDealersExportWorkStatistics(sfWebRequest $request) {

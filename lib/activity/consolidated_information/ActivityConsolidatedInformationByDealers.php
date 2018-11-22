@@ -1,8 +1,8 @@
 <?php
 
-require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph.php');
-require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph_pie.php');
-require_once (sfConfig::get('app_root_dir').'lib/jpgraph/jpgraph_pie3d.php');
+require_once(sfConfig::get('app_root_dir') . 'lib/jpgraph/jpgraph.php');
+require_once(sfConfig::get('app_root_dir') . 'lib/jpgraph/jpgraph_pie.php');
+require_once(sfConfig::get('app_root_dir') . 'lib/jpgraph/jpgraph_pie3d.php');
 
 /**
  * Created by PhpStorm.
@@ -54,70 +54,64 @@ class ActivityConsolidatedInformationByDealers
             return $item['id'];
         }, $dealers_query->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
 
-        $max_models_cost = 0;
+        $max_models_cost = array();
         $dealers_total_cash_by_models = array();
         foreach ($this->_quarters as $quarter) {
-            //Учитываем квартал
+            //Учитываем квартал и общую сумму
             if (!array_key_exists($quarter, $dealers_total_cash_by_models)) {
                 $dealers_total_cash_by_models[$quarter] = array();
+
+                //Переменная для подсчета общей суммы выполненых заявок
+                $max_models_cost[$quarter] = array();
             }
 
             //Проходим по всем дилерам для получения общей суммы учтенных заявок за выбранный период (квартал и год)
             foreach ($active_dealers_ids as $dealer_id) {
+                //Для квартала учитываем дилера
+                if (!array_key_exists($dealer_id, $dealers_total_cash_by_models[$quarter])) {
+                    $dealers_total_cash_by_models[$quarter][$dealer_id] = array();
+                }
 
-                $models_list = AgreementModelTable::getInstance()->createQuery('am')
-                    ->select('id, cost, dealer_id, model_category_id')
-                    ->innerJoin('am.Report r')
-                    ->andWhere('am.dealer_id = ?', $dealer_id)
-                    //Удаленные заявки не выбираем
-                    ->andWhere('is_deleted = ?', false)
-                    ->andWhereIn('activity_id', $this->_activities)
-                    ->andWhere('(am.status = ? and r.status = ?)', array('accepted', 'accepted'))
-                    //->andWhere('(year(created_at) = ? or year(created_at) = ?)', array($this->_year, $this->_year - 1))
-                    ->andWhere('(year(created_at) = ?)', array($this->_year))
-                    ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+                $models_costs_list = DealerModelsTotalCostTable::getInstance()->createQuery()->where('dealer_id = ? and quarter = ? and year = ?', array(
+                    $dealer_id,
+                    $quarter,
+                    $this->_year
+                ))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
                 //Получаемя список заявок с привязкой к индексу заявки и стоимости заявки
-                $models_list_with_cost = array();
-                foreach ($models_list as $model) {
-                    //Учитываем для категории заявки общую сумму
-                    if (!array_key_exists($model['model_category_id'], $dealers_total_cash_by_models[$quarter])) {
-                        $dealers_total_cash_by_models[$quarter][$model['model_category_id']] = array('total_models_cost' => 0, 'total_models' => 0, 'percent' => 0);
+                foreach ($models_costs_list as $model) {
+                    if (!array_key_exists($model['activity_id'], $dealers_total_cash_by_models[$quarter][$dealer_id])) {
+                        $dealers_total_cash_by_models[$quarter][$dealer_id][$model['activity_id']] = array();
                     }
 
-                    $models_list_with_cost[$model['id']] = array('cost' => floatval($model['cost']), 'model_category_id' => $model['model_category_id']);
+                    //Учитываем для категории заявки общую сумму
+                    if (!array_key_exists($model['category_id'], $dealers_total_cash_by_models[$quarter][$dealer_id][$model['activity_id']])) {
+                        $dealers_total_cash_by_models[$quarter][$dealer_id][$model['activity_id']][$model['category_id']] = array('total_models_cost' => 0, 'total_models' => 0, 'percent' => 0);
+                    }
+
+                    if (!array_key_exists($model['activity_id'], $max_models_cost[$quarter])) {
+                        $max_models_cost[$quarter][$model['activity_id']] = 0;
+                    }
+
+                    $dealers_total_cash_by_models[$quarter][$dealer_id][$model['activity_id']][$model['category_id']]['total_models_cost'] = $model['cost'];
+                    $dealers_total_cash_by_models[$quarter][$dealer_id][$model['activity_id']][$model['category_id']]['total_models']++;
+
+                    //Максимальная сумма заявок по категориям
+                    if ($dealers_total_cash_by_models[$quarter][$dealer_id][$model['activity_id']][$model['category_id']]['total_models_cost'] > $max_models_cost[$quarter][$model['activity_id']]) {
+                        $max_models_cost[$quarter][$model['activity_id']] = $dealers_total_cash_by_models[$quarter][$dealer_id][$model['activity_id']][$model['category_id']]['total_models_cost'];
+                    }
                 }
+            }
+        }
 
-                //Получаем индексы заявок для получения точной даты выполнения заявки
-                $models_ids = array_map(function($item) {
-                    return $item['id'];
-                }, $models_list);
-
-                //Если нет заявок переходим к сл. дилеру
-                if (empty($models_list)) {
-                    continue;
-                }
-
-                //Список выполненных заявок с корректными датами
-                $models_dates = Utils::getModelDateFromLogEntryWithYear($models_ids);
-
-                foreach ($models_dates as $model_item) {
-                    if (array_key_exists($model_item['object_id'], $models_list_with_cost)) {
-                        //Дата выполнения заявки
-                        $model_date = date('Y-m-d H:i:s', D::calcQuarterData($model_item['created_at']));
-
-                        //Получаем квартал выполнения заявки и год
-                        $model_quarter = D::getQuarter($model_date);
-                        $model_year = D::getYear($model_date);
-
-                        //Делаем проверку на квартал и год выполнения
-                        if ($model_quarter == $quarter && $model_year == $this->_year) {
-                            $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models_cost'] += $models_list_with_cost[$model_item['object_id']]['cost'];
-                            $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models']++;
-
-                            //Максимальная сумма заявок по категориям
-                            if ($dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models_cost'] > $max_models_cost) {
-                                $max_models_cost = $dealers_total_cash_by_models[$quarter][$models_list_with_cost[$model_item['object_id']]['model_category_id']]['total_models_cost'];
+        //Вычисяляем проценты от максимальной суммы заявок
+        if (!empty($max_models_cost )) {
+            foreach ($dealers_total_cash_by_models as $quarter => $model_items) {
+                foreach($model_items as $dealer_id => $activity_item) {
+                    foreach($activity_item as $activity_id => $model_item) {
+                        foreach ($model_item as $model_category_id => $model_category) {
+                            if (array_key_exists($quarter, $max_models_cost) && array_key_exists($activity_id, $max_models_cost[$quarter])) {
+                                $dealers_total_cash_by_models[$quarter][$dealer_id][$activity_id][$model_category_id]['percent'] = $model_category['total_models_cost'] * 100 / $max_models_cost[$quarter][$activity_id];
                             }
                         }
                     }
@@ -125,14 +119,8 @@ class ActivityConsolidatedInformationByDealers
             }
         }
 
-        //Вычисяляем проценты от максимальной суммы заявок
-        if ($max_models_cost > 0) {
-            foreach ($dealers_total_cash_by_models as $quarter => $model_item) {
-                foreach ($model_item as $model_category_id => $model_category) {
-                    $dealers_total_cash_by_models[$quarter][$model_category_id]['percent'] = $model_category['total_models_cost'] * 100 / $max_models_cost;
-                }
-            }
-        }
+        var_dump($dealers_total_cash_by_models);
+        exit;
 
         //Аккамулируем сумму по категориям заявок для каждого дилера с учетом квартала
         $dealer_total_models_cost_by_categories = array();
@@ -151,16 +139,17 @@ class ActivityConsolidatedInformationByDealers
 
             //Получаем список дилеров
             $dealers_list = DealerTable::getInstance()->createQuery()
+                ->select('id, number, name')
                 ->where('status = ?', true)
                 ->andWhereIn('id', $this->_dealers)
                 ->andWhere('(regional_manager_id = ? or nfz_regional_manager_id = ?)', array($manager->getId(), $manager->getId()))
-                ->execute();
+                ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
             //Вычисляем бюджеты для дилеров
             $dealers_budgets = array();
             foreach ($dealers_list as $dealer) {
-                if (!array_key_exists($dealer->getId(), $dealers_budgets)) {
-                    $dealers_budgets[$dealer->getId()] = array(
+                if (!array_key_exists($dealer['id'], $dealers_budgets)) {
+                    $dealers_budgets[$dealer['id']] = array(
                         "quarters" => array(
                             1 => array(
                                 "plan" => 0,
@@ -187,7 +176,7 @@ class ActivityConsolidatedInformationByDealers
                         )
                     );
                 }
-                $budget_calculator = new RealBudgetCalculator($dealer, $this->_year);
+                $budget_calculator = new RealBudgetCalculatorLite($dealer['id'], $this->_year);
                 $dealer_budget_real = $budget_calculator->calculate();
                 $dealer_budget_plan = $budget_calculator->getPlanBudget();
 
@@ -197,27 +186,27 @@ class ActivityConsolidatedInformationByDealers
                 $total_fact = 0;
                 for ($quarter = 1; $quarter <= 4; $quarter++) {
                     if (isset($dealer_budget_plan[$quarter])) {
-                        $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["plan"] += $dealer_budget_plan[$quarter];
+                        $dealers_budgets[$dealer['id']]["quarters"][$quarter]["plan"] += $dealer_budget_plan[$quarter];
                         $total_plan += $dealer_budget_plan[$quarter];
                     }
 
                     if (isset($dealer_budget_real[$quarter])) {
-                        $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["fact"] += $dealer_budget_real[$quarter];
+                        $dealers_budgets[$dealer['id']]["quarters"][$quarter]["fact"] += $dealer_budget_real[$quarter];
                         $total_fact += $dealer_budget_real[$quarter];
                     }
                 }
 
                 //Общие суммы
-                $dealers_budgets[$dealer->getId()]["all_year"]["plan"] = $total_plan;
-                $dealers_budgets[$dealer->getId()]["all_year"]["fact"] = $total_fact;
-                $dealers_budgets[$dealer->getId()]["all_year"]["completed"] = $total_plan != 0 ? $total_fact * 100 / $total_plan : 0;
-                $dealers_budgets[$dealer->getId()]["all_year"]["left_to_complete"] = $total_fact < $total_plan ? $total_plan - $total_fact : $total_plan;
+                $dealers_budgets[$dealer['id']]["all_year"]["plan"] = $total_plan;
+                $dealers_budgets[$dealer['id']]["all_year"]["fact"] = $total_fact;
+                $dealers_budgets[$dealer['id']]["all_year"]["completed"] = $total_plan != 0 ? $total_fact * 100 / $total_plan : 0;
+                $dealers_budgets[$dealer['id']]["all_year"]["left_to_complete"] = $total_fact < $total_plan ? $total_plan - $total_fact : $total_plan;
             }
 
             foreach ($this->_quarters as $main_quarter) {
 
                 //Полачем список обязательных активностей по кварталу и году
-                $slots = QuartersSlotsTable::getInstance()->createQuery()->where('quarter = ? and year = ?', array( $main_quarter, $this->_year ))->execute();
+                $slots = QuartersSlotsTable::getInstance()->createQuery()->where('quarter = ? and year = ?', array($main_quarter, $this->_year))->execute();
 
                 $mandatory_activities_list = array();
                 foreach ($slots as $slot) {
@@ -232,8 +221,8 @@ class ActivityConsolidatedInformationByDealers
 
                 foreach ($dealers_list as $dealer) {
                     //Заполняем основную информацию по дилерам
-                    if (!array_key_exists($dealer->getId(), $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"])) {
-                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()] = array(
+                    if (!array_key_exists($dealer['id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"])) {
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']] = array(
                             "dealer" => $dealer,
                             "budget" => array(
                                 "quarters" => array(
@@ -263,25 +252,26 @@ class ActivityConsolidatedInformationByDealers
                             ),
                             "activities" => array(),
                             "not_work_with_activity" => array(),
-                            "completed_statistics" => array()
+                            "completed_statistics" => array(),
+                            "completed_simple_statistics" => array()
                         );
 
                         //Заполняем для дилера данные по бюджету (план и факт)
                         //Вычисляем общий бюджет, сколько выполнено и % и сколько осталось выполнить
                         for ($quarter = 1; $quarter <= 4; $quarter++) {
-                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["plan"] = $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["plan"];
-                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["quarters"][$quarter]["fact"] = $dealers_budgets[$dealer->getId()]["quarters"][$quarter]["fact"];
+                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["budget"]["quarters"][$quarter]["plan"] = $dealers_budgets[$dealer['id']]["quarters"][$quarter]["plan"];
+                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["budget"]["quarters"][$quarter]["fact"] = $dealers_budgets[$dealer['id']]["quarters"][$quarter]["fact"];
                         }
 
                         //Общие суммы
-                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["plan"] = $dealers_budgets[$dealer->getId()]["all_year"]["plan"];
-                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["fact"] = $dealers_budgets[$dealer->getId()]["all_year"]["fact"];
-                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["completed"] = $dealers_budgets[$dealer->getId()]["all_year"]["completed"];
-                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["budget"]["all_year"]["left_to_complete"] = $dealers_budgets[$dealer->getId()]["all_year"]["left_to_complete"];
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["budget"]["all_year"]["plan"] = $dealers_budgets[$dealer['id']]["all_year"]["plan"];
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["budget"]["all_year"]["fact"] = $dealers_budgets[$dealer['id']]["all_year"]["fact"];
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["budget"]["all_year"]["completed"] = $dealers_budgets[$dealer['id']]["all_year"]["completed"];
+                        $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["budget"]["all_year"]["left_to_complete"] = $dealers_budgets[$dealer['id']]["all_year"]["left_to_complete"];
 
-                        $activities_ids = array_map(function($item) {
+                        $activities_ids = array_map(function ($item) {
                             return $item['activity_id'];
-                        }, AgreementModelTable::getInstance()->createQuery()->select('activity_id')->where('dealer_id = ?', $dealer->getId())
+                        }, AgreementModelTable::getInstance()->createQuery()->select('activity_id')->where('dealer_id = ?', $dealer['id'])
                             ->andWhere('year(created_at) = ?', $this->_year)
                             ->groupBy('activity_id')->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
 
@@ -289,10 +279,10 @@ class ActivityConsolidatedInformationByDealers
                         $activities_ids = array_merge($activities_ids, $mandatory_activities_list);
                         $activities = ActivityTable::getInstance()->createQuery()->whereIn('id', $activities_ids)->orderBy('id DESC')->execute();
                         foreach ($activities as $activity) {
-                            if (!array_key_exists($activity->getId(), $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"])) {
-                                $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"][$activity->getId()] = array(
+                            if (!array_key_exists($activity->getId(), $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"])) {
+                                $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"][$activity->getId()] = array(
                                     'name' => $activity->getName(),
-                                    'status' => $activity->getStatusBudgetPointsByQuarter($dealer->getId(), $main_quarter, false, $this->_year),
+                                    'status' => $activity->getStatusBudgetPointsByQuarter($dealer['id'], $main_quarter, false, $this->_year),
                                     'mandatory_activity' => in_array($activity->getId(), $mandatory_activities_list),
                                     'company_name' => $activity->getCompanyType()->getName()
                                 );
@@ -301,35 +291,27 @@ class ActivityConsolidatedInformationByDealers
 
                         //Определяем выполнения статистики
                         foreach ($this->_activities as $activity_id) {
-                            $statistic_status = ActivityExtendedStatisticStepStatusTable::getInstance()->createQuery()
-                                ->select('concept_id, activity_id')
-                                ->where('activity_id = ? and dealer_id = ? and year = ? and quarter = ? and status = ?',
-                                    array
-                                    (
-                                        $activity_id,
-                                        $dealer->getId(),
-                                        $this->_year,
-                                        $main_quarter,
-                                        true
-                                    ))
-                                ->groupBy('concept_id')
+                            //Делаем проверку на выполнение простой (без шагов) статистики дилеров
+                            $statistic_status = ActivityDealerStaticticStatusTable::getInstance()->createQuery()
+                                ->select('activity_id')
+                                ->where('dealer_id = ? and activity_id = ? and year = ?', array($dealer['id'], $activity_id, $this->_year))
+                                ->andWhere('stat_type = ?', 'simple')
+                                ->andWhere('q' . $main_quarter . ' = ?', $main_quarter)
+                                ->andWhere('complete = ?', true)
                                 ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
-                            //Если статистика заполнена по кварталу и году
                             if (!empty($statistic_status)) {
-
-                                $activity_statistic_fields_count = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->count();
-                                $fields_per_page = self::FIELDS_PER_PAGE;
-                                $total_pages = $activity_statistic_fields_count > $fields_per_page ? ceil($activity_statistic_fields_count / $fields_per_page) : 1;
+                                $activity_statistic_fields_count = ActivityFieldsTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->count();
+                                $total_pages = $activity_statistic_fields_count > self::FIELDS_PER_PAGE ? ceil($activity_statistic_fields_count / self::FIELDS_PER_PAGE) : 1;
 
                                 foreach ($statistic_status as $status) {
-                                    if (!array_key_exists($status['concept_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["completed_statistics"])) {
+                                    if (!array_key_exists($status['activity_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["completed_simple_statistics"])) {
 
                                         //Проверяем на наличие акитивности в финальной выгрузке и заполняем данные по активности
-                                        if (array_key_exists($status['activity_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"])) {
-                                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["completed_statistics"][$status['concept_id']] = array(
-                                                'activity_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"][$status['activity_id']]['name'],
-                                                'activity_company_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer->getId()]["activities"][$status['activity_id']]['company_name'],
+                                        if (array_key_exists($status['activity_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"])) {
+                                            $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["completed_simple_statistics"][$status['activity_id']] = array(
+                                                'activity_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"][$status['activity_id']]['name'],
+                                                'activity_company_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"][$status['activity_id']]['company_name'],
                                                 'total_pages' => $total_pages,
                                                 'activity_id' => $activity_id,
                                                 'quarter' => $main_quarter,
@@ -339,61 +321,100 @@ class ActivityConsolidatedInformationByDealers
                                     }
                                 }
 
-
-                                //Получаем список выполненных заявок по дилеру и периоду
-                                $completed_models_factory = DealerStatisticFactory::getInstance()->getDealerStatistic('completed',
-                                    array
-                                    (
-                                        'request' => null,
-                                        'default_filter' => array
+                                unset($statistic_status);
+                            } else {
+                                $statistic_status = ActivityExtendedStatisticStepStatusTable::getInstance()->createQuery()
+                                    ->select('concept_id, activity_id')
+                                    ->where('activity_id = ? and dealer_id = ? and year = ? and quarter = ? and status = ?',
+                                        array
                                         (
-                                            'dealer_id' => $dealer->getId(),
-                                            'quarter' => $main_quarter,
-                                            'year' => $this->_year,
-                                            'activity' => $activity_id
-                                        )
-                                    )
-                                );
+                                            $activity_id,
+                                            $dealer['id'],
+                                            $this->_year,
+                                            $main_quarter,
+                                            true
+                                        ))
+                                    ->groupBy('concept_id')
+                                    ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
-                                $completed_models = $completed_models_factory->getModelsList();
-                                foreach ($completed_models as $model) {
-                                    if (!array_key_exists($dealer->getId(), $dealer_total_models_cost_by_categories)) {
-                                        $dealer_total_models_cost_by_categories[$dealer->getId()] = array();
+                                //Если статистика заполнена по кварталу и году
+                                if (!empty($statistic_status)) {
+
+                                    $activity_statistic_fields_count = ActivityExtendedStatisticFieldsTable::getInstance()->createQuery()->where('activity_id = ?', $activity_id)->count();
+                                    $total_pages = $activity_statistic_fields_count > self::FIELDS_PER_PAGE ? ceil($activity_statistic_fields_count / self::FIELDS_PER_PAGE) : 1;
+
+                                    foreach ($statistic_status as $status) {
+                                        if (!array_key_exists($status['concept_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["completed_statistics"])) {
+
+                                            //Проверяем на наличие акитивности в финальной выгрузке и заполняем данные по активности
+                                            if (array_key_exists($status['activity_id'], $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"])) {
+                                                $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["completed_statistics"][$status['concept_id']] = array(
+                                                    'activity_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"][$status['activity_id']]['name'],
+                                                    'activity_company_name' => $manager_dealers_list[$manager->getId()][$main_quarter]["dealers"][$dealer['id']]["activities"][$status['activity_id']]['company_name'],
+                                                    'total_pages' => $total_pages,
+                                                    'activity_id' => $activity_id,
+                                                    'quarter' => $main_quarter,
+                                                    'year' => $this->_year
+                                                );
+                                            }
+                                        }
                                     }
 
-                                    if (!array_key_exists($main_quarter, $dealer_total_models_cost_by_categories[$dealer->getId()])) {
-                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter] = array();
-                                    }
+                                    unset($statistic_status);
+                                }
+                            }
 
-                                    if (!array_key_exists($activity_id, $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter])) {
-                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id] = array();
-                                    }
 
-                                    if (!array_key_exists($model['model']->getModelCategoryId(), $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id])) {
-                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()] = array('total_models' => 0, 'total_cost' => 0, 'percent' => 0);
-                                    }
+                            //Получаем список выполненных заявок по дилеру и периоду
+                            $dealer_models_cost_by_categories = DealerModelsTotalCostTable::getInstance()->createQuery()->where('dealer_id = ? and activity_id = ? and quarter = ? and year = ?',
+                                array(
+                                    $dealer['id'],
+                                    $activity_id,
+                                    $main_quarter,
+                                    $this->_year
+                                ))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
-                                    $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['total_cost'] += $model['model']->getCost();
-                                    $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['total_models']++;
-
-                                    if ($max_models_cost > 0) {
-                                        $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['percent'] = $dealer_total_models_cost_by_categories[$dealer->getId()][$main_quarter][$activity_id][$model['model']->getModelCategoryId()]['total_cost'] * 100 / $max_models_cost;
-                                    }
+                            foreach ($dealer_models_cost_by_categories as $dealer_cost_models) {
+                                if (!array_key_exists($dealer['id'], $dealer_total_models_cost_by_categories)) {
+                                    $dealer_total_models_cost_by_categories[$dealer['id']] = array();
                                 }
 
-                                unset($completed_models_factory);
+                                if (!array_key_exists($main_quarter, $dealer_total_models_cost_by_categories[$dealer['id']])) {
+                                    $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter] = array();
+                                }
+
+                                if (!array_key_exists($activity_id, $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter])) {
+                                    $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter][$activity_id] = array();
+                                }
+
+                                if (!array_key_exists($dealer_cost_models['category_id'], $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter][$activity_id])) {
+                                    $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter][$activity_id][$dealer_cost_models['category_id']] = array('total_models' => 0, 'total_cost' => 0, 'percent' => 0);
+                                }
+
+                                $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter][$activity_id][$dealer_cost_models['category_id']]['total_cost'] = $dealer_cost_models['cost'];
+                                $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter][$activity_id][$dealer_cost_models['category_id']]['total_models'] = $dealer_cost_models['models_count'];
+
+                                if ($max_models_cost > 0) {
+                                    $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter][$activity_id][$dealer_cost_models['category_id']]['percent'] = $dealer_total_models_cost_by_categories[$dealer['id']][$main_quarter][$activity_id][$dealer_cost_models['category_id']]['total_cost'] * 100 / $max_models_cost;
+                                }
                             }
+
+                            unset($completed_models);
+                            unset($completed_models_factory);
                         }
                     }
                 }
             }
         }
 
+        var_dump($dealer_total_models_cost_by_categories);
+        exit;
+
         $graph_ticks_values = array();
 
         $tick_step_value = ceil($max_models_cost) / 10;
         $tick_next_value = 0;
-        for($tick_index = 0; $tick_index <= 10; $tick_index++) {
+        for ($tick_index = 0; $tick_index <= 10; $tick_index++) {
             $graph_ticks_values[] = $tick_next_value;
             $tick_next_value += $tick_step_value;
         }

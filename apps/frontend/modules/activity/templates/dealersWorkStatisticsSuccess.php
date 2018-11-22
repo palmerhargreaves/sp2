@@ -151,10 +151,14 @@ $current_q = D::getQuarter(time());
                     <div class="d-row">
                         <div class="d-col d-col_sm_8 d-col_md_8 d-col_lg_8">
                             <select id="sb-consolidated-information-activities" name="sb_consolidated_information_activities[]" class="form-control" multiple>
-                                <?php foreach (ActivityTable::getInstance()->createQuery()->whereIn('id', $activities_ids)->execute() as $activity): ?>
-                                    <option value="<?php echo $activity->getId(); ?>">
-                                        <?php echo sprintf('[%d] - %s', $activity->getId(), $activity->getName()); ?>
-                                    </option>
+                                <?php foreach ($consolidated_information_activities as $activities_item): ?>
+                                    <optgroup label="<?php echo $activities_item['label']; ?>">
+                                        <?php foreach ($activities_item['activities'] as $activity): ?>
+                                            <option value="<?php echo $activity->getId(); ?>">
+                                                <?php echo sprintf('[%d] - %s', $activity->getId(), $activity->getName()); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
                                 <?php endforeach; ?>
                             </select>
                         </div>

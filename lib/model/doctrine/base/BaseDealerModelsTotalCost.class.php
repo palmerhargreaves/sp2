@@ -47,6 +47,11 @@ abstract class BaseDealerModelsTotalCost extends sfDoctrineRecord
              'length' => 11,
              'notnull' => true,
              ));
+        $this->hasColumn('activity_id', 'integer', 11, array(
+            'type' => 'integer',
+            'length' => 11,
+            'notnull' => true,
+        ));
         $this->hasColumn('category_id', 'integer', 11, array(
              'type' => 'integer',
              'length' => 11,
@@ -67,6 +72,11 @@ abstract class BaseDealerModelsTotalCost extends sfDoctrineRecord
              'length' => 20,
              'notnull' => true,
              ));
+        $this->hasColumn('models_count', 'integer', 11, array(
+            'type' => 'integer',
+            'length' => 20,
+            'notnull' => true,
+        ));
 
 
         $this->index('dealer_models', array(
