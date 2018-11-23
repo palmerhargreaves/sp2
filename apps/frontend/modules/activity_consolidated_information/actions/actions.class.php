@@ -95,6 +95,13 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                             $pages[$dealer_id][$quarter]['statistic'] = array_merge($pages[$dealer_id][$quarter]['statistic'], $result);
                         }
 
+                        //Вторая страница (простая статистка)
+                        if (!empty($dealer_data['completed_simple_statistics'])) {
+                            $result = $this->generateDealerSimpleStatisticPages(array('manager' => $manager_data["manager"], 'completed_simple_statistics' => $dealer_data['completed_simple_statistics'], 'dealer_id' => $dealer_id, 'dealer' => $dealer_data["dealer"], 'css' => $css, 'quarter' => $quarter));
+
+                            $pages[$dealer_id][$quarter]['statistic'] = array_merge($pages[$dealer_id][$quarter]['statistic'], $result);
+                        }
+
                         //Третья страница - Графика
                         //Только для кварталов с заполненной статистикой
                         if (array_key_exists($dealer_id, $data['dealer_total_models_cost_by_categories']) && array_key_exists($quarter, $data['dealer_total_models_cost_by_categories'][$dealer_id])) {
@@ -104,14 +111,15 @@ class activity_consolidated_informationActions extends BaseActivityActions {
                                 }
 
                                 $result = $this->generateGraphPage(array(
-                                    'dealers_total_cost' => $data['dealers_total_cost'][$quarter],
+                                    'dealers_total_cost' => $data['dealers_total_cost'][$quarter][$activity_id],
                                     'dealer_total_models_cost_by_categories' => $dealers_data,
                                     'manager' => $manager_data["manager"],
                                     'dealer_id' => $dealer_id,
                                     'dealer' => $dealer_data["dealer"],
                                     'activity_data' => array('activity_name' => $exists_activities[$activity_id]->getName(), 'company_name' => $exists_activities[$activity_id]->getCompanyType()->getName()),
-                                    'tick_values' => $data['graph_tick_values'],
+                                    'tick_values' => $data['graph_tick_values'][$quarter][$activity_id],
                                     'css' => $css,
+                                    'activity_id' => $activity_id,
                                     'quarter' => $quarter));
 
                                 $pages[$dealer_id][$quarter]['graphs'] = array_merge($pages[$dealer_id][$quarter]['graphs'], $result);
@@ -194,7 +202,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
             get_partial('activity_template_page_dealer_graph_body', array('data' => $params)),
             get_partial('activity_template_page_dealer_bottom', array())
         );
-        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/dealers/graphs/activity_consolidated_information_dealer_graph_page_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
+        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/dealers/graphs/activity_consolidated_information_dealer_graph_page_'.$params['quarter'].'_'.$params['activity_id'].'_'.$params['dealer_id'].'.html';
         file_put_contents($file_name, implode('<br/>', $page1_html));
 
         return array($file_name);
@@ -340,6 +348,82 @@ class activity_consolidated_informationActions extends BaseActivityActions {
 
                     $pages[] = $file_name;
                 }
+            }
+        }
+
+        return $pages;
+    }
+
+    /**
+     * Генерация старицы простой статистики по дилеру
+     * @param $params
+     * @return array
+     */
+    private function generateDealerSimpleStatisticPages($params) {
+        $header = get_partial('activity_template_page_dealer_budget_header', array('information' => $params));
+        $header = str_replace('<style></style>', '<style>'.$params['css'].'</style>', $header);
+
+        $year = date('Y');
+        $activities = array();
+
+        $pages = array();
+
+        //Делаем проход по всем концепциям привязанным к статистике и делаем выборку заполненных данных
+        $activity_statistic_completed_fields_list = array();
+        foreach ($params['completed_simple_statistics'] as $activity_id => $statistic_params) {
+            //Получаем список активностей и название привязанной кампании
+            if (!array_key_exists($statistic_params['activity_id'], $activities)) {
+                $activity = ActivityTable::getInstance()->find($statistic_params['activity_id']);
+                if ($activity) {
+                    $activities[$activity->getId()] = array('activity_name' => $activity->getName(), 'company_name' => $activity->getCompanyType()->getName());
+                }
+            }
+
+            $page = 1;
+            $total_fields = 0;
+            $fields = ActivityFieldsTable::getInstance()->createQuery()->select('*')->where('activity_id = ?', $activity->getId())->orderBy('id ASC')->execute();
+
+            foreach ($fields as $field) {
+                $value = '';
+                $field_data = $field->getValue($params['dealer_id'], $params['quarter'], $year);
+
+                if (!empty($field_data)) {
+                    $value = $field_data['val'];
+                }
+
+                //Присваиваем данные поля
+                $activity_statistic_completed_fields_list[$page]['fields'][] = array(
+                    'header' => $field->getName(),
+                    'value' => $value,
+                );
+
+                //Если количестов полей на одной страничке превышает допустимое количество, переходим на др. страницу
+                if ($total_fields++ > ActivityConsolidatedInformationByDealers::FIELDS_PER_PAGE) {
+                    $total_fields = 0;
+                    $page++;
+                }
+            }
+
+            //Делаем проходы по полученным данным, создаем файлы
+            foreach ($activity_statistic_completed_fields_list as $page => $page_data) {
+
+                $page1_html = array(
+                    $header,
+                    get_partial('activity_template_page_dealer_simple_statistic_body',
+                        array(
+                            'information' => $params,
+                            'statistic_data' => $page_data['fields'],
+                            'statistic_params' => $statistic_params,
+                            'activity_id' => $statistic_params['activity_id'],
+                            'activities_list' => $activities
+                        )),
+                    get_partial('activity_template_page_dealer_bottom', array())
+                );
+
+                $file_name = sfConfig::get('app_root_dir').'www/pdf/data/dealers/statistics/activity_consolidated_information_dealer_simple_statistic_page_'.$page.'_'.$activity_id.'_'.$params['quarter'].'_'.$params['dealer_id'].'.html';
+                file_put_contents($file_name, implode('<br/>', $page1_html));
+
+                $pages[] = $file_name;
             }
         }
 

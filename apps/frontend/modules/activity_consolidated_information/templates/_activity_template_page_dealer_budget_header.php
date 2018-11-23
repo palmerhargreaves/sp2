@@ -25,8 +25,8 @@
             <h1 class="d-ttu"><?php echo $information['quarter'];?> квартал</h1>
             <div class="d-header is-flexbox">
                 <div class="d-header__company d-bsbb">
-                    <h2 class="h1"><?php echo $information['dealer']->getSimpleName(); ?></h2>
-                    <h3><?php echo $information['dealer']->getNumber(); ?></h3>
+                    <h2 class="h1"><?php echo $information['dealer']['name']; ?></h2>
+                    <h3><?php echo $information['dealer']['number']; ?></h3>
                 </div>
                 <div class="d-header__manager d-bsbb fs_xl">
                     <strong>Региональный менеджер</strong>

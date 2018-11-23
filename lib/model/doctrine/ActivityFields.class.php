@@ -15,6 +15,26 @@ class ActivityFields extends BaseActivityFields
     const FIELD_FILE_PATH = '/activities/module/statistics';
     const FIELD_FILE_FULL_PATH = '/var/www/vwgroup/data/www/dm.vw-servicepool.ru/www/uploads/activities/module/statistics';
 
+    public function getValue($dealer_id, $quarter, $year) {
+        $field = ActivityFieldsValuesTable::getInstance()->createQuery()->select('*')
+            ->where('dealer_id = ? and field_id = ? and q = ? and year = ?',
+                array
+                (
+                    $dealer_id,
+                    $this->getId(),
+                    $quarter,
+                    $year
+                )
+            )
+            ->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+        if (!$field) {
+            return '';
+        }
+
+        return $field;
+    }
+
     public function getFieldByDealer(User $user, $quarter)
     {
         $field = null;

@@ -41,7 +41,7 @@ $tick_values = $data['tick_values']->getRawValue();
             foreach ($dealers_total_cost as $category_id => $category_data):
                 $category = AgreementModelCategoriesTable::getInstance()->find($category_id);
                 if ($category && !$category->getIsBlank()):
-            ?>
+           ?>
                 <div class="report-chart__row">
                     <div class="report-chart__caption"><?php echo $category->getName(); ?></div>
                     <div class="report-chart__item" style="width:<?php echo round($category_data['percent'], 0); ?>%;">
@@ -64,9 +64,7 @@ $tick_values = $data['tick_values']->getRawValue();
             </div>
 
         </div>
-
     </div>
-
 </main>
 
 <footer id="d-footer">
