@@ -128,7 +128,7 @@
                             <div class="modal-select-wrapper krik-select select dealer filter"
                                  style="margin-left: 0px;">
                                 <?php if ($activity_filter): ?>
-                                    <span
+                                    <span style="text-overflow: ellipsis; white-space: nowrap; width: 330px; overflow: hidden !important; display: block;"
                                             class="select-value"><?php echo sprintf('%s - %s', $activity_filter->getId(), $activity_filter->getRawValue()); ?></span>
                                     <input type="hidden" name="activity_id"
                                            value="<?php echo $activity_filter->getId() ?>">
@@ -144,8 +144,10 @@
                                 <div class="modal-select-dropdown">
                                     <div class="modal-select-dropdown-item select-item" data-value="">Все</div>
                                     <?php foreach ($activities as $activity): ?>
-                                        <div class="modal-select-dropdown-item select-item" style="height: 30px;"
-                                             data-value="<?php echo $activity->getId() ?>"><?php echo sprintf('%s - %s', $activity->getId(), $activity->getName()); ?></div>
+                                        <div class="modal-select-dropdown-item select-item" style="min-height: 22px; height: auto;" data-value="<?php echo $activity->getId() ?>">
+                                            <span style="min-width: 26px;"><?php echo sprintf('%s - ', $activity->getId()); ?></span>
+                                            <span><?php echo sprintf('%s', $activity->getName()); ?></span>
+                                        </div>
                                     <?php endforeach; ?>
 
                                     <?php foreach ($finished_activities_by_prev_year as $activity_year => $finished_activities): ?>
@@ -204,13 +206,12 @@
                         $clsAlign = 'right';
                         $style = '';
                         if ($sf_data->getRaw('wait_filter') == 'manager')
-                            $style = 'margin-right: 0px; clear: inherit; float: right; margin-top: 5px; width: 180px;';
+                            $style = 'margin-right: 0px; clear: inherit; float: right; margin-top: 5px; width: 221px; right: 30px;';
                         else $clsAlign = 'inherit';
                         ?>
                         <div class="modal-select-wrapper krik-select select type filter"
-                             style="<?php echo !empty($style) ? $style : "margin-right: 5px; clear: " . $clsAlign . "; width: 180px;"; ?>">
-                            <span
-                                    class="select-value"><?php echo isset($model_type_filter_items[$sf_data->getRaw('model_type_filter')]) ? $model_type_filter_items[$sf_data->getRaw('model_type_filter')] : 'Все'; ?></span>
+                             style="<?php echo !empty($style) ? $style : "margin-right: 5px; clear: " . $clsAlign . "; width: 221px; right: 30px;"; ?>">
+                            <span class="select-value"><?php echo isset($model_type_filter_items[$sf_data->getRaw('model_type_filter')]) ? $model_type_filter_items[$sf_data->getRaw('model_type_filter')] : 'Все'; ?></span>
 
                             <div class="ico"></div>
 

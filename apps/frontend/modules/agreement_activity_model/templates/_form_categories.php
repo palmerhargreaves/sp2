@@ -182,6 +182,7 @@
                                                    placeholder="от"
                                                    data-format-expression="^[0-9]{2}(\.[0-9]{2}){2}$" data-required="1"
                                                    data-right-format="21.01.13"
+                                                   data-date-field="true"
                                                    data-message-selector="#end_field_id_1"/>
                                             <div class="modal-input-error-icon error-icon"></div>
                                         </div>
@@ -189,6 +190,7 @@
                                             <input type="text" name="_period[end]" class="date-ext date"
                                                    placeholder="до"
                                                    data-format-expression="^[0-9]{2}(\.[0-9]{2}){2}$" data-required="1"
+                                                   data-date-field="true"
                                                    data-right-format="21.01.13"/>
                                             <div class="modal-input-error-icon error-icon"></div>
                                             <div class="error message" id="end_field_id_1"></div>

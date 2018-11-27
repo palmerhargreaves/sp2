@@ -59,7 +59,10 @@ class ActivityConsolidatedInformation
         if ($period) {
             $quarters = $period->getQuarters();
             $this->_quarters_list = explode(":", $quarters);
+        } else {
+            $this->_quarters_list = D::getQuartersListByDatesPeriod($this->_activity->getStartDate(), $this->_activity->getEndDate());
         }
+        sort($this->_quarters_list);
 
         return $this->_quarters_list;
     }

@@ -383,6 +383,35 @@ class D
     }
 
     /**
+     * Получить спиок кварталов за период
+     * @param $start_date
+     * @param $end_date
+     * @return array
+     */
+    static function getQuartersListByDatesPeriod($start_date, $end_date) {
+        $start_date = self::toUnix($start_date);
+        $end_date = self::toUnix($end_date);
+
+        $quarters_list = array();
+
+        //Проходим по диапазону дат
+        while(1) {
+            $quarter = self::getQuarter($start_date);
+
+            if (!in_array($quarter, $quarters_list)) {
+                $quarters_list[] = $quarter;
+            }
+
+            $start_date = strtotime(date('Y-m-d', strtotime('+1 month', $start_date)));
+            if ($start_date > $end_date) {
+                break;
+            }
+        }
+
+        return $quarters_list;
+    }
+
+    /**
      * Format model period (get last date)
      * @param $period
      * @return array|string

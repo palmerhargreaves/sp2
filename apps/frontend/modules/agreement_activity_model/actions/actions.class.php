@@ -739,8 +739,9 @@ class agreement_activity_modelActions extends BaseActivityActions
             $message_data = Utils::formatMessageData($message);
         }*/
 
-        return $this->sendFormBindResult($form, $model_category_id != 0
-            ? 'agreement_model_with_category_form.onResponse' : 'agreement_model_form.onResponse',
+        return $this->sendFormBindResult($form,
+            //Проверка на концепцию
+            $model_type_id == self::CONCEPT_INDEX ? 'agreement_model_form.onResponse' : ( $model_category_id != 0 ? 'agreement_model_with_category_form.onResponse' : 'agreement_model_form.onResponse' ),
             $hasEditorLink ? url_for('@agreement_module_models?activity=' . $this->getActivity($request)->getId()) : '',
             $message_data);
     }
@@ -965,7 +966,7 @@ class agreement_activity_modelActions extends BaseActivityActions
         }*/
 
         return $this->sendFormBindResult($form,
-            $model->isValidModelCategory() ? 'agreement_model_with_category_form.onResponse' : 'agreement_model_form.onResponse',
+            $is_concept ? 'agreement_model_form.onResponse' : ($model->isValidModelCategory() ? 'agreement_model_with_category_form.onResponse' : 'agreement_model_form.onResponse'),
             '',
             $message_data);
     }

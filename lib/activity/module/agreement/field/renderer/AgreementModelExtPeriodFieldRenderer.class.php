@@ -16,11 +16,11 @@ class AgreementModelExtPeriodFieldRenderer extends AgreementModelFieldRenderer
 <div class="modal-input-group-wrapper period-group" id="{$this->getFieldName()}">
   <input type="hidden" name="{$this->getFieldName()}"/>
   <div class="modal-input-wrapper modal-short-input-wrapper">
-    <input type="text" name="_{$this->getFieldName()}[start]" class="date-ext" placeholder="от" data-format-expression="^[0-9]{2}(\.[0-9]{2}){2}$" data-required="{$this->getRequiredValue()}" data-right-format="21.01.13" data-message-selector="#{$end_field_id}"/>
+    <input type="text" name="_{$this->getFieldName()}[start]" class="date-ext" placeholder="от" data-date-field="true" data-format-expression="^[0-9]{2}(\.[0-9]{2}){2}$" data-required="{$this->getRequiredValue()}" data-right-format="21.01.13" data-message-selector="#{$end_field_id}"/>
     <div class="modal-input-error-icon error-icon"></div>
   </div>
   <div class="modal-input-wrapper modal-short-input-wrapper">
-    <input type="text" name="_{$this->getFieldName()}[end]" class="date-ext" placeholder="до" data-format-expression="^[0-9]{2}(\.[0-9]{2}){2}$" data-required="{$this->getRequiredValue()}" data-right-format="21.01.13"/>
+    <input type="text" name="_{$this->getFieldName()}[end]" class="date-ext" placeholder="до" data-date-field="true" data-format-expression="^[0-9]{2}(\.[0-9]{2}){2}$" data-required="{$this->getRequiredValue()}" data-right-format="21.01.13"/>
     <div class="modal-input-error-icon error-icon"></div>
     <div class="error message" id="$end_field_id"></div>
   </div>

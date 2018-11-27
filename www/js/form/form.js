@@ -60,8 +60,8 @@ utils.extend(Form, utils.Observable, {
 
     showLoader: function () {
         if (this.enable_loader_image) {
-            /*this.getLoader().show();
-             this.getButton().hide();*/
+            this.getLoader().show();
+            this.getButton().hide();
 
             this.getButton().parent().addClass('loader-bg');
         }
@@ -69,8 +69,8 @@ utils.extend(Form, utils.Observable, {
 
     hideLoader: function () {
         if (this.enable_loader_image) {
-            /*this.getLoader().hide();
-             this.getButton().show();*/
+            this.getLoader().hide();
+            this.getButton().show();
             this.getButton().parent().removeClass('loader-bg');
         }
     },
@@ -79,6 +79,7 @@ utils.extend(Form, utils.Observable, {
         this.showLoader();
 
         this.getForm().submit();
+
     },
 
     showWarnings: function () {
@@ -136,6 +137,12 @@ utils.extend(Form, utils.Observable, {
                 $field.popmessage('show', 'error', msg);
                 valid = false;
             }
+
+
+            //Проверка на ввод корректной даты
+            if ($field.data('date-field') != undefined) {
+                console.log(new Date(value.replace(/\./g, '-').split('-').reverse().join('-')));
+            }
         });
 
 
@@ -183,7 +190,8 @@ utils.extend(Form, utils.Observable, {
             var $loader = $('<img src="' + this.loader_image + '" class="form-loader" alt="загрузка..." alt="загрузка..."/>').insertAfter(this.getButton());
             this.loader_selector = $loader.getIdSelector();
         }
-        return $(this.loader_selector);
+
+        return $(this.loader_selector, this.getForm());
     },
 
     getForm: function () {
@@ -296,7 +304,6 @@ utils.extend(Form, utils.Observable, {
     onError: function (errors) {
         var fileMsgError = '';
 
-        console.log(errors);
         if (!errors) {
             return;
         }
