@@ -7,6 +7,8 @@
  */
 
 $activity_statistic_data = $consolidated_information->getActivityStatistic();
+
+if ($activity_statistic_data['fields_values_by_max']) {
 $activity_statistic = $activity_statistic_data['statistic_data'];
 $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRawValue();
 
@@ -137,3 +139,4 @@ $fields_values_by_max = $activity_statistic_data['fields_values_by_max']->getRaw
 
     </div>
 </footer>
+<?php } ?>

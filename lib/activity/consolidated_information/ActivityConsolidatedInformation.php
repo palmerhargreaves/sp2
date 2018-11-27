@@ -457,6 +457,7 @@ class ActivityConsolidatedInformation
                 $page_items = 1;
                 $per_page = 20;
 
+                $dealers_in_levels = array();
                 foreach ($this->_dealers_completed_levels as $level => $level_items) {
                     foreach ($level_items as $level_item) {
                         if (!array_key_exists($page_index, $this->_dealers_pages)) {
@@ -464,16 +465,22 @@ class ActivityConsolidatedInformation
                             $this->_dealers_pages[$page_index][$level] = array();
                         }
 
-                        $this->_dealers_pages[$page_index][$level][] = $level_item;
+                        if (!in_array($level_item['dealer']['id'], $dealers_in_levels)) {
+                            $this->_dealers_pages[ $page_index ][ $level ][] = $level_item;
+                            $dealers_in_levels[] = $level_item['dealer']['id'];
 
-                        if (ceil($page_items % $per_page) == 0) {
-                            $page_index++;
+                            if (ceil($page_items % $per_page) == 0) {
+                                $page_index++;
+                            }
+
+                            $page_items++;
                         }
-                        $page_items++;
                     }
                 }
+
             }
         }
+
     }
 
     /**

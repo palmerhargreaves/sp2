@@ -438,6 +438,9 @@ class activity_consolidated_informationActions extends BaseActivityActions {
     public function executeExportConsolidatedInformation(sfWebRequest $request) {
         sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
 
+        //Удаляем ранее созданные файлы
+        array_map('unlink', glob(sfConfig::get('app_root_dir').'www/pdf/data/activity/*'));
+
         $this->getConsolidatedInformation($request);
 
         $css = implode('', array(
@@ -454,7 +457,7 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         //Страница данных по дилерам
         $this->generateDealersPage($css, 3);
 
-        $output_file_name = sprintf('consolidated_information_%s.pdf',$this->activity->getId());
+        $output_file_name = sprintf('consolidated_information_3_%s.pdf',$this->activity->getId());
         return $this->sendJson(array('success' => $this->convertHtmlToPdf($output_file_name), 'url' => sfConfig::get('app_site_url').'pdf/gen_files/'.$output_file_name));
     }
 
@@ -526,10 +529,16 @@ class activity_consolidated_informationActions extends BaseActivityActions {
 
         $pages = $this->consolidated_information->getDealersPages();
 
+        $pages_count = count($pages);
+        if ($pages_count == 0) {
+            return;
+        }
+
         //Генерация первой странички
         $page3_html = array(
             $header,
             get_partial('activity_template_page3_body', array('consolidated_information' => $this->consolidated_information, 'page' => $pages[1])),
+            $pages_count == 1 ? get_partial('activity_template_page3_bottom', array()) : ''
         );
         $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index++.'.html';
         file_put_contents($file_name, implode('<br/>', $page3_html));
@@ -538,25 +547,29 @@ class activity_consolidated_informationActions extends BaseActivityActions {
         $dealer_header = str_replace('<style></style>', '<style>'.$css.'</style>', $dealer_header);
 
         //Генерация остальных страниц, кроме последней
-        for($index = 2; $index < count($pages); $index++) {
-            $dealer_page_html = array(
-                $dealer_header,
-                get_partial('activity_template_page3_body', array('consolidated_information' => $this->consolidated_information, 'page' => $pages[$index])),
-                get_partial('activity_template_page3_dealer_bottom', array())
-            );
-            $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index++.'.html';
-            file_put_contents($file_name, implode('<br/>', $dealer_page_html));
+
+        if ($pages_count > 1) {
+            for ($index = 2; $index < $pages_count; $index++) {
+                $dealer_page_html = array(
+                    $dealer_header,
+                    get_partial('activity_template_page3_body', array( 'consolidated_information' => $this->consolidated_information, 'page' => $pages[ $index ] )),
+                    get_partial('activity_template_page3_dealer_bottom', array())
+                );
+                $file_name = sfConfig::get('app_root_dir') . 'www/pdf/data/activity/activity_consolidated_information_' . $page_index++ . '.html';
+                file_put_contents($file_name, implode('<br/>', $dealer_page_html));
+            }
         }
 
         //Генерация последней странички
-        $pages_count = count($pages);
-        $dealer_last_page_html = array(
-            $dealer_header,
-            get_partial('activity_template_page3_body', array('consolidated_information' => $this->consolidated_information, 'page' => $pages[$pages_count])),
-            get_partial('activity_template_page3_bottom', array())
-        );
-        $file_name = sfConfig::get('app_root_dir').'www/pdf/data/activity/activity_consolidated_information_'.$page_index.'.html';
-        file_put_contents($file_name, implode('<br/>', $dealer_last_page_html));
+        if ($pages_count > 1) {
+            $dealer_last_page_html = array(
+                $dealer_header,
+                get_partial('activity_template_page3_body', array( 'consolidated_information' => $this->consolidated_information, 'page' => $pages[ $pages_count ] )),
+                get_partial('activity_template_page3_bottom', array())
+            );
+            $file_name = sfConfig::get('app_root_dir') . 'www/pdf/data/activity/activity_consolidated_information_' . $page_index . '.html';
+            file_put_contents($file_name, implode('<br/>', $dealer_last_page_html));
+        }
     }
 
     private function getConsolidatedInformation(sfWebRequest $request) {

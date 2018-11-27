@@ -24,9 +24,19 @@ $manager = $consolidated_information->getManager();
             <span><?php echo $consolidated_information->getActivity()->getName(); ?></span>
         </h2>
 
+        <?php
+        $company_type_image = ActivityTypeCompanyImagesTable::getInstance()
+            ->createQuery()
+            ->where('company_type_id = ? and activity_id = ?', array($consolidated_information->getActivity()->getCompanyType()->getId(), $consolidated_information->getActivity()->getId()))
+            ->fetchOne();
+        ?>
+
         <div class="report-campaign-box">
             <div class="report-campaign-descr is-flexbox">
-                <div class="report-campaign-descr__img" style="height: 180px; background-image:url(http://dm.vw-servicepool.ru/images/company/<?php echo $consolidated_information->getCompany()->getImage()->getPath(); ?>)"></div>
+                <?php if ($company_type_image): ?>
+                    <div class="report-campaign-descr__img" style="height: 180px; background-image:url(http://dm.vw-servicepool.ru/images/company/<?php echo $company_type_image->getPath(); ?>)"></div>
+                <?php endif; ?>
+
                 <div class="report-campaign-descr__txt is-flexbox">
                     <dl class="d-plain is-flexbox">
                         <dt class="is-flexbox is-flexbox_center">Сроки</dt>
