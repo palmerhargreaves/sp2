@@ -514,6 +514,14 @@ utils.extend(AgreementModelForm, AgreementModelBaseForm, {
 
         $('input.dates-field').val('');
 
+        $('input[name=concept_id]').val('');
+        $('.select-value-model-concept').text('');
+
+        $('input[name=task_id]').val('');
+        $('.select-value-model-task').text('');
+
+        $('.value-activity').hide();
+
         if (this.getDatesPanel().length > 0) {
             this.onLoadConceptCertFields();
         }

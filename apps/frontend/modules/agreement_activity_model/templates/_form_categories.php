@@ -12,7 +12,7 @@
 
         <div class="d-popup-cols model-form">
             <div class="d-popup-col">
-                <div class="d-popup-req-title number-field"><strong>№</strong>
+                <div class="d-popup-req-title number-field"><strong style="width: 3%; margin-top: 7px;">№</strong>
                     <div class="value"></div>
                 </div>
 
@@ -48,7 +48,7 @@
 
                             <?php if (count($tasks)): ?>
                             <div class="modal-select-wrapper select input krik-select">
-                                <span class="select-value"><?php echo $tasks->getFirst()->getName() ?></span>
+                                <span class="select-value select-value-model-task"><?php echo $tasks->getFirst()->getName() ?></span>
                                 <div class="ico"></div>
                                 <input type="hidden" name="task_id" value="<?php echo $tasks->getFirst()->getId() ?>">
                                 <div class="modal-input-error-icon error-icon"></div>

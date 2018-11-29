@@ -23,6 +23,8 @@ Form = function (config) {
 
     this.loader_selector = null;
     this.allow_submit_form_with_no_model_changes = false;
+
+    this.year_century = new Date().getFullYear().toString().substr(0, 2);
 }
 
 utils.extend(Form, utils.Observable, {
@@ -97,7 +99,7 @@ utils.extend(Form, utils.Observable, {
     },
 
     validate: function () {
-        var valid = true;
+        var valid = true, self = this;
 
         var $acceptInModel = $(':input[name=accept_in_model]');
         if ($.trim($acceptInModel.val()).length != 0) {
@@ -141,10 +143,24 @@ utils.extend(Form, utils.Observable, {
 
             //Проверка на ввод корректной даты
             if ($field.data('date-field') != undefined) {
-                console.log(new Date(value.replace(/\./g, '-').split('-').reverse().join('-')));
+                var timestamp = Date.parse(self.year_century.toString() + value.replace(/\./g, '-').split('-').reverse().join('-'));
+                if (isNaN(timestamp)) {
+                    var msg = "Введено неверное значение.";
+
+                    if ($field.data('right-format'))
+                        msg += '<br/>Пример: ' + $field.data('right-format');
+
+                    $field.popmessage('show', 'error', msg);
+                    valid = false;
+                }
             }
         });
 
+        var model_task = $('.select-value-model-task', this.getForm());
+        if (model_task.length != 0 && model_task.text().length == 0) {
+            model_task.popmessage('show', 'error', 'Выберите задачу');
+            valid = false;
+        }
 
         var selModelCategory = $(".select-value-model-category", this.getForm());
         if (selModelCategory.length != 0 && selModelCategory.text().length == 0) {
