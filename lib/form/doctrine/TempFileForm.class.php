@@ -201,7 +201,8 @@ class TempFileForm extends BaseTempFileForm
                 'audio/x-ms-wma',
                 'video/mp4',
                 'video/x-flv',
-                'video/x-ms-wmv'
+                'video/x-ms-wmv',
+                'mp3'
             );
         } else if ($this->_upload_file_type == 'report_additional' || $this->_upload_file_type == 'report_financial') {
             return array(

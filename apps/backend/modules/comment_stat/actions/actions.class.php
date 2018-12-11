@@ -25,6 +25,13 @@ class comment_statActions extends sfActions
 
     const MODEL_STATUS_DELETED = 'deleted';
     const MODEL_STATUS_EXISTS = 'exists';
+    
+    private $_statistic_period_item = null; 
+    
+    private $start_date = null;
+    private $end_date;
+    private $by_designer = null;
+    private $make_changes = null;
 
     function executeIndex(sfWebRequest $request)
     {
@@ -35,13 +42,9 @@ class comment_statActions extends sfActions
     {
         $start_date = $request->getParameter('start_date');
         $end_date = $request->getParameter('end_date');
-        $by_designer = $request->getParameter('sb_filter_by_designer');
-        $makeChanges = $request->getParameter('make_changes');
-
-        $this->start_date = $start_date;
-        $this->end_date = $end_date;
-        $this->make_changes = $makeChanges;
-
+        $this->by_designer = $request->getParameter('sb_filter_by_designer');
+        $this->make_changes = $request->getParameter('make_changes');
+        
         if (preg_match('#^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$#', $start_date)) {
             $start_date = D::fromRus($start_date);
         } else {
@@ -55,21 +58,134 @@ class comment_statActions extends sfActions
             $end_date = false;
         }
 
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
+
+        //Сохраняем результат выборки в бд для дальнейшего сравнения
+        $this->_statistic_period_item = $this->addModelPeriod($start_date, $end_date);
+
+        //Определяем количетсов отправленных заявок на согласование
+        $this->result_models_reports = array('total' => 0, 'withReport' => 0);
+
+        $models_created_result_count = $this->getTotalNewModelsCreatedByPeriod();
+        $this->result_models_reports['total'] = $models_created_result_count;
+
+        $this->result_models_reports['withReport'] = $this->getTotalCompletedReportsByPeriod();
+
+        //Определяем общее количество прокомментированных заявок
+        $this->getTotalCommentedModelsBySpecialists();
+
+        $this->getItems();
+
+        $this->setTemplate('index');
+    }
+
+    /**
+     * Получаем количетво созданных заявок за период с учетом выбранного дизайнера
+     * @internal param $start_date
+     * @internal param $end_date
+     * @internal param int $designer_id
+     */
+    private function getTotalNewModelsCreatedByPeriod() {
+        $query = LogEntryTable::getInstance()
+            ->createQuery('l')
+            ->select('id, object_id')
+            ->whereIn('action', array('add'))
+            ->andWhere('private_user_id=?', 0)
+            ->andWhere('object_type=?', 'agreement_model');
+
+        if ($this->start_date) {
+            $query->andWhere('created_at>=?', D::toDb($this->start_date));
+        }
+
+        if ($this->end_date) {
+            $query->andWhere('created_at<=?', D::toDb($this->end_date));
+        }
+
+        //Получаем индексы заявок
+        $models_ids = array_map(function($item) {
+            return $item['object_id'];
+        }, $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+
+        $models_query = AgreementModelTable::getInstance()->createQuery()->select('id')->whereIn('id', $models_ids);
+
+        //Если вносились правки в заявку определяем по каким заявкам
+        if ($this->make_changes) {
+            $models_query->andWhere('no_model_changes = ?', 1);
+        }
+
+        //Получаем список заявок
+        $models_created_result = $models_query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+        //Сохраняеем список полученых заявок для сравнения
+        foreach ($models_created_result as $model) {
+            $this->addModel($this->_statistic_period_item, $model['id'], AgreementModelsPeriods::STATUS_SENDED);
+        }
+
+        //Возвращаем количество заявок
+        return count($models_created_result);
+    }
+
+    /**
+     * Получить общее количество выполненных отчетов с учетом выбранного дизайнера
+     */
+    private function getTotalCompletedReportsByPeriod() {
+        $query = LogEntryTable::getInstance()
+            ->createQuery('l')
+            ->select('id, object_id')
+            ->whereIn('action', array('accepted'))
+            ->andWhere('private_user_id=?', 0)
+            ->andWhere('object_type=?', 'agreement_report');
+
+        if ($this->start_date) {
+            $query->andWhere('created_at>=?', D::toDb($this->start_date));
+        }
+
+        if ($this->end_date) {
+            $query->andWhere('created_at<=?', D::toDb($this->end_date));
+        }
+
+        //Получаем индексы отчетов
+        $reports_ids = array_map(function($item) {
+            return $item['object_id'];
+        }, $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+        $models_query = AgreementModelTable::getInstance()->createQuery()->select('id')->whereIn('id', $reports_ids);
+
+        //Если вносились правки в заявку определяем по каким заявкам
+        if ($this->make_changes) {
+            $models_query->andWhere('no_model_changes = ?', 1);
+        }
+
+        //Получаем список заявок
+        $reports_completed_result = $models_query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        foreach ($reports_completed_result as $report) {
+            $this->addModel($this->_statistic_period_item, $report['id'], AgreementModelsPeriods::STATUS_COMPLETED);
+        }
+
+        return count($reports_completed_result);
+    }
+
+    /**
+     * Получить количество прокоменнтированных заявок за период с учетом выбранного дизайнера 
+     */
+    private function getTotalCommentedModelsBySpecialists() {
+        //Количетво зявок прокомментированных специалистом 
         $query = LogEntryTable::getInstance()
             ->createQuery('l')
             ->select('id, object_id, action, user_id')
             ->whereIn('action', array('add', 'edit', 'accepted', 'declined', 'sent_to_specialist', 'accepted_by_specialist', 'declined_by_specialist'))
             ->andWhere('private_user_id=?', 0)
             ->andWhere('object_type=?', 'agreement_model');
-            //->groupBy('object_id');
+        //->groupBy('object_id');
 
-        if ($start_date) {
-            $query->andWhere('created_at>=?', D::toDb($start_date));
+        if ($this->start_date) {
+            $query->andWhere('created_at>=?', D::toDb($this->start_date));
         }
 
-        if ($end_date) {
-            $query->andWhere('created_at<=?', D::toDb($end_date));
+        if ($this->end_date) {
+            $query->andWhere('created_at<=?', D::toDb($this->end_date));
         }
+        $logs_result = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
         $this->result_commented = 0;
         $this->result_commented_by_specialist = 0;
@@ -77,40 +193,36 @@ class comment_statActions extends sfActions
         $specialist_result_comments = array();
 
         $actions_list = array('add', 'edit', 'accepted', 'declined', 'sent_to_specialist');
-        $periodItem = $this->addModelPeriod($start_date, $end_date);
-        if (isset($makeChanges)) {
-            $result = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
-
+        if (isset($this->make_changes)) {
             $models = array();
-            foreach ($result as $r) {
+            foreach ($logs_result as $r) {
                 $models[] = $r['object_id'];
 
                 if (in_array($r['action'], $actions_list)) {
-                    $this->addModel($periodItem, $r['object_id'], AgreementModelsPeriods::STATUS_COMMENTED);
+                    $this->addModel($this->_statistic_period_item, $r['object_id'], AgreementModelsPeriods::STATUS_COMMENTED);
                 } else {
-                    $this->addModel($periodItem, $r['object_id'], AgreementModelsPeriods::STATUS_COMMENTED_BY_SPECIALIST);
+                    $this->addModel($this->_statistic_period_item, $r['object_id'], AgreementModelsPeriods::STATUS_COMMENTED_BY_SPECIALIST);
                 }
             }
 
             $this->result = AgreementModelTable::getInstance()->createQuery()->whereIn('id', $models)->andWhere('no_model_changes = ?', 1)->count();
         } else {
-            $result = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
-            foreach ($result as $item) {
+            foreach ($logs_result as $item) {
                 if (in_array($item['action'], $actions_list)) {
-                    $this->addModel($periodItem, $item['object_id'], AgreementModelsPeriods::STATUS_COMMENTED);
+                    $this->addModel($this->_statistic_period_item, $item['object_id'], AgreementModelsPeriods::STATUS_COMMENTED);
                     $this->result_commented++;
                 } else {
                     if (!array_key_exists($item['object_id'], $specialist_result_comments)) {
                         //Если выбран дизайнер, получаем данные только по дизайнеру
-                        if (!empty($by_designer)) {
-                            if ($by_designer == $item["user_id"]) {
-                                $this->addModel($periodItem, $item['object_id'], AgreementModelsPeriods::STATUS_COMMENTED_BY_SPECIALIST);
+                        if (!empty($this->by_designer)) {
+                            if ($this->by_designer == $item["user_id"]) {
+                                $this->addModel($this->_statistic_period_item, $item['object_id'], AgreementModelsPeriods::STATUS_COMMENTED_BY_SPECIALIST);
                                 $this->result_commented_by_specialist++;
 
                                 $specialist_result_comments[$item['object_id']] = $item['object_id'];
                             }
                         } else {
-                            $this->addModel($periodItem, $item['object_id'], AgreementModelsPeriods::STATUS_COMMENTED_BY_SPECIALIST);
+                            $this->addModel($this->_statistic_period_item, $item['object_id'], AgreementModelsPeriods::STATUS_COMMENTED_BY_SPECIALIST);
                             $this->result_commented_by_specialist++;
 
                             $specialist_result_comments[$item['object_id']] = $item['object_id'];
@@ -119,61 +231,6 @@ class comment_statActions extends sfActions
                 }
             }
         }
-
-        $query = AgreementModelTable::getInstance()
-            ->createQuery('m')
-            ->leftJoin('m.Discussion d')
-            ->leftJoin('m.Report r');
-
-        if ($start_date) {
-            $query->andWhere('m.created_at>=?', D::toDb($start_date));
-        }
-
-        if ($end_date) {
-            $query->andWhere('m.created_at<=?', D::toDb($end_date));
-        }
-
-        if (isset($makeChanges)) {
-            $query->andWhere('no_model_changes = ?', 1);
-        }
-
-        $result = array('total' => 0, 'withReport' => 0);
-
-        $this->models = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
-        foreach ($this->models as $model) {
-            $this->addModel($periodItem, $model['id'], AgreementModelsPeriods::STATUS_SENDED);
-        }
-
-        $result['total'] = count($this->models);
-
-        $query = AgreementModelReportTable::getInstance()
-            ->createQuery('m')
-            ->where('m.status = ?', 'accepted');
-
-        if ($start_date) {
-            $query->andWhere('m.accept_date>=?', D::toDb($start_date));
-        }
-
-        if ($end_date) {
-            $query->andWhere('m.accept_date<=?', D::toDb($end_date));
-        }
-
-        if (isset($makeChanges)) {
-            $query->innerJoin('m.Model mod')
-                ->andWhere('mod.no_model_changes = ?', 1);
-        }
-
-        $this->reports = $query->execute();
-        foreach ($this->reports as $report) {
-            $this->addModel($periodItem, $report->getModel()->getId(), AgreementModelsPeriods::STATUS_COMPLETED);
-        }
-
-        $result['withReport'] = $this->reports->count();
-        $this->result2 = $result;
-
-        $this->getItems();
-
-        $this->setTemplate('index');
     }
 
     function Calc_due_date_orig($date, $interval, $add, $return_date_format = 'd-m-Y')

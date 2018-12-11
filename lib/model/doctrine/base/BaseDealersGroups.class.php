@@ -46,6 +46,15 @@ abstract class BaseDealersGroups extends sfDoctrineRecord
              'length' => 255,
              'notnull' => true,
              ));
+        $this->hasColumn('dealer_type', 'enum', null, array(
+             'type' => 'enum',
+             'values' =>
+             array(
+              0 => 'nfz',
+              1 => 'pkw',
+             ),
+             'notnull' => true,
+             ));
         $this->hasColumn('status', 'boolean', null, array(
              'type' => 'boolean',
              'default' => true,

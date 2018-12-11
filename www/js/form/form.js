@@ -296,6 +296,7 @@ utils.extend(Form, utils.Observable, {
     onResponse: function (data, temp) {
         this.showWarnings();
 
+        console.log(data);
         if (data.success) {
             //Отправка сообщений в чат
             if (window.discussion_online != undefined) {

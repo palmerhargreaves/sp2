@@ -72,6 +72,10 @@ class User extends BaseUser
         return $this->hasRole('importer');
     }
 
+    function isImporterByGroup() {
+        return $this->getGroup()->getId() == self::USER_GROUP_IMPORTER;
+    }
+
     function isSpecialist()
     {
         return $this->hasRole('specialist');

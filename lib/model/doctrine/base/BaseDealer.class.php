@@ -253,5 +253,6 @@ abstract class BaseDealer extends sfDoctrineRecord
         $this->hasOne('DealersGroups as DealerGroup', array(
             'local' => 'dealer_group_id',
             'foreign' => 'id'));
+
     }
 }

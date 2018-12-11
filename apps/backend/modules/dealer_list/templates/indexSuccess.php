@@ -44,7 +44,11 @@ $dealerType = array(Dealer::TYPE_PKW => 'PKW', Dealer::TYPE_NFZ => 'NFZ', Dealer
                         <th>id</th>
                         <th><a href="/backend.php/dealer_list?order=number&direction=<?= $direction ?>">Номер</a></th>
                         <th><a href="/backend.php/dealer_list?order=name&direction=<?= $direction ?>">Имя дилера</a></th>
-                        <th><a href="/backend.php/dealer_list?order=dealer_group_id&direction=<?= $direction ?>">Группа</a></th>
+
+                        <?php foreach (DealerTable::getDealersGroupTypes() as $group_type): ?>
+                            <th><a href="/backend.php/dealer_list?order=dealer_group_id&direction=<?= $direction ?>">Группа <?php echo strtoupper($group_type); ?></a></th>
+                        <?php endforeach ; ?>
+
                         <th><a href="/backend.php/dealer_list?order=regional_manager_pkw&direction=<?= $direction ?>">Менеджер PKW</a></th>
                         <th><a href="/backend.php/dealer_list?order=regional_manager_nfz&direction=<?= $direction ?>">Менеджер NFZ</a></th>
                         <th><a href="/backend.php/dealer_list?order=city_id&direction=<?= $direction ?>">Город</a></th>
@@ -61,7 +65,11 @@ $dealerType = array(Dealer::TYPE_PKW => 'PKW', Dealer::TYPE_NFZ => 'NFZ', Dealer
                         <td><?= empty($resultText) ? $dealer->getNumber() : $resultText; ?></td>
                         <?php $resultTextName = !is_null($search_num) ? implode("<span style='background: yellow;'>".$search_num."</span>", explode($search_num, $dealer->getName())) : ''; ?>
                         <td><a href="/backend.php/dealer_list/edit?id=<?= $dealer->getId(); ?>"><?= empty($resultTextName) ? $dealer->getName() : $resultTextName; ?></a></td>
-                        <td><?php echo $dealer->getDealerGroup()->getHeader(); ?></td>
+
+                        <?php foreach (DealerTable::getDealersGroupTypes() as $group_type): ?>
+                            <td><?php echo $dealer->getDealerGroupHeader($group_type); ?></td>
+                        <?php endforeach; ?>
+
                         <td><?= $dealer->getRegionalManager() ? sprintf('%s %s', $dealer->getRegionalManager()->getSurname(), $dealer->getRegionalManager()->getFirstname()) : ''; ?></td>
                         <td><?= $dealer->getNfzRegionalManager() ? sprintf('%s %s', $dealer->getNfzRegionalManager()->getSurname(), $dealer->getNfzRegionalManager()->getFirstname()) : '';?></td>
                         <td><?= $dealer->getCity(); ?></td>

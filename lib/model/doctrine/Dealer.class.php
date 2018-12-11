@@ -72,4 +72,18 @@ class Dealer extends BaseDealer
 
         return '';
     }
+
+    /**
+     * Получить название группы привязанной к дилеру
+     * @param $type
+     * @return string
+     */
+    public function getDealerGroupHeader($type) {
+        $dealer_group = DealersGroupsTable::getInstance()->createQuery()->where('id = ? and dealer_type = ?', array($this->getDealerGroupId(), $type))->fetchOne();
+        if ($dealer_group) {
+            return $dealer_group->getHeader();
+        }
+
+        return '';
+    }
 }

@@ -92,29 +92,35 @@ class reports_infoActions extends sfActions
 
                     if (!is_null($onlyConcepts)) {
 
-                        if ($item->Report->getFinancialDocsFile()) {
-                            $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDirConcept . DIRECTORY_SEPARATOR . $item->Report->getFinancialDocsFile(), $dealer . '/' . $activity . '/' . $dir . '/' . $item->Report->getFinancialDocsFile());
+                        //Выборка загруженных файлов с талицы по типу отчета
+                        $report_files = AgreementModelReportFilesTable::getInstance()->createQuery()->where('object_id = ? and file_type = ?', array($item->Report->getId(), 'report_financial'))->execute();
+                        if (count($report_files)) {
+                            foreach ($report_files as $report_file) {
+                                $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDirConcept . $report_file->getPath() . DIRECTORY_SEPARATOR . $report_file->getFile(), $dealer . '/' . $activity . '/' . $dir . '/' . $report_file->getFile());
+                            }
+                        } else {
+                            //Обратная совместимось
+                            if ($item->Report->getFinancialDocsFile()) {
+                                $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDirConcept . DIRECTORY_SEPARATOR . $item->Report->getFinancialDocsFile(), $dealer . '/' . $activity . '/' . $dir . '/' . $item->Report->getFinancialDocsFile());
 
-                            /**Financial files ext*/
-                            for ($file_ind = 1; $file_ind <= sfConfig::get('app_max_files_upload_count'); $file_ind++) {
-                                $fin_file = $item->Report->{"getFinancialDocsFile" . $file_ind}();
-                                if (!empty($fin_file)) {
-                                    $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDirConcept . DIRECTORY_SEPARATOR . $fin_file, $dealer . '/' . $activity . '/' . $dir . '/' . $fin_file);
+                                /**Financial files ext*/
+                                for ($file_ind = 1; $file_ind <= sfConfig::get('app_max_files_upload_count'); $file_ind++) {
+                                    $fin_file = $item->Report->{"getFinancialDocsFile" . $file_ind}();
+                                    if (!empty($fin_file)) {
+                                        $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDirConcept . DIRECTORY_SEPARATOR . $fin_file, $dealer . '/' . $activity . '/' . $dir . '/' . $fin_file);
+                                    }
                                 }
                             }
-                        } else {
-                            $report_files = AgreementModelReportFilesTable::getInstance()->createQuery()->where('object_id = ? and file_type = ?', array($item->getId(), 'report_financial'))->execute();
-                            foreach ($report_files as $report_file) {
-                                $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDirConcept . $report_file->getFile(), $dealer . '/' . $activity . '/' . $dir . '/' . $report_file->getFile());
-                            }
                         }
+
                     } else {
-                        if (!$item->Report->getAdditionalFile()) {
-                            $report_files = AgreementModelReportFilesTable::getInstance()->createQuery()->where('object_id = ? and file_type = ?', array($item->getId(), 'report_additional'))->execute();
+                        $report_files = AgreementModelReportFilesTable::getInstance()->createQuery()->where('object_id = ? and file_type = ?', array($item->Report->getId(), 'report_additional'))->execute();
+                        if (count($report_files)) {
                             foreach ($report_files as $report_file) {
-                                $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDir . $report_file->getFile(), $activity . '/' . $dealer . '/' . $dir . '/' . $report_file->getFile());
+                                $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDir . $report_file->getPath() . DIRECTORY_SEPARATOR . $report_file->getFile(), $activity . '/' . $dealer . '/' . $dir . '/' . $report_file->getFile());
                             }
                         } else {
+                            //Обратная совместимось
                             $zip->addFile(sfConfig::get('sf_upload_dir') . $this->filesDir . DIRECTORY_SEPARATOR . $item->Report->getAdditionalFile(), $activity . '/' . $dealer . '/' . $dir . '/' . $item->Report->getAdditionalFile());
 
                             /**Additional files ext*/

@@ -166,12 +166,28 @@ $dealerType = array(Dealer::TYPE_PKW => 'PKW', Dealer::TYPE_NFZ => 'NFZ', Dealer
                             <div class="control-group">
                                 <label class="control-label" for="input<?= $key; ?>"><?= $fieldNames[$key]; ?></label>
 
+                                <?php
+                                    $groups_by_type = array();
+                                    foreach ($dealers_groups as $group) {
+                                        if (!array_key_exists($group->getDealerType(), $groups_by_type)) {
+                                            $groups_by_type[$group->getDealerType()] = array();
+                                        }
+
+                                        $groups_by_type[$group->getDealerType()][] = $group;
+                                    }
+                                ?>
+
                                 <div class="controls">
                                     <select name="<?= $key; ?>">
                                         <option value="">Выберите группу</option>
-                                        <?php foreach ($dealers_groups as $group): ?>
-                                            <option value="<?= $group->getId(); ?>" <?= $field == $group->getId() ? ' selected' : ''; ?>><?= $group->getHeader(); ?></option>
+                                        <?php foreach ($groups_by_type as $group_type => $groups): ?>
+                                            <optgroup label="<?php echo strtoupper($group_type); ?>">
+                                            <?php foreach ($groups as $group): ?>
+                                                <option value="<?= $group->getId(); ?>" <?= $field == $group->getId() ? ' selected' : ''; ?>><?= $group->getHeader(); ?></option>
+                                            <?php endforeach; ?>
+                                            </optgroup>
                                         <?php endforeach; ?>
+
                                     </select>
                                 </div>
                             </div>

@@ -24,13 +24,13 @@
                 </div>
                 <?php endif; ?>
 
-                <?php if (isset($result2)): ?>
+                <?php if (isset($result_models_reports)): ?>
                     <div class="alert alert-info">
-                        <strong>Количество отправленных заявок:</strong> <?php echo $result2['total'] ?>
+                        <strong>Количество отправленных заявок:</strong> <?php echo $result_models_reports['total'] ?>
                     </div>
 
                     <div class="alert alert-info">
-                        <strong>Количество согласованных отчетов:</strong> <?php echo $result2['withReport'] ?>
+                        <strong>Количество согласованных отчетов:</strong> <?php echo $result_models_reports['withReport'] ?>
                     </div>
                 <?php endif; ?>
 

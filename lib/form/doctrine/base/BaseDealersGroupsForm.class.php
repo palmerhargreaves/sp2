@@ -18,6 +18,7 @@ abstract class BaseDealersGroupsForm extends BaseFormDoctrine
             'id' => new sfWidgetFormInputHidden(),
             'header' => new sfWidgetFormInputText(),
             'description' => new sfWidgetFormInputText(),
+            'dealer_type' => new sfWidgetFormChoice(array('choices' => array('nfz' => 'NFZ', 'pkw' => 'PKW'))),
             'status' => new sfWidgetFormInputCheckbox(),
             'created_at' => new sfWidgetFormDateTime(),
         ));
@@ -26,6 +27,7 @@ abstract class BaseDealersGroupsForm extends BaseFormDoctrine
             'id' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
             'header' => new sfValidatorString(array('max_length' => 255, 'required' => true)),
             'description' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+            'dealer_type' => new sfValidatorChoice(array('choices' => array(0 => 'nfz', 1 => 'pkw'))),
             'status' => new sfValidatorBoolean(array('required' => false)),
             'created_at' => new sfValidatorDateTime(),
         ));

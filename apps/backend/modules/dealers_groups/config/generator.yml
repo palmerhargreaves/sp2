@@ -17,10 +17,11 @@ generator:
         header: { label: Название }
         description: { label: Описание }
         binded_dealers: { label: Привязанных дилеров }
+        dealer_type: { label: Группа дилера }
         status: { label: Доступна }
       list:
         title: Группы дилеров
-        display: [ header, _binded_dealers, status ]
+        display: [ header, _binded_dealers, dealer_type, status ]
       filter:
         class: false
       form:    ~

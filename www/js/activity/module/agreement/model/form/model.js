@@ -517,7 +517,7 @@ utils.extend(AgreementModelForm, AgreementModelBaseForm, {
         $('input[name=concept_id]').val('');
         $('.select-value-model-concept').text('');
 
-        $('input[name=task_id]').val('');
+        ///$('input[name=task_id]', this.getForm()).val('');
         $('.select-value-model-task').text('');
 
         $('.value-activity').hide();
@@ -750,8 +750,11 @@ utils.extend(AgreementModelForm, AgreementModelBaseForm, {
             $('tr.activity').find('div.krik-select').addClass('input');
             $('tr.activity').find('div.value-activity').show();
         } else {
-            $('tr.activity').find('div.krik-select').removeClass('input');
-            $('tr.activity').find('div.value-activity').hide();
+            //Выбор активности доступен только по создании / редактировании заявки
+            if (!this.getForm().hasClass('view')) {
+                $('tr.activity').find('div.krik-select').removeClass('input');
+                $('tr.activity').find('div.value-activity').hide();
+            }
 
             if (this.isScenarioRecordModel() && (values.status != 'not_sent' && values.status != 'declined')) {
                 if (values.step1_value != "none" && values.step1_value != 'accepted') {

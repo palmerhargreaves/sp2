@@ -21,7 +21,7 @@
                     <tr class="model-mode-field activity">
                         <td class="label">Активность</td>
                         <td class="field controls model-type">
-                            <div class="modal-select-wrapper select krik-select">
+                            <div class="modal-select-wrapper select input krik-select">
                                 <span class="select-value"><?php echo $activity->getName() ?></span>
                                 <div class="ico"></div>
                                 <input type="hidden" name="activity_id" value="<?php echo $activity->getId() ?>">
@@ -43,7 +43,7 @@
                     </tr>
                     <tr class="model-mode-field">
                         <td class="label">Задача</td>
-                        <td class="field controls model-type">
+                        <td class="field controls ">
                             <?php $tasks = $activity->getTasks(); ?>
 
                             <?php if (count($tasks)): ?>

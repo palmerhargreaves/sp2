@@ -83,4 +83,12 @@ class DealerTable extends Doctrine_Table
     public static function getAvailableDealersCountries() {
         return explode(',', sfConfig::get('app_available_dealers_countries'));
     }
+
+    /**
+     * Список доступных дилерских групп
+     * @return array
+     */
+    public static function getDealersGroupTypes() {
+        return array('nfz', 'pkw');
+    }
 }
