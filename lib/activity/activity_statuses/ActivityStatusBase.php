@@ -127,7 +127,7 @@ class ActivityStatusBase
         }
 
         /*Check if activity must have completed all concepts*/
-        if (!$this->activity->isConceptComplete($this->dealer) && $model_list->count() > 0) {
+        if (!$this->activity->isConceptComplete($this->dealer, $this->year, $this->quarter) && $model_list->count() > 0) {
             return ActivityModuleDescriptor::STATUS_WAIT_DEALER;
         }
 
@@ -154,7 +154,7 @@ class ActivityStatusBase
             ->andWhere('fv.year = ?', $this->year)
             ->count();
 
-        //Если статистика на заполнена, делаем проверку на наличие полей в статистике
+        //Если статистика на заполнена, делаем проверку на наличие активной статистики в передаваемых кварталах
         if ($this->fields_values == 0) {
             $this->fields_values = ActivityStatisticPeriodsTable::getInstance()->createQuery()
                 ->where('activity_id = ? and year = ?', array($this->activity->getId(), $this->year))

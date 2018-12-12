@@ -54,6 +54,12 @@ class ActivityBudgetPointsStatuses extends ActivityStatusBase {
         if ($this->activity_models_created_count > 0) {
             $activity_completed = Utils::checkModelsCompleted($this->activity, $this->dealer, $this->year, $this->quarter);
 
+            //Проверка на выполнение концепции
+            if (!$this->activity->isConceptComplete($this->dealer, $this->year, $this->quarter)) {
+                $activity_completed = false;
+            }
+
+            //Если статистика заполнена
             if ($this->fields_values > 0) {
                 $activity_statistic_completed = $this->activity->isActivityStatisticComplete($this->dealer, null, true, $this->year, $this->quarter, $this->consider_activity_quarter ? array('check_by_quarter' => true) : null);
                 

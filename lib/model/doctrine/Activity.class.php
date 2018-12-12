@@ -1157,13 +1157,48 @@ class Activity extends BaseActivity
             ->execute();
     }
 
-    public function isConceptComplete ( Dealer $dealer )
+    public function isConceptComplete ( Dealer $dealer, $year = 0, $quarter = 0 )
     {
+        //Обязательное выполнение концепции
         if ($this->getIsConceptComplete()) {
-            $concept = AgreementModelTable::getInstance()->createQuery()
-                ->where('dealer_id = ? and activity_id = ? and model_type_id = ?', array( $dealer->getId(), $this->getId(), self::CONCEPT_MODEL_TYPE_ID ))
-                ->andWhere('status = ?', 'accepted')
-                ->fetchOne();
+
+            //Проверка на выполнение концепции с учетом квартала и года
+            if ($quarter != 0 && $year != 0) {
+                $concept_ids = array_map(function($item) {
+                    return $item['id'];
+                }, AgreementModelTable::getInstance()->createQuery('c')
+                    ->innerJoin('c.Report r')
+                    ->select('id')
+                    ->where('dealer_id = ? and activity_id = ? and model_type_id = ?', array($dealer->getId(), $this->getId(), self::CONCEPT_MODEL_TYPE_ID))
+                    ->andWhere('c.status = ?  and r.status = ?', array('accepted', 'accepted'))
+                    ->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+
+                //Статус выполнения концепции
+                $concept_completed_in_quarter_and_year = false;
+
+                //Если у дилера есть созданные концепции, полчаем дату согласования концепций
+                if (!empty($concept_ids)) {
+                    $concept_dates_list = Utils::getModelDateFromLogEntry($concept_ids);
+                    foreach ($concept_dates_list as $concept_date_item) {
+                        $concept_date = D::calcQuarterData($concept_date_item['created_at']);
+
+                        $concept_quarter = D::getQuarter($concept_date);
+                        $concept_year = D::getYear($concept_date);
+
+                        //Проверяем на корректный год / квартал
+                        if ($quarter == $concept_quarter && $concept_year == $year) {
+                            $concept_completed_in_quarter_and_year = true;
+                        }
+                    }
+                }
+
+                return $concept_completed_in_quarter_and_year;
+            } else {
+                $concept = AgreementModelTable::getInstance()->createQuery()
+                    ->where('dealer_id = ? and activity_id = ? and model_type_id = ?', array($dealer->getId(), $this->getId(), self::CONCEPT_MODEL_TYPE_ID))
+                    ->andWhere('status = ?', 'accepted')
+                    ->fetchOne();
+            }
 
             if ($concept && $concept->getStatus() == 'accepted' && $concept->getReport()->getStatus() == 'accepted') {
                 return true;
