@@ -30,6 +30,11 @@ class ActivityBudgetPointsStatuses extends ActivityStatusBase {
                 ->count();
         }
 
+        //Получение данных о полях статистики (обычная статистика - без разбивки на секции)
+        if ($this->fields_values == 0) {
+            $this->getActivityStatisticFieldsCount();
+        }
+
         //Принудительное выполнение активности
         if (ActivitiesStatusByUsersTable::checkActivityStatus($this->activity->getId(), $this->dealer->getId(), $this->year, $this->quarter)) {
             return array( 'status' => ActivitiesBudgetByControlPoints::ACTIVITY_TOTAL_COMPLETED, 'msg' => 'Активность выполнена' );

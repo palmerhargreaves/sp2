@@ -24,7 +24,7 @@ ActivityConceptDateLimit.prototype = {
         $(element).datepicker({
             dateFormat: "dd.mm.yy",
             beforeShowDay: function (date) {
-                var allow_date = true, check_date = '';
+                /*var allow_date = true, check_date = '';
 
                 getCalendarDates();
 
@@ -38,7 +38,7 @@ ActivityConceptDateLimit.prototype = {
                 //Если дата попадает в кадендарный день (праздничный, запрещаем выбор даты)
                 if (!allow_date) {
                     return [false];
-                }
+                }*/
 
                 //Получаем текущую дату
                 var today_date_plus = symbol == '-' ? new Date().getTime() - (plus_days * 86400000) : new Date().getTime() + (plus_days * 86400000),

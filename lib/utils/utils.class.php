@@ -270,6 +270,7 @@ class Utils
             //->andWhere('year(r.updated_at) = ? and quarter(r.updated_at) = ?', array($year, $quarter))
             ->andWhere('(year(r.updated_at) = ? or year(am.created_at) = ?)', array($year, $year))
             ->andWhere('am.status = ? and r.status = ?', array('accepted', 'accepted'))
+            ->andWhere('am.is_deleted = ?', false)
             ->orderBy('am.id ASC');
 
         //Спец. согласование по рег. менеджеру и импортеру

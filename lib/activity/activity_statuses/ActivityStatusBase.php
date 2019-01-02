@@ -120,6 +120,7 @@ class ActivityStatusBase
                 ->innerJoin('m.Report r')
                 ->where('m.dealer_id = ? and m.activity_id = ? and m.model_type_id = ?', array( $this->dealer->getId(), $this->activity->getId(), Activity::CONCEPT_MODEL_TYPE_ID ))
                 ->andWhere('m.status = ? and r.status = ?', array('accepted', 'accepted'))
+                ->andWhere('m.is_deleted = ?', false)
                 ->fetchOne();
             if (!$concept) {
                 return count($model_list) > 0 ? ActivityModuleDescriptor::STATUS_WAIT_DEALER : ActivityModuleDescriptor::STATUS_NONE;
@@ -141,9 +142,30 @@ class ActivityStatusBase
      * Правила поведения выполнения активности при ограниченно выполнении активности в год
      */
     protected function limitRunActivity() {
-        /*
-         * Get activity statistic fields counts
-         * */
+
+        $this->getActivityStatisticFieldsCount();
+
+        $activity_complete_result = AcceptedDealerActivityTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ?', array($this->activity->getId(), $this->dealer->getId()))->execute();
+        if ($this->activity->getIsLimitRun() && $this->limit_activity) {
+            if (!$this->activity->getAllowExtendedStatistic()
+                && $activity_complete_result->count() > 0
+                && $this->activity->checkStatisticComplete($this->dealer->getId(), Activity::ACTIVITY_STATISTIC_TYPE_SIMPLE, null)) {
+                return ActivityModuleDescriptor::STATUS_ACCEPTED;
+            }
+        } else if (!$this->activity->getAllowExtendedStatistic() && $activity_complete_result->count() > 0
+            && $this->fields_values > 0
+            && $this->activity_models_completed_count > 0
+            && $this->activity->isActivityStatisticComplete($this->dealer, null, false, $this->year, $this->quarter, $this->consider_activity_quarter ? array('check_by_quarter' => true) : null)) {
+            return ActivityModuleDescriptor::STATUS_ACCEPTED;
+        }
+
+        return ActivityModuleDescriptor::STATUS_NONE;
+    }
+
+    /**
+     * Получить общее количестов полей статистики привязанных к активности
+     */
+    protected function getActivityStatisticFieldsCount() {
         $this->fields_values = ActivityFieldsValuesTable::getInstance()
             ->createQuery('fv')
             ->select()
@@ -161,21 +183,5 @@ class ActivityStatusBase
                 ->andWhere('quarters LIKE ?', '%'.$this->quarter.'%')
                 ->count();
         }
-
-        $activity_complete_result = AcceptedDealerActivityTable::getInstance()->createQuery()->where('activity_id = ? and dealer_id = ?', array($this->activity->getId(), $this->dealer->getId()))->execute();
-        if ($this->activity->getIsLimitRun() && $this->limit_activity) {
-            if (!$this->activity->getAllowExtendedStatistic()
-                && $activity_complete_result->count() > 0
-                && $this->activity->checkStatisticComplete($this->dealer->getId(), Activity::ACTIVITY_STATISTIC_TYPE_SIMPLE, null)) {
-                return ActivityModuleDescriptor::STATUS_ACCEPTED;
-            }
-        } else if (!$this->activity->getAllowExtendedStatistic() && $activity_complete_result->count() > 0
-            && $this->fields_values > 0
-            && $this->activity_models_completed_count > 0
-            && $this->activity->isActivityStatisticComplete($this->dealer, null, false, $this->year, $this->quarter, $this->consider_activity_quarter ? array('check_by_quarter' => true) : null)) {
-            return ActivityModuleDescriptor::STATUS_ACCEPTED;
-        }
-
-        return ActivityModuleDescriptor::STATUS_NONE;
     }
 }

@@ -196,13 +196,13 @@ $(document).ready(function () {
             }
 
             if (modelCategory.length != 0) {
-                getCalendarDates();
+                //getCalendarDates();
 
                 if (modelCategory.data('is-sys-admin') && change_period_button.length > 0 && change_period_button.data('action') == 'apply') {
                     return [true];
                 }
 
-                var allow_date = true, check_date = '';
+                /*var allow_date = true, check_date = '';
 
                 check_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
                 window.dates_in_calendar.forEach(function(el) {
@@ -213,7 +213,7 @@ $(document).ready(function () {
 
                 if (!allow_date) {
                     return [false];
-                }
+                }*/
 
                 var today = new Date().getTime() + (2 * 86400000),
                     tmp = new Date(today);

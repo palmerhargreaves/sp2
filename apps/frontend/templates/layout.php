@@ -230,7 +230,9 @@ if ($sf_user->getAuthUser()->isSuperAdmin()) {
             <a href="<?php echo url_for('@homepage') . "main" ?>">Главная</a>
             <a href="/">Активности</a>
 
-            <?php if ($sf_user->getAuthUser()->isImporter()): ?>
+            <?php if ($sf_user->getAuthUser()->isImporter() && $sf_user->isDealerUser()): ?>
+                <a href="<?php echo url_for('@activities_statistic'); ?>">Статистика</a>
+            <?php elseif ($sf_user->getAuthUser()->isImporter() && !$sf_user->isDealerUser()): ?>
                 <a href="<?php echo url_for('@activity_statistic_info'); ?>">Статистика</a>
             <?php else: ?>
                 <a href="<?php echo url_for('@activities_statistic'); ?>">Статистика</a>

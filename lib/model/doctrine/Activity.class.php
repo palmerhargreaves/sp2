@@ -301,9 +301,10 @@ class Activity extends BaseActivity
             ->createQuery('am')
             ->select('am.id m_id, am.activity_id, am.created_at m_created_at, am.status m_status, r.status r_status')
             ->leftJoin('am.Report r')
-            ->where('activity_id = ? and dealer_id = ?', array( $this->getId(), $dealer_id ))
+            ->where('am.activity_id = ? and am.dealer_id = ?', array( $this->getId(), $dealer_id ))
             //->andWhere('year(created_at) = ? and quarter(created_at) = ?', array($year, $quarter))
-            ->andWhere('year(created_at) = ?', array( $year ));
+            ->andWhere('year(am.created_at) = ?', array( $year ))
+            ->andWhere('am.is_deleted = ?', false);
 
         //Спец. согласование по рег. менеджеру и импортеру
         if ($this->getAllowSpecialAgreement()) {
