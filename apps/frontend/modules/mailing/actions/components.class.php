@@ -22,7 +22,7 @@ class mailingComponents extends sfComponents
 
         $request_quarter = $request->getParameter('quarter');
 
-        $this->quarter = empty($request_quarter) ? D::getQuarter(D::calcQuarterData(date('Y-m-d'))) : $request_quarter;
+        $this->quarter = $request_quarter = empty($request_quarter) ? D::getQuarter(D::calcQuarterData(date('Y-m-d'))) : $request_quarter;
 
         $this->month_number = 1;
         $this->end_month = 3;
@@ -37,6 +37,7 @@ class mailingComponents extends sfComponents
                 if (empty($request_quarter)) {
                     $dt->modify('-' . $q->getDay() + 1 . ' days');
                     $month = $dt->format('m');
+                    $month = intval($month);
                 } else {
                     if ($this->quarter == 1) $month = 1;
                     if ($this->quarter == 2) $month = 4;
@@ -70,13 +71,12 @@ class mailingComponents extends sfComponents
             }
         }
 
-
         $this->removal_allowed = $this->userRemovalAllowed();
 
 //        $this->year = $year;
         $dealer_number = $this->getDealerNumber($request);
 //        $this->display_filter = false;
-        $this->display_load_panel = date('d') <= 10 ? true : false;
+        $this->display_load_panel = date('n') == 1 ? date('d') <= 12 ? true : false : date('d') <= 10 ? true : false;
 
         $dealer = $this->getDealer();
 

@@ -502,6 +502,29 @@ class agreement_activityActions extends ActionsWithJsonForm
         $this->total_activities_completed_for_manager_by_year = array();
         $this->total_activities_in_work_for_manager_by_year = array();
 
+        $completed_by_user = ActivitiesStatusByUsersTable::getInstance()->createQuery()
+            ->where('by_year = ?', array($this->year))
+            ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+        //Делаем выборку принудительно выполненных активностей по году
+        $completed_by_user_result = array();
+        foreach ($completed_by_user as $item) {
+            //Квартал
+            if (!array_key_exists($item['by_quarter'], $completed_by_user_result)) {
+                $completed_by_user_result[$item['by_quarter']] = array();
+            }
+
+            //Дилер
+            if (!array_key_exists($item['dealer_id'], $completed_by_user_result[$item['by_quarter']])) {
+                $completed_by_user_result[$item['by_quarter']][$item['dealer_id']] = array();
+            }
+
+            //Активность
+            if (!array_key_exists($item['activity_id'], $completed_by_user_result[$item['by_quarter']][$item['by_dealer_id']])) {
+                $completed_by_user_result[$item['by_quarter']][$item['dealer_id']][$item['activity_id']] = $item['activity_id'];
+            }
+        }
+
         $dealer_stats_data_check = array();
         //
         foreach ($dealersActivities as $item) {
@@ -597,6 +620,12 @@ class agreement_activityActions extends ActionsWithJsonForm
                     $this->manager_dealers_activities_work_statuses[$dealer_manager[$item['dealer_id']]][$item['activity_id']]['completed']++;
                 } else if ($item['q' . $q_index] == 2) {
                     $this->manager_dealers_activities_work_statuses[$dealer_manager[$item['dealer_id']]][$item['activity_id']]['in_work']++;
+                } else {
+                    if (isset($completed_by_user_result[$q_index])
+                        && isset($completed_by_user_result[$q_index][$item['dealer_id']])
+                        && isset($completed_by_user_result[$q_index][$item['dealer_id']][$item['activity_id']])) {
+                        $this->manager_dealers_activities_work_statuses[$dealer_manager[$item['dealer_id']]][$item['activity_id']]['completed']++;
+                    }
                 }
             }
 

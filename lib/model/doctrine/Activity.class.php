@@ -443,6 +443,7 @@ class Activity extends BaseActivity
             //Если выполнена хоть одна, учитывваем это
             $isComplete = false;
             $result_of_statistic_fill = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
             foreach ($result_of_statistic_fill as $res) {
                 $isComplete = !$isComplete ? ($res ? $res['complete'] : false) : $isComplete;
             }

@@ -214,6 +214,17 @@ class ActivityExtendedStatisticFields extends BaseActivityExtendedStatisticField
             }
             $value_items = $query->execute();
 
+            /*
+             //Делаем выборку данных с таблиц с пошаговым заполнение статистики
+            if (!$value_items) {
+                $query = ActivityExtendedStatisticStepValuesTable::getInstance()->createQuery()->where('dealer_id = ? and field_id = ? and activity_id = ? and step_id = ?', array( $dealer_id, $calc_field->getCalcField(), $activity_id, $step_id ));
+
+                if ($quarter != 0) {
+                    $query->andWhere('quarter = ?', $quarter);
+                }
+                $value_items = $query->execute();
+            }*/
+
             foreach ($value_items as $value_item) {
                 if ($value_item) {
                     $calc_values[] = floatval($value_item->getValue());

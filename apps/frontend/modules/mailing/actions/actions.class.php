@@ -17,7 +17,7 @@ class mailingActions extends BaseActivityActions
         $dealer = DealerTable::getInstance()->findOneById($dealer->getDealerId());
         $this->dealer = $dealer;
 
-        $this->display_load_panel = date('d') <= 10 ? true : false;
+        $this->display_load_panel = date('n') == 1 ? date('d') <= 12 ? true : false : date('d') <= 10 ? true : false;
         $this->error = array(
             'title' => '',
             'message' => '',
@@ -40,8 +40,9 @@ class mailingActions extends BaseActivityActions
                 'file_error' => false
             );
 
+            list($year, $quarter) = Utils::getCorrectYearByCalendar(date('Y-m-d'));
             try {
-                $clients = MailingList::readDealerFile($file, $this->total_result, $dealer);
+                $clients = MailingList::readDealerFile($file, $this->total_result, $dealer, $year, $quarter);
             } catch (Exception $e) {
                 if ($e->getMessage() == MailingList::EXCEPTION_FILE)
                     $this->total_result['file_error'] = 'Необходимо загрузить файл в формате .csv.';
@@ -57,7 +58,7 @@ class mailingActions extends BaseActivityActions
                     $this->error['message'] = $this->total_result['date_error'];
                     $this->display_stat = false;
                 } else {
-                    if (MailingList::checkDuplicatePerecnt($dealer->getNumber(), $this->total_result) > 30) {
+                    if (MailingList::checkDuplicatePerecnt($dealer->getNumber(), $this->total_result, $year, $quarter) > 30) {
                         $this->error['title'] = "Ваш файл не принят";
                         $this->error['message'] = "Процент электронных адресов в текущем файле, которые совпадают с загруженными ранее превышает 30%.";
                         $this->error['next_step'] = "Вам необходимо удалить дублирующиеся адреса из вашего файла, добавив новые уникальные адреса, и повторить загрузку файла.";
@@ -68,6 +69,7 @@ class mailingActions extends BaseActivityActions
                     } else {
                         if (!empty($clients)) {
                             $this->error['title'] = "Ваш файл принят";
+
                             MailingList::addAllTrueClients($clients, $dealer, $this->total_result);
                         }
                     }

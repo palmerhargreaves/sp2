@@ -1,4 +1,5 @@
 <?php
+use FileUpload\Util;
 
 /**
  * Created by PhpStorm.
@@ -71,8 +72,18 @@ class ActivitiesBudgetByControlPoints
     {
         //Вычисляем выполнение по кварталам
         if (!empty($this->_real_budget) && !empty($this->_fact_budget)) {
+            $quarters_real_sum = array();
+            $quarters_fact_sum = array();
+
             for ($q = 1; $q <= 4; $q++) {
-                $this->_quarters_statistics[ $q ][ 'quarter_plan_completed' ] = $this->_fact_budget[ $q ]->getPlan() == 0 ? true : ($this->_real_budget[ $q ] > 0 && $this->_real_budget[ $q ] >= $this->_fact_budget[ $q ]->getPlan());
+                $this->_quarters_statistics[ $q ][ 'quarter_plan_completed' ] = $this->_fact_budget[ $q ]->getPlan() == 0 ? true :
+                    ($this->_real_budget[ $q ] > 0 && $this->_real_budget[ $q ] >= $this->_fact_budget[ $q ]->getPlan());
+
+                //Вычисляем по кварталам общие суммы
+                for ($q_ind = 1; $q_ind <= $q; $q_ind++) {
+                    $quarters_real_sum[$q] += $this->_real_budget[ $q_ind ];
+                    $quarters_fact_sum[$q] += $this->_fact_budget[ $q_ind ]->getPlan();
+                }
             }
 
             //Делаем доп. проход по выполненным бюджетам
@@ -81,6 +92,11 @@ class ActivitiesBudgetByControlPoints
                 $completed = true;
                 for ($q_ind = 1; $q_ind <= $q; $q_ind++) {
                     $completed = $completed && $this->_quarters_statistics[ $q_ind ][ 'quarter_plan_completed' ];
+
+                    //Если бюджет не выполнен по сумме квартала, проверяем общую сумму по кварталам
+                    if (!$completed) {
+                        $completed = $quarters_real_sum[$q_ind] >= $quarters_fact_sum[$q_ind];
+                    }
                 }
 
                 $this->_quarters_statistics[ $q ][ 'quarter_plan_completed' ] = $completed;
