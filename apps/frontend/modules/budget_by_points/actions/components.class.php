@@ -21,7 +21,7 @@ class budget_by_pointsComponents extends sfComponents
         $this->outputQuarterDays();
         $this->outputAcceptStat();
 
-        $this->outputServiceBooks();
+        //$this->outputServiceBooks();
 
         $this->calculateYearFactPlanData();
     }

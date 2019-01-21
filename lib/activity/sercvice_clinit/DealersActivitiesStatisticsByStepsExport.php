@@ -110,6 +110,12 @@ class DealersActivitiesStatisticsByStepsExport
                             $field_datas = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
                                 ->where('dealer_id = ? and activity_id = ? and field_id = ? and step_id = ? and quarter = ?', array($dealer['id'], $this->_activity_id, $field_item->getId(), $step['id'], $quarter))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
+                            if (empty($field_datas)) {
+                                $field_datas = ActivityExtendedStatisticStepValuesTable::getInstance()->createQuery()
+                                    ->where('dealer_id = ? and activity_id = ? and field_id = ? and step_id = ? and quarter = ?', array($dealer['id'], $this->_activity_id, $field_item->getId(), $step['id'], $quarter))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+                            }
+
+                            //Если нет по шагу и кварталу, берем общие данные
                             if (count($field_datas) == 0) {
                                 $field_datas = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
                                     ->where('dealer_id = ? and activity_id = ? and field_id = ? and step_id = ? and quarter = ?', array($dealer['id'], $this->_activity_id, $field_item->getId(), 0, 0))->orderBy('id DESC')->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
@@ -124,6 +130,10 @@ class DealersActivitiesStatisticsByStepsExport
                         else {
                             $field_datas = ActivityExtendedStatisticFieldsDataTable::getInstance()->createQuery()
                                 ->where('dealer_id = ? and activity_id = ? and field_id = ? and step_id = ? and quarter = ?', array( $dealer[ 'id' ], $this->_activity_id, $field_item->getId(), $step[ 'id' ], $quarter ))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+                            if (empty($field_datas)) {
+                                $field_datas = ActivityExtendedStatisticStepValuesTable::getInstance()->createQuery()
+                                    ->where('dealer_id = ? and activity_id = ? and field_id = ? and step_id = ? and quarter = ?', array( $dealer[ 'id' ], $this->_activity_id, $field_item->getId(), $step[ 'id' ], $quarter ))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+                            }
 
                             foreach ($field_datas as $field_data) {
                                 self::conceptDate($field_data[ 'concept_id' ], $concept_dates);
@@ -132,8 +142,6 @@ class DealersActivitiesStatisticsByStepsExport
                             }
                         }
                     }
-
-
                 }
             }
         }
@@ -311,7 +319,8 @@ class DealersActivitiesStatisticsByStepsExport
         $aSheet->getColumnDimension('B')->setWidth(35);
         $aSheet->freezePane('C3');
 
-        $row = 3;
+        $row = 2;
+
         foreach ($fields as $quarter => $quarter_data) {
             $aSheet->setCellValueByColumnAndRow(0, $row, sprintf('Квартал: %s', $quarter));
             $aSheet->getStyle('A' . $row . ':' . $last_letter . $row)->applyFromArray($header_quarter_font);

@@ -669,4 +669,28 @@ class Utils
     public static function getQuartersList() {
         return array(1, 2, 3, 4);
     }
+
+    /**
+     * Получить корректный год для первого квартала первого месяца
+     * @param $date
+     * @return array
+     */
+    public static function getCorrectYearByCalendar($date) {
+        $year = D::getYear($date);
+        $quarter = D::getQuarter($date);
+        $month = date('n');
+        $current_day = date('j');
+
+        if ($quarter > 1 || $month > 1) { return array($year, $quarter); }
+
+        $calendar_item = BudgetCalendarTable::getInstance()->createQuery()->where('year = ? and quarter = ?', array($year, $quarter))->fetchOne();
+        if ($calendar_item) {
+            if ($current_day < $calendar_item->getDay()) {
+                return array($year - 1, 4);
+            }
+        }
+
+        return array($year, $quarter);
+
+    }
 }

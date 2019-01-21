@@ -17,12 +17,23 @@ class MailingList extends BaseMailingList
     const EXCEPTION_EMAIL = 3;
     const EXCEPTION_FILE = 3;
 
+    private static $_year = null;
+    private static $_quarter = null;
+
     /**
      * @param $file
+     * @param $total_result
+     * @param $dealer
+     * @param null $year
+     * @param null $quarter
      * @return array|bool|Exception
+     * @throws Exception
      */
-    public static function readDealerFile($file, &$total_result, $dealer)
+    public static function readDealerFile($file, &$total_result, $dealer, $year = null, $quarter = null)
     {
+        self::$_year = $year;
+        self::$_quarter = $quarter;
+
         if (!empty($file)) {
             $uploadfile = '../apps/frontend/modules/mailing/load_files/' . date('Y_m_d') . '-' . basename($file['data_file']['name']);
             if (isset($file['data_file']) && isset($file['data_file']['name']))
@@ -196,9 +207,9 @@ class MailingList extends BaseMailingList
             ->createQuery()
             ->where('email = ?', $email)
             ->andWhere('dealer_id = ?', $dealer->getNumber())
-            ->andWhere('YEAR(added_date) = ?', $date->format('Y'))
+            ->andWhere('YEAR(added_date) = ?', !is_null(self::$_year) ? self::$_year : $date->format('Y'))
 //            ->andWhere('MONTH(added_date) = ?', $date->format('m'))
-            ->andWhere('QUARTER(added_date) = ?', $quarter)
+            ->andWhere('QUARTER(added_date) = ?', !is_null(self::$_quarter) ? self::$_quarter : $quarter)
             ->count() > 0 ? true : false;
     }
 
@@ -223,12 +234,21 @@ class MailingList extends BaseMailingList
     /**
      * @param $dealer_number
      * @param $total_result
+     * @param null $year
+     * @param null $quarter
      * @return float
      */
-    public static function checkDuplicatePerecnt($dealer_number, $total_result)
+    public static function checkDuplicatePerecnt($dealer_number, $total_result, $year = null, $quarter = null)
     {
-        $quarter = self::getQuarter(date('m'));
-        $percent = MailingListTable::getInstance()->createQuery()->select()->where('dealer_id = ?', $dealer_number)->andWhere('QUARTER(added_date) = ?', $quarter)->andWhere('YEAR(added_date) = ?', date('Y'))->execute()->count() / 100;
+        $quarter = !is_null($quarter) ? $quarter : self::getQuarter(date('m'));
+
+        $percent = MailingListTable::getInstance()->createQuery()
+                ->select()
+                ->where('dealer_id = ?', $dealer_number)
+                ->andWhere('QUARTER(added_date) = ?', $quarter)
+                ->andWhere('YEAR(added_date) = ?', !is_null($year) ? $year : date('Y'))
+                ->execute()->count() / 100;
+
         return round($total_result['total_duplicate'] / $percent);
     }
 
