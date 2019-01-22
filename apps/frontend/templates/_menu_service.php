@@ -58,6 +58,10 @@
             <li class="item"><a href="<?php echo url_for('favorites_reports') ?>">Отложенные отчеты</a></li>
         <?php endif; ?>
 
+        <?php if (Utils::allowedIps() && ($sf_user->isAdmin() || $sf_user->isImporter())): ?>
+            <li class="item"><a href="<?php echo url_for('@control_point_terms_loading') ?>">Сроки подгрузки</a></li>
+        <?php endif; ?>
+
         <?php if ($sf_user->isManager() || $sf_user->isImporter()): ?>
             <li class="item" id="switch-to-dealer-link">Переключиться на дилера</li>
             <!--<li class="item"><a href="<?php //echo url_for('@activity_statistic_info') ?>">Статистика по активностям</a></li>-->
