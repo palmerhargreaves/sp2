@@ -18,7 +18,6 @@ class ActivityStatusWithBaseStatistic extends ActivityStatusBase
 
         if ($this->fields_values > 0) {
             if ($this->activity_models_created_count > 0) {
-
                 return Utils::checkModelsCompleted($this->activity, $this->dealer, $this->year, $this->quarter)
                 && $this->activity->isActivityStatisticComplete($this->dealer, null, true, $this->year, $this->quarter, $this->consider_activity_quarter ? array('check_by_quarter' => true) : null)
                     ? ActivityModuleDescriptor::STATUS_ACCEPTED

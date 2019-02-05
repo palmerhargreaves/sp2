@@ -30,6 +30,7 @@ class AgreementActivityModelsStatisticBuilder
         $this->start_date = $start_date;
         $this->end_date = $end_date;
         $this->quarter = $quarter;
+
     }
 
     /**
@@ -132,6 +133,7 @@ class AgreementActivityModelsStatisticBuilder
 
         $accepted = $accepted->execute();
 
+        $years_list = array();
         foreach ($accepted as $a) {
             /*if (isset($this->dealers[$a->getDealerId()]))
                 $this->dealers[$a->getDealerId()]['done'] = true;*/
@@ -144,6 +146,22 @@ class AgreementActivityModelsStatisticBuilder
             }
         }
 
+        //Получить список годов по выполненным заявкам
+        foreach($this->stats as $q => $data) {
+            foreach($data as $year => $dealers) {
+                    $years_list[] = $year;
+            }
+        }
+
+        $forced_completed_activities_status = array();
+        foreach ($years_list as $year_item) {
+            $forced_completed_activities_status[$year_item] = array_map(function ($item) {
+                return array('q' => $item['by_quarter'], 'dealer_id' => $item['dealer_id'], 'activity_id' => $item['activity_id']);
+            },
+                ActivitiesStatusByUsersTable::getInstance()->createQuery()->where('by_year = ?', $year_item)->execute(array(), Doctrine_Core::HYDRATE_ARRAY));
+        }
+
+        $activityId = $this->activity->getId();
         foreach ($this->stats as $q => $data) {
             foreach($data as $year => $dealers) {
                 foreach ($dealers as $id => $item) {
@@ -158,27 +176,45 @@ class AgreementActivityModelsStatisticBuilder
                         }
                     }
 
-                    //Делаем проверку на выполнение активности, если есть хоть одна выполненная заявка
-                    if ($totalModels != 0 && $completed_models_count > 0) {
-                        $this->stats[$q][$year][$dealer->getId()]['done'] = true;
-                    } else {
-                        $this->stats[$q][$year][$dealer->getId()]['done'] = false;
+                    $dealerId = $dealer->getId();
+                    //Проверка на принудительное выполнение активности
+                    $forced_completed = null;
+                    if (array_key_exists($year, $forced_completed_activities_status)) {
+                        $forced_completed = array_filter($forced_completed_activities_status[$year], function($item)  use ($q, $dealerId, $activityId) {
+                            return $item['q'] == $q && $item['dealer_id'] == $dealerId && $item['activity_id'] == $activityId;
+                        });
                     }
 
-                    /*
-                    * Get activity statistic fields counts
-                    * */
-                    $fields_values = ActivityFieldsValuesTable::getInstance()
-                        ->createQuery('fv')
-                        ->select()
-                        ->leftJoin('fv.ActivityFields af')
-                        ->where('dealer_id = ?', $dealer->getId())
-                        ->andWhere('af.activity_id = ?', $this->activity->getId())
-                        ->count();
+                    if (!empty($forced_completed)) {
+                        $this->stats[$q][$year][$dealer->getId()]['done'] = true;
+                    } else {
+                        //Делаем проверку на выполнение активности, если есть хоть одна выполненная заявка
+                        if ($totalModels != 0 && $completed_models_count > 0) {
+                            $this->stats[$q][$year][$dealer->getId()]['done'] = true;
+                        } else {
+                            $this->stats[$q][$year][$dealer->getId()]['done'] = false;
+                        }
 
-                    //Если для активности не выполнена статистика, отмечаем ее невыполненной
-                    if ($fields_values > 0 && !$this->activity->isActivityStatisticComplete($dealer, null, false, $year, $q, array('check_by_quarter' => true))) {
-                        $this->stats[$q][$year][$dealer->getId()]['done'] = false;
+                        /*
+                        * Get activity statistic fields counts
+                        * */
+                        $fields_values = ActivityFieldsValuesTable::getInstance()
+                            ->createQuery('fv')
+                            ->select()
+                            ->leftJoin('fv.ActivityFields af')
+                            ->where('dealer_id = ?', $dealer->getId())
+                            ->andWhere('af.activity_id = ?', $this->activity->getId())
+                            ->count();
+
+                        //Если для активности не выполнена статистика, отмечаем ее невыполненной
+                        if ($fields_values > 0 && !$this->activity->isActivityStatisticComplete($dealer, null, false, $year, $q, array('check_by_quarter' => true))) {
+                            $this->stats[$q][$year][$dealer->getId()]['done'] = false;
+                        }
+
+                        //Обязательное выполнение концепции
+                        if (!$this->activity->isConceptComplete($dealer, $year, $q)) {
+                            $this->stats[$q][$year][$dealer->getId()]['done'] = false;
+                        }
                     }
                 }
             }

@@ -12,13 +12,28 @@
  */
 class ActivityTask extends BaseActivityTask
 {
-    function wasDone ( Dealer $dealer, Activity $activity, $current_q = null )
+    function wasDone ( Dealer $dealer, Activity $activity, $current_q = null, $year = null )
     {
-        if ($this->getIsConceptComplete() && $activity->getHasConcept() && $activity->getIsConceptComplete() && !$activity->isConceptComplete($dealer)) {
+        //Принудительное выполение задачи
+        if (!is_null($current_q) && !is_null($year)) {
+            $query_completed_by_admin = ActivitiesStatusByUsersTable::getInstance()->createQuery()->where('dealer_id = ? and activity_id = ? and by_quarter = ? and by_year = ?', array(
+                $dealer->getId(),
+                $activity->getId(),
+                $current_q,
+                $year
+            ));
+
+            $completed_by_admin = $query_completed_by_admin->fetchOne();
+            if ($completed_by_admin) {
+                return true;
+            }
+        }
+
+        if ($this->getIsConceptComplete() && $activity->getHasConcept() && !$activity->isConceptComplete($dealer)) {
             return false;
         }
 
-        $year = D::getYear(D::calcQuarterData(date('Y-m-d')));
+        $year = $modelYear = D::getYear(D::calcQuarterData(date('Y-m-d')));
         /*if ($activity->getFinished()) {
             return $this->checkTaskResult($this->getId(), $dealer->getId());
         }*/

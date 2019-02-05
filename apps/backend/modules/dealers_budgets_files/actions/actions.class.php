@@ -77,7 +77,7 @@ class dealers_budgets_filesActions extends sfActions
             $dealer = DealerTable::getInstance()
                 ->createQuery()
                 ->select('id')
-                ->where('number LIKE ?', '%'.$dealerId.'%')
+                ->where('number LIKE ?', '93500'.$dealerId.'%')
                     ->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
 
             if(count($dealer) && isset($dealer['id'])) {

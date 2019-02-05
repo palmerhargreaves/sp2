@@ -20,7 +20,7 @@ ConfirmDelete.prototype = {
   
   confirm: function(link, title) {
     this.del_link = link;
-    
+
     this.getTitle().html(title);
     this.getModal().krikmodal('show');
   },

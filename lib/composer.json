@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mpdf/mpdf": "^6.0",
+        "samchristy/piechart": "^2.0"
+    }
+}

@@ -61,6 +61,8 @@ class ActivitiesBudgetByControlPoints
                 ),
                 'emails_completed' => false,
                 'year' => $this->_year,
+                'terms_of_loading' => false,
+                'active_terms_of_loading' => false
             );
         }
     }
@@ -225,6 +227,20 @@ class ActivitiesBudgetByControlPoints
             }
         }
 
+        //Дополнительный слот: Сроки подгрузки
+        $control_point_terms_of_loading = DealersControlPointByTermsOfLoadingTable::getInstance()
+            ->createQuery()
+            ->where('dealer_id = ? and year = ?', array($this->_dealer->getId(), $this->_year))
+            ->fetchOne();
+        if ($control_point_terms_of_loading) {
+            for ($q = 1; $q <= 4; $q++) {
+                $this->_quarters_statistics[$q]['active_terms_of_loading'] = true;
+
+                $quarter_func = 'getQ'.$q;
+                $this->_quarters_statistics[$q]['terms_of_loading'] = $control_point_terms_of_loading->$quarter_func() == 1 ? true : false;
+            }
+        }
+
         //Обобщаем информацию по кварталам, информируем дилера о статусе выполнение условий по кварталу
         $current_quarter = D::getQuarter(D::calcQuarterData(date('Y-m-d H:i:s')));
         for ($q = 1; $q <= 4; $q++) {
@@ -242,6 +258,11 @@ class ActivitiesBudgetByControlPoints
 
             if (!$this->_quarters_statistics[ $q ][ 'quarter_completed' ] && $q != $current_quarter) {
                 $this->_quarters_statistics[ $q ][ 'current_quarter' ] = false;
+            }
+
+            //Учитываем выполнение квартала с учетом Сроков подгрузки
+            if ($this->_quarters_statistics[$q]['active_terms_of_loading']) {
+                $this->_quarters_statistics[$q]['quarter_completed'] = !$this->_quarters_statistics[$q]['quarter_completed'] ? $this->_quarters_statistics[$q]['quarter_completed'] : $this->_quarters_statistics[$q]['terms_of_loading'];
             }
         }
     }

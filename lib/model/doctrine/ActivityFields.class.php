@@ -84,7 +84,7 @@ class ActivityFields extends BaseActivityFields
         return 'Без группы';
     }
 
-    public function getFieldValue(User $user, $q = 0) {
+    public function getFieldValue(User $user, $q = 0, $year = 0) {
         $dealer = $user->getDealer();
 
         $query = ActivityFieldsValuesTable::getInstance()
@@ -93,6 +93,10 @@ class ActivityFields extends BaseActivityFields
 
         if ($q != 0) {
             $query->andWhere('q = ?', $q);
+        }
+
+        if ($year != 0) {
+            $query->andWhere('year = ? ', $year);
         }
 
         return $query->execute()->getFirst();

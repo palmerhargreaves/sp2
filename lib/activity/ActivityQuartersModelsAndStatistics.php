@@ -39,7 +39,8 @@ class ActivityQuartersModelsAndStatistics
     /**
      * Load data by dealer and activity
      */
-    public function getData() {
+    public function getData()
+    {
         $quarters = $this->getDataModelsList(self::ALL_TYPES, true);
         $statistics_q_status = array();
 
@@ -52,42 +53,60 @@ class ActivityQuartersModelsAndStatistics
             foreach ($quarters as $q_year => $y_data) {
                 foreach ($y_data as $q_key => $q_data) {
                     if ($this->_activity->getActivityField()->count() > 0) {
-                        $statistics_q_status[ $q_year ][ $q_data[ 'quarter' ] ] = $this->_activity->checkForSimpleStatisticComplete($this->_dealer->getId(), $q_data[ 'quarter' ], $q_data[ 'year' ]);
+                        $statistics_q_status[$q_year][$q_data['quarter']] = $this->_activity->checkForSimpleStatisticComplete($this->_dealer->getId(), $q_data['quarter'], $q_data['year']);
                     } elseif ($this->_activity->getAllowExtendedStatistic()) {
-                        $statistics_q_status[ $q_year ][ $q_data[ 'quarter' ] ] = $this->_activity->checkForStatisticComplete($this->_dealer->getId(), $q_data[ 'quarter' ], $q_data[ 'year' ]);
+                        $statistics_q_status[$q_year][$q_data['quarter']] = $this->_activity->checkForStatisticComplete($this->_dealer->getId(), $q_data['quarter'], $q_data['year']);
                     }
                 }
             }
         }
+
 
         //Fill result from list of quarters by checking if complete concepts and models
         $result = array();
 
         foreach ($quarters as $q_year => $y_data) {
             foreach ($y_data as $q_key => $q_data) {
-                //Если для активности установлена галочка спец. согласование, делаем проверку на выполнение концепций по активности
-                if ($this->_activity->getAllowSpecialAgreement()) {
-                    if ($this->_activity->getIsConceptComplete()) {
-                        if ((isset($concepts_result[$q_year][$q_data['quarter']]) && $concepts_result[$q_year][$q_data['quarter']]['data']['completed']) && (isset($models_result[$q_year][$q_data['quarter']]) && $models_result[$q_year][$q_data['quarter']]['data']['completed'])) {
-                            $result[$q_year][$q_data['quarter']] = $concepts_result[$q_year][$q_data['quarter']];
-                        }
-                    }
-                } else {
-                    if ($this->_activity->getIsConceptComplete()) {
-                        if ((isset($concepts_result[$q_year][$q_data['quarter']]) && $concepts_result[$q_year][$q_data['quarter']]['data']['completed']) && (isset($models_result[$q_year][$q_data['quarter']]) && $models_result[$q_year][$q_data['quarter']]['data']['completed'])) {
-                            $result[$q_year][$q_data['quarter']] = $concepts_result[$q_year][$q_data['quarter']];
-                        }
-                    } //Check for activity statistic fill and exists
-                    else if (isset($statistics_q_status[ $q_year ][ $q_data[ 'quarter' ] ]) && ( isset($concepts_result[ $q_year ][ $q_data[ 'quarter' ] ]) && $concepts_result[ $q_year ][ $q_data[ 'quarter' ] ][ 'data' ][ 'completed' ] ) && isset($models_result[ $q_year ][ $q_data[ 'quarter' ] ]) && $models_result[ $q_year ][ $q_data[ 'quarter' ] ][ 'data' ][ 'completed' ] && $statistics_q_status[ $q_year ][ $q_data[ 'quarter' ] ]) {
-                        $result[ $q_year ][ $q_data[ 'quarter' ] ] = $concepts_result[ $q_year ][ $q_data[ 'quarter' ] ];
-                    } //Check for complete concepts or models
-                    else if (( isset($concepts_result[ $q_year ][ $q_data[ 'quarter' ] ]) && $concepts_result[ $q_year ][ $q_data[ 'quarter' ] ][ 'data' ][ 'completed' ] ) || ( isset($models_result[ $q_year ][ $q_data[ 'quarter' ] ]) && $models_result[ $q_year ][ $q_data[ 'quarter' ] ][ 'data' ][ 'completed' ] )) {
-                        if (isset($concepts_result[ $q_year ][ $q_data[ 'quarter' ] ]) && $concepts_result[ $q_year ][ $q_data[ 'quarter' ] ][ 'data' ][ 'completed' ]) {
-                            $result[ $q_year ][ $q_data[ 'quarter' ] ] = $concepts_result[ $q_year ][ $q_data[ 'quarter' ] ];
-                        }
+                //Делаем проверку на принудительное выполнение квартала
+                $query_completed_by_admin = ActivitiesStatusByUsersTable::getInstance()->createQuery()->where('dealer_id = ? and activity_id = ? and by_quarter = ? and by_year = ?', array(
+                    $this->_dealer->getId(),
+                    $this->_activity->getId(),
+                    $q_key,
+                    $q_year
+                ));
 
-                        if (isset($models_result[ $q_year ][ $q_data[ 'quarter' ] ]) && $models_result[ $q_year ][ $q_data[ 'quarter' ] ][ 'data' ][ 'completed' ]) {
-                            $result[ $q_year ][ $q_data[ 'quarter' ] ] = $models_result[ $q_year ][ $q_data[ 'quarter' ] ];
+                $completed_by_admin = $query_completed_by_admin->fetchOne();
+                if ($completed_by_admin) {
+                    $result[$q_year][$q_data['quarter']]['data'] = array(
+                        'year' => $q_year,
+                        'total_completed' => 1,
+                        'completed' => true,
+                        'total_necessarily_models_complete' => 0);
+                } else {
+                    //Если для активности установлена галочка спец. согласование, делаем проверку на выполнение концепций по активности
+                    if ($this->_activity->getAllowSpecialAgreement()) {
+                        if ($this->_activity->getIsConceptComplete()) {
+                            if ((isset($concepts_result[$q_year][$q_data['quarter']]) && $concepts_result[$q_year][$q_data['quarter']]['data']['completed']) && (isset($models_result[$q_year][$q_data['quarter']]) && $models_result[$q_year][$q_data['quarter']]['data']['completed'])) {
+                                $result[$q_year][$q_data['quarter']] = $concepts_result[$q_year][$q_data['quarter']];
+                            }
+                        }
+                    } else {
+                        if ($this->_activity->getIsConceptComplete()) {
+                            if ((isset($concepts_result[$q_year][$q_data['quarter']]) && $concepts_result[$q_year][$q_data['quarter']]['data']['completed']) && (isset($models_result[$q_year][$q_data['quarter']]) && $models_result[$q_year][$q_data['quarter']]['data']['completed'])) {
+                                $result[$q_year][$q_data['quarter']] = $concepts_result[$q_year][$q_data['quarter']];
+                            }
+                        } //Check for activity statistic fill and exists
+                        else if (isset($statistics_q_status[$q_year][$q_data['quarter']]) && (isset($concepts_result[$q_year][$q_data['quarter']]) && $concepts_result[$q_year][$q_data['quarter']]['data']['completed']) && isset($models_result[$q_year][$q_data['quarter']]) && $models_result[$q_year][$q_data['quarter']]['data']['completed'] && $statistics_q_status[$q_year][$q_data['quarter']]) {
+                            $result[$q_year][$q_data['quarter']] = $concepts_result[$q_year][$q_data['quarter']];
+                        } //Check for complete concepts or models
+                        else if ((isset($concepts_result[$q_year][$q_data['quarter']]) && $concepts_result[$q_year][$q_data['quarter']]['data']['completed']) || (isset($models_result[$q_year][$q_data['quarter']]) && $models_result[$q_year][$q_data['quarter']]['data']['completed'])) {
+                            if (isset($concepts_result[$q_year][$q_data['quarter']]) && $concepts_result[$q_year][$q_data['quarter']]['data']['completed']) {
+                                $result[$q_year][$q_data['quarter']] = $concepts_result[$q_year][$q_data['quarter']];
+                            }
+
+                            if (isset($models_result[$q_year][$q_data['quarter']]) && $models_result[$q_year][$q_data['quarter']]['data']['completed']) {
+                                $result[$q_year][$q_data['quarter']] = $models_result[$q_year][$q_data['quarter']];
+                            }
                         }
                     }
                 }
@@ -100,7 +119,9 @@ class ActivityQuartersModelsAndStatistics
                     } //Fill empty data for models
                     else if (isset($models_result[$q_year][$q_data['quarter']]) || isset($concepts_result[$q_year][$q_data['quarter']])) {
                         $result[$q_year][$q_data['quarter']] = $models_result[$q_year][$q_data['quarter']];
-                        $result[$q_year][$q_data['quarter']]['data']['completed'] = $models_result[$q_year][$q_data['quarter']]['data']['completed'];
+                        $result[$q_year][$q_data['quarter']]['data']['completed'] = $this->_activity->getAllowSpecialAgreement() && $this->_activity->getIsConceptComplete()
+                            ? (isset($concepts_result[$q_year][$q_data['quarter']]) ? $concepts_result[$q_year][$q_data['quarter']]['data']['completed'] : false)
+                            : $models_result[$q_year][$q_data['quarter']]['data']['completed'];
                     }
                 }
             }
@@ -136,7 +157,7 @@ class ActivityQuartersModelsAndStatistics
         }
 
         $result = array();
-        foreach($models as $model) {
+        foreach ($models as $model) {
             if ($model->isModelCompleted()) {
                 $acceptedDate = $model->getModelQuarterDate(null, $this->_user);
 
@@ -201,10 +222,10 @@ class ActivityQuartersModelsAndStatistics
                 foreach ($q_data as $q_key => $data) {
                     $forcibly_completed = ActivitiesStatusByUsersTable::checkActivityStatus($this->_activity->getId(), $this->_dealer->getId(), $q_year, $q_key);
 
-                    $result[ $year ][ $q_key ][ 'data' ][ 'forcibly_completed' ] = false;
+                    $result[$year][$q_key]['data']['forcibly_completed'] = false;
                     if ($forcibly_completed) {
-                        $result[ $year ][ $q_key ][ 'data' ][ 'forcibly_completed' ] = true;
-                        $result[ $year ][ $q_key ][ 'data' ][ 'completed' ] = true;
+                        $result[$year][$q_key]['data']['forcibly_completed'] = true;
+                        $result[$year][$q_key]['data']['completed'] = true;
                     }
                 }
             }
@@ -213,7 +234,8 @@ class ActivityQuartersModelsAndStatistics
         return $result;
     }
 
-    private function getDataModelsList($model_type, $calc_q = false) {
+    private function getDataModelsList($model_type, $calc_q = false)
+    {
         $query = AgreementModelTable::getInstance()
             ->createQuery()
             ->where('activity_id = ?', array($this->_activity->getId()));
@@ -224,7 +246,7 @@ class ActivityQuartersModelsAndStatistics
 
         if ($model_type == self::CONCEPT) {
             $query->andWhere('model_type_id = ?', Activity::CONCEPT_MODEL_TYPE_ID);
-        } else if($model_type == self::MODEL) {
+        } else if ($model_type == self::MODEL) {
             $query->andWhere('model_type_id != ?', Activity::CONCEPT_MODEL_TYPE_ID);
         }
 
@@ -233,7 +255,7 @@ class ActivityQuartersModelsAndStatistics
 
             $qs = array();
             /** @var AgreementModel $item */
-            foreach($items as $item) {
+            foreach ($items as $item) {
                 $date = $item->getModelQuarterDate();
 
                 $q = D::getQuarter($date);
@@ -250,7 +272,8 @@ class ActivityQuartersModelsAndStatistics
         return $query->execute();
     }
 
-    private function getDealer($user) {
+    private function getDealer($user)
+    {
         $dealer = $this->getUserDealer($user);
 
         if (!$dealer) {
@@ -271,8 +294,9 @@ class ActivityQuartersModelsAndStatistics
         return $dealer;
     }
 
-    private function getUserDealer($user) {
-        $dealer= null;
+    private function getUserDealer($user)
+    {
+        $dealer = null;
 
         $userDealer = $user->getDealerUsers()->getFirst();
         if ($userDealer) {

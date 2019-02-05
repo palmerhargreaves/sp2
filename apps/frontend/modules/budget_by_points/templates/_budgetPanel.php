@@ -116,9 +116,15 @@ $summFoQ4 = 0;
                                     <?php endforeach; ?>
                                 <?php endif; ?>
 
-                                <li class="<?php if ($show_icons): ?>is-<?php echo $quarters_statistics[$n]['emails_completed'] ? 'passed' : 'alert'; ?> <?php endif; ?>"><?php echo $control_point_index . '. '; ?>
+                                <li class="<?php if ($show_icons): ?>is-<?php echo $quarters_statistics[$n]['emails_completed'] ? 'passed' : 'alert'; ?> <?php endif; ?>"><?php echo $control_point_index++ . '. '; ?>
                                     E-mail адреса
                                 </li>
+
+                                <?php if ($quarters_statistics[$n]['active_terms_of_loading']): ?>
+                                    <li class="<?php if ($show_icons): ?> is-<?php echo $quarters_statistics[$n]['terms_of_loading'] ? 'passed' : 'alert'; ?> <?php endif; ?>"><?php echo $control_point_index . '. '; ?>
+                                        Сроки подгрузки
+                                    </li>
+                                <?php endif; ?>
                             </ul>
                         </div>
 

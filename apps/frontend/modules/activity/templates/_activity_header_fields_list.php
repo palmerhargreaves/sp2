@@ -26,7 +26,7 @@ $hash_id = '';
 foreach ($fields as $field):
     $first_field = false;
 
-    $fieldValue = $field->getFieldValue($sf_user->getAuthUser()->getRawValue(), $current_q);
+    $fieldValue = $field->getFieldValue($sf_user->getAuthUser()->getRawValue(), $current_q, $year);
     if ($field->getGroupId() != 0) {
         $group_data = $field->getActivityVideoRecordsStatisticsHeadersGroups();
         $group_field_count = $group_data->getFieldsList($field->getParentHeaderId())->count();

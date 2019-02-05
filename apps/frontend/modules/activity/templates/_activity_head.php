@@ -160,7 +160,7 @@ if (!$customDate) {
                     try {
                         $dealer = $sf_user->getAuthUser()->getDealer();
                         if ($dealer) {
-                            $wasDone = $task->wasDone($dealer->getRawValue(), $activity->getRawValue(), $current_q);
+                            $wasDone = $task->wasDone($dealer->getRawValue(), $activity->getRawValue(), $current_q, $current_year);
 
                         }
                     } catch (Exception $ex) {
@@ -168,6 +168,7 @@ if (!$customDate) {
                             $wasDone = true;
                         }
                     }
+
                     ?>
                     <div class="stage<?php if ($sf_user->isDealerUser() && $wasDone) echo ' active' ?>"><?php echo $task->getName() ?></div>
                 <?php endforeach; ?>

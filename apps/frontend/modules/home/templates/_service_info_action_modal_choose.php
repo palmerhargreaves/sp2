@@ -31,7 +31,7 @@
                 <div class='steps-dialog-item steps-dialog'>
                     <a href='javascript:;' class='show-steps-modal-dialog'>Заполните статистику</a>
                     <span style='font-size: 11px; font-weight: normal; margin: 5px; float:left; '>
-                          Необходимо заполнить статистику по активност(и, ям)
+                          Необходимо заполнить статистику по активностям
                     </span>
                 </div>
             </div>

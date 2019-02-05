@@ -191,6 +191,7 @@ class models_datesActions extends sfActions
                         );
 
                     $model->setActivityId($this->activity);
+                    $model->save();
 
                     //Меняем в приваязки дат, активность
                     $modelDates = AgreementModelDatesTable::getInstance()->findOneByModelId($model->getId());
@@ -210,7 +211,7 @@ class models_datesActions extends sfActions
                         ->orderBy('id DESC');
 
                     if ($model->isConcept()) {
-                        $query->andWhere('(object_type = ? or object_type = ?) and icon = ? and action = ? and private_user_id = ?', array('agreement_concept_report',  'agreement_special_concept_report_regional_manager', 'clip', 'edit', 0));
+                        $query->andWhere('(object_type = ? or object_type = ? or object_type = ?) and icon = ? and action = ? and private_user_id = ?', array('agreement_concept_report', 'agreement_concept_report_by_importer',  'agreement_special_concept_report_regional_manager', 'clip', 'edit', 0));
                     } else {
                         $query->andWhere('object_type = ? and icon = ? and action = ? and private_user_id = ?', array('agreement_report', 'clip', 'edit', 0));
                     }

@@ -1,8 +1,31 @@
 div.contacts { position: relative; font-family: 'vw',sans-serif; }
 
-.contacts .quarter-tabs { position: relative; z-index: 100; margin: 9px 0px 1px; }
-.contacts .quarter-tabs:after { display: block; clear: both; content: ''; }
-.contacts .quarter-tabs .tab { float: left; width: 156px; padding: 0 4px 0 0; position: relative; cursor: pointer; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.contacts .quarter-tabs {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    position: relative;
+    z-index: 100;
+    margin: 9px -2px 1px;
+}
+.contacts .quarter-tabs:after { /*display: block; clear: both; content: '';*/ }
+.contacts .quarter-tabs .tab {
+    -ms-flex: 1 1 156px;
+    -webkit-flex: 1 1 156px;
+    flex: 1 1 156px;
+    float: left;
+    width: 156px;
+    padding: 0 2px 4px;
+    position: relative;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 .contacts .quarter-tabs .tab-header { position: relative; padding: 15px 16px; background: #e7ecef; border-bottom: 1px solid #fff; font-weight: normal; font-size: 12px; line-height: 1; color: #4e5152; border-radius: 4px 4px 0 0; height: 200px; }
 .contacts .quarter-tabs .tab-header span { font-size: 14px; font-weight: bold; padding: 6px 0 10px 0; display: inline-block;}
 .contacts .quarter-tabs .tab-header .required-activities { position: absolute; top: 10px; left: 10px; }

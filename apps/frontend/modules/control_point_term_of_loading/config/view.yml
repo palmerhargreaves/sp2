@@ -1,0 +1,3 @@
+all:
+  stylesheets: [toastr/toastr.css, animate.css]
+  javascripts: [messages/messages.js, budget/ControlPointTermsOfLoading.js, plugins/toastr/toastr.js]

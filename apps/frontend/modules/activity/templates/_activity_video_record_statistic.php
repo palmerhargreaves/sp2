@@ -77,7 +77,8 @@
                                     'activity' => $activity,
                                     'allow_to_edit' => $allow_to_edit,
                                     'current_q' => $current_q,
-                                    'allow_to_cancel' => $allow_to_cancel
+                                    'allow_to_cancel' => $allow_to_cancel,
+                                    'year' => $current_year
                                 )
                             ); ?>
                         </div>

@@ -31,6 +31,7 @@ foreach ($activity->getActiveVideoRecordStatisticHeaders() as $header): ?>
                                 'include_group' => true,
                                 'allow_to_edit' => $allow_to_edit,
                                 'current_q' => $current_q,
+                                'year' => $year
                             )
                         );
 
@@ -45,6 +46,7 @@ foreach ($activity->getActiveVideoRecordStatisticHeaders() as $header): ?>
                                 'include_group' => true,
                                 'allow_to_edit' => $allow_to_edit,
                                 'current_q' => $current_q,
+                                'year' => $year
                             )
                         );
                     endforeach; ?>
@@ -59,6 +61,7 @@ foreach ($activity->getActiveVideoRecordStatisticHeaders() as $header): ?>
                         'include_group' => false,
                         'allow_to_edit' => $allow_to_edit,
                         'current_q' => $current_q,
+                        'year' => $year
                     )
                 ); ?>
                 </tbody>

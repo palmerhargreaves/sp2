@@ -57,7 +57,8 @@ class dealer_userActions extends sfActions
 
         //Получаем привязанного дилера к пользователю
         $dealer_user = $this->getUser()->getAuthUser()->getDealerUsers()->getFirst();
-        if (!$dealer_user || !$dealer_user->getManager()) {
+
+        if (!$dealer_user/* || !$dealer_user->getManager()*/) {
             $this->redirect('dealer_user/index');
         }
 

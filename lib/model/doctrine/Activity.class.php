@@ -1180,9 +1180,8 @@ class Activity extends BaseActivity
 
                 //Если у дилера есть созданные концепции, полчаем дату согласования концепций
                 if (!empty($concept_ids)) {
-                    $concept_dates_list = Utils::getModelDateFromLogEntry($concept_ids);
-                    foreach ($concept_dates_list as $concept_date_item) {
-                        $concept_date = D::calcQuarterData($concept_date_item['created_at']);
+                    foreach ($concept_ids as $concept_id) {
+                        $concept_date = Utils::getModelDateFromLogEntry($concept_id, false);
 
                         $concept_quarter = D::getQuarter($concept_date);
                         $concept_year = D::getYear($concept_date);
@@ -1192,6 +1191,21 @@ class Activity extends BaseActivity
                             $concept_completed_in_quarter_and_year = true;
                         }
                     }
+                    /*} else {
+                        $concept_dates_list = Utils::getModelDateFromLogEntry($concept_ids, false);
+                        foreach ($concept_dates_list as $concept_date_item) {
+                            $concept_date = D::calcQuarterData($concept_date_item[ 'created_at' ]);
+
+                            $concept_quarter = D::getQuarter($concept_date);
+                            $concept_year = D::getYear($concept_date);
+
+
+                            //Проверяем на корректный год / квартал
+                            if ($quarter == $concept_quarter && $concept_year == $year) {
+                                $concept_completed_in_quarter_and_year = true;
+                            }
+                        }
+                    }*/
                 }
 
                 return $concept_completed_in_quarter_and_year;
@@ -1406,7 +1420,8 @@ class Activity extends BaseActivity
         $models = $query->execute();
 
         foreach ($models as $model) {
-            $date = D::calcQuarterData($model->getModelQuarterDate(null, true));
+            $date = $model->getModelQuarterDate(null, true);
+            $date = D::calcQuarterData($date);
 
             $modelQuarter = D::getQuarter($date);
             $modelYear = D::getYear($date);

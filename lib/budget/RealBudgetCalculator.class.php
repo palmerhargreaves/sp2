@@ -131,6 +131,7 @@ class RealBudgetCalculator
 
             $this->_calc_models[$real_row['mId']] = $real_row['mId'];
             $entry = utils::getModelDateFromLogEntryWithYear($real_row['mId']);
+
             if ($entry) {
                 $nDate = $entry;
             } else {
@@ -139,6 +140,7 @@ class RealBudgetCalculator
 
             $year = D::getYear($nDate);
             $q = D::getQuarter($nDate);
+
             if ($this->year != $year) {
                 continue;
             }
@@ -189,7 +191,7 @@ class RealBudgetCalculator
     protected function addToRealBudget($quarter, $sum, $row = null)
     {
         $new_sum = $this->real_budget[$quarter] + $sum;
-        if ($quarter < 4 && $new_sum > $this->plan_budget[$quarter] /*&& $this->plan_budget[$quarter] != 0*/) {
+        if ($quarter < 4 && $new_sum > $this->plan_budget[$quarter] && $this->plan_budget[$quarter] != 0) {
             $this->addToRealBudget($quarter + 1, $new_sum - $this->plan_budget[$quarter], $row);
             $new_sum = $this->plan_budget[$quarter];
         }

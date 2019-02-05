@@ -42,16 +42,32 @@ class ActivityBudgetPointsStatuses extends ActivityStatusBase {
 
         //Спец. согласование по активности с учетом выполнения концепции
         if ($this->activity->getAllowSpecialAgreement()) {
-            $concept = AgreementModelTable::getInstance()->createQuery('m')
+            $concepts = AgreementModelTable::getInstance()->createQuery('m')
                 ->innerJoin('m.Report r')
                 ->where('m.dealer_id = ? and m.activity_id = ? and m.model_type_id = ?', array( $this->dealer->getId(), $this->activity->getId(), Activity::CONCEPT_MODEL_TYPE_ID ))
                 ->andWhere('m.status = ? and r.status = ?', array('accepted', 'accepted'))
-                ->fetchOne();
+                ->execute();
 
-            if (!$concept) {
+            if (count($concepts) == 0) {
                 return $this->activity_models_created_count > 0
                     ? array( 'status' => ActivitiesBudgetByControlPoints::ACTIVITY_IN_WORK, 'msg' => 'К активности приступили' )
                     : array( 'status' => ActivitiesBudgetByControlPoints::ACTIVITY_NOT_START, 'msg' => 'Активность не начата' );
+            } else {
+                //Временное решение
+                $result = array();
+                foreach ($concepts as $model) {
+                    $acceptedDate = $model->getModelQuarterDate(null, $this->user);
+
+                    $q = D::getQuarter($acceptedDate);
+                    $year = D::getYear($acceptedDate);
+
+                    $result[$year][] = $q;
+                }
+
+                $completed_by_concept = array_key_exists($this->year, $result) && in_array($this->quarter, $result[$this->year]);
+                if (!$completed_by_concept) {
+                    return array( 'status' => ActivitiesBudgetByControlPoints::ACTIVITY_IN_WORK, 'msg' => 'К активности приступили' );
+                }
             }
         }
 

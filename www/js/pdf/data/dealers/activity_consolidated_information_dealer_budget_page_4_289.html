@@ -1,0 +1,1062 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <style>@font-face {
+    font-family: "VW-Head";
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-regular.eot");
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-regular.eot?#iefix") format("embedded-opentype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-regular.woff2") format("woff2"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-regular.woff") format("woff"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-regular.ttf") format("truetype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-regular.svg#vw_headregular") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "VW-Head";
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-bold.eot");
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-bold.eot?#iefix") format("embedded-opentype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-bold.woff2") format("woff2"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-bold.woff") format("woff"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-bold.ttf") format("truetype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-bold.svg#vw_headbold") format("svg");
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: "VW-Head";
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-extrabold.eot");
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-extrabold.eot?#iefix") format("embedded-opentype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-extrabold.woff2") format("woff2"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-extrabold.woff") format("woff"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-extrabold.ttf") format("truetype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwhead-extrabold.svg#vw_headextrabold") format("svg");
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: "VW-Text";
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwtext-regular.eot");
+    src: url("http://dm.vw-servicepool.ru/pdf/fonts/vwtext-regular.eot?#iefix") format("embedded-opentype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwtext-regular.woff2") format("woff2"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwtext-regular.woff") format("woff"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwtext-regular.ttf") format("truetype"),
+    url("http://dm.vw-servicepool.ru/pdf/fonts/vwtext-regular.svg#vw_textregular") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+/*** RESET ***/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,ins,kbd,q,samp,small,strong,sub,sup,var,a,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;background:transparent;outline:0 none;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale;}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block}
+img,a img,:link img,:visited img{border:0;outline:none}
+table{border-collapse:collapse;border-spacing:0}
+tr{vertical-align:middle}
+th,td{vertical-align:inherit}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
+ins{background:#999;color:#000;text-decoration:none}
+mark{display:inline-block;vertical-align:middle;padding:0 .5em;background:#999;color:#000;font-style:normal;font-weight:400;line-height:1.5}
+del{text-decoration:line-through}
+abbr[title],dfn[title]{border:1px dotted #999;cursor:help}
+hr{display:block;margin:1em 0;padding:0;height:1px;color:#999;background:#999;border:0}
+button,input,select,textarea{margin:0;padding:0;outline:0 none;vertical-align:middle;-webkit-appearance:none;-moz-appearance:none;appearance:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+button,input{width:auto;overflow:visible}
+button::-moz-focus-inner,input::-moz-focus-inner,select::-moz-focus-inner,textarea::-moz-focus-inner{padding:0;border:0}
+textarea{overflow:auto;resize:none;vertical-align:top}
+input[type="button"],input[type="submit"],input[type="reset"],button{cursor:pointer}
+input[type="checkbox"]{-webkit-appearance:checkbox;-moz-appearance:checkbox;appearance:checkbox}
+input[type="radio"]{-webkit-appearance:radio;-moz-appearance:radio;appearance:radio}
+::-webkit-input-placeholder{color:inherit;opacity:.8}
+:-moz-placeholder{color:inherit;opacity:.8}
+::-moz-placeholder{color:inherit;opacity:.8}
+:-ms-input-placeholder{color:inherit;opacity:.8}
+::-ms-clear{display:none}
+pre,code,kbd,samp{font-family:monospace,sans-serif}
+html{overflow-y:scroll}
+small,.small{font-size:.75em}
+big,.big{font-size:1.25em}
+b,strong{font-weight:700}
+i,em{font-style:italic}
+sub{vertical-align:sub;font-size:smaller;line-height:.5}
+sup{vertical-align:super;font-size:smaller;line-height:.5}
+pre{padding:2em;white-space:pre;white-space:pre-wrap;word-wrap:break-word}
+img{max-width:100%;height:auto;}
+
+/*** GRID ***/
+.d-grid { display: block; margin-left: auto; margin-right: auto; padding-left: 48px; padding-right: 48px; max-width: 1176px; }
+.is-liquid-layout .d-grid { max-width: 100%; }
+.is-fixed-layout .d-grid { width: 1176px; }
+.d-row {  display: block; margin-left: -15px; margin-right: -15px; }
+.d-col { display: inline-block; vertical-align: top; position: relative; float: left; padding-left: 15px; padding-right: 15px; width: 100%; min-height: 1px; }
+.d-col.d-fr { float: right; }
+.d-row_ib { font-size: 0; }
+.d-row_ib .d-col { float: none; }
+.d-col_xs_0 { width: 0; }
+.d-col_xs_1 { width: 8.33%; }
+.d-col_xs_2 { width: 16.66%; }
+.d-col_xs_3 { width: 25%; }
+.d-col_xs_4 { width: 33.33%; }
+.d-col_xs_5 { width: 41.66%; }
+.d-col_xs_6 { width: 50%; }
+.d-col_xs_7 { width: 58.33%; }
+.d-col_xs_8 { width: 66.66%; }
+.d-col_xs_9 { width: 75%; }
+.d-col_xs_10 { width: 83.33%; }
+.d-col_xs_11 { width: 91.66%; }
+.d-col_xs_12 { width: 100%; }
+.d-col-offset_xs_0 { margin-left: 0; }
+.d-col-offset_xs_1 { margin-left: 8.33%; }
+.d-col-offset_xs_2 { margin-left: 16.66%; }
+.d-col-offset_xs_3 { margin-left: 25%; }
+.d-col-offset_xs_4 { margin-left: 33.33%; }
+.d-col-offset_xs_5 { margin-left: 41.66%; }
+.d-col-offset_xs_6 { margin-left: 50%; }
+.d-col-offset_xs_7 { margin-left: 58.33%; }
+.d-col-offset_xs_8 { margin-left: 66.66%; }
+.d-col-offset_xs_9 { margin-left: 75%; }
+.d-col-offset_xs_10 { margin-left: 83.33%; }
+.d-col-offset_xs_11 { margin-left: 91.66%; }
+.d-col-offset_xs_12 { margin-left: 100%; }
+@media (min-width:640px){
+	.d-col_sm_0 { width: 0; }
+	.d-col_sm_1 { width: 8.33%; }
+	.d-col_sm_2 { width: 16.66%; }
+	.d-col_sm_3 { width: 25%; }
+	.d-col_sm_4 { width: 33.33%; }
+	.d-col_sm_5 { width: 41.66%; }
+	.d-col_sm_6 { width: 50%; }
+	.d-col_sm_7 { width: 58.33%; }
+	.d-col_sm_8 { width: 66.66%; }
+	.d-col_sm_9 { width: 75%; }
+	.d-col_sm_10 { width: 83.33%; }
+	.d-col_sm_11 { width: 91.66%; }
+	.d-col_sm_12 { width: 100%; }
+	.d-col-offset_sm_0 { margin-left: 0; }
+	.d-col-offset_sm_1 { margin-left: 8.33%; }
+	.d-col-offset_sm_2 { margin-left: 16.66%; }
+	.d-col-offset_sm_3 { margin-left: 25%; }
+	.d-col-offset_sm_4 { margin-left: 33.33%; }
+	.d-col-offset_sm_5 { margin-left: 41.66%; }
+	.d-col-offset_sm_6 { margin-left: 50%; }
+	.d-col-offset_sm_7 { margin-left: 58.33%; }
+	.d-col-offset_sm_8 { margin-left: 66.66%; }
+	.d-col-offset_sm_9 { margin-left: 75%; }
+	.d-col-offset_sm_10 { margin-left: 83.33%; }
+	.d-col-offset_sm_11 { margin-left: 91.66%; }
+	.d-col-offset_sm_12 { margin-left: 100%; }
+}
+@media (min-width:768px){
+	.d-col_md_0 { width: 0; }
+	.d-col_md_1 { width: 8.33%; }
+	.d-col_md_2 { width: 16.66%; }
+	.d-col_md_3 { width: 25%; }
+	.d-col_md_4 { width: 33.33%; }
+	.d-col_md_5 { width: 41.66%; }
+	.d-col_md_6 { width: 50%; }
+	.d-col_md_7 { width: 58.33%; }
+	.d-col_md_8 { width: 66.66%; }
+	.d-col_md_9 { width: 75%; }
+	.d-col_md_10 { width: 83.33%; }
+	.d-col_md_11 { width: 91.66%; }
+	.d-col_md_12 { width: 100%; }
+	.d-col-offset_md_0 { margin-left: 0; }
+	.d-col-offset_md_1 { margin-left: 8.33%; }
+	.d-col-offset_md_2 { margin-left: 16.66%; }
+	.d-col-offset_md_3 { margin-left: 25%; }
+	.d-col-offset_md_4 { margin-left: 33.33%; }
+	.d-col-offset_md_5 { margin-left: 41.66%; }
+	.d-col-offset_md_6 { margin-left: 50%; }
+	.d-col-offset_md_7 { margin-left: 58.33%; }
+	.d-col-offset_md_8 { margin-left: 66.66%; }
+	.d-col-offset_md_9 { margin-left: 75%; }
+	.d-col-offset_md_10 { margin-left: 83.33%; }
+	.d-col-offset_md_11 { margin-left: 91.66%; }
+	.d-col-offset_md_12 { margin-left: 100%; }
+}
+@media (min-width:1024px){
+	.d-col_lg_0 { width: 0; }
+	.d-col_lg_1 { width: 8.33%; }
+	.d-col_lg_2 { width: 16.66%; }
+	.d-col_lg_3 { width: 25%; }
+	.d-col_lg_4 { width: 33.33%; }
+	.d-col_lg_5 { width: 41.66%; }
+	.d-col_lg_6 { width: 50%; }
+	.d-col_lg_7 { width: 58.33%; }
+	.d-col_lg_8 { width: 66.66%; }
+	.d-col_lg_9 { width: 75%; }
+	.d-col_lg_10 { width: 83.33%; }
+	.d-col_lg_11 { width: 91.66%; }
+	.d-col_lg_12 { width: 100%; }
+	.d-col-offset_lg_0 { margin-left: 0; }
+	.d-col-offset_lg_1 { margin-left: 8.33%; }
+	.d-col-offset_lg_2 { margin-left: 16.66%; }
+	.d-col-offset_lg_3 { margin-left: 25%; }
+	.d-col-offset_lg_4 { margin-left: 33.33%; }
+	.d-col-offset_lg_5 { margin-left: 41.66%; }
+	.d-col-offset_lg_6 { margin-left: 50%; }
+	.d-col-offset_lg_7 { margin-left: 58.33%; }
+	.d-col-offset_lg_8 { margin-left: 66.66%; }
+	.d-col-offset_lg_9 { margin-left: 75%; }
+	.d-col-offset_lg_10 { margin-left: 83.33%; }
+	.d-col-offset_lg_11 { margin-left: 91.66%; }
+	.d-col-offset_lg_12 { margin-left: 100%; }
+}
+@media (min-width:1200px){
+	.d-col_0 { width: 0; }
+	.d-col_1 { width: 8.33%; }
+	.d-col_2 { width: 16.66%; }
+	.d-col_3 { width: 25%; }
+	.d-col_4 { width: 33.33%; }
+	.d-col_5 { width: 41.66%; }
+	.d-col_6 { width: 50%; }
+	.d-col_7 { width: 58.33%; }
+	.d-col_8 { width: 66.66%; }
+	.d-col_9 { width: 75%; }
+	.d-col_10 { width: 83.33%; }
+	.d-col_11 { width: 91.66%; }
+	.d-col_12 { width: 100%; }
+	.d-col-offset_0 { margin-left: 0; }
+	.d-col-offset_1 { margin-left: 8.33%; }
+	.d-col-offset_2 { margin-left: 16.66%; }
+	.d-col-offset_3 { margin-left: 25%; }
+	.d-col-offset_4 { margin-left: 33.33%; }
+	.d-col-offset_5 { margin-left: 41.66%; }
+	.d-col-offset_6 { margin-left: 50%; }
+	.d-col-offset_7 { margin-left: 58.33%; }
+	.d-col-offset_8 { margin-left: 66.66%; }
+	.d-col-offset_9 { margin-left: 75%; }
+	.d-col-offset_10 { margin-left: 83.33%; }
+	.d-col-offset_11 { margin-left: 91.66%; }
+	.d-col-offset_12 { margin-left: 100%; }
+}
+
+/*** COMMON ***/
+body,button,input,select,textarea,.d-row_ib > * { font: 15px/1.25 "VW-Text",sans-serif; color: #000; }
+button,input,select,textarea,.btn { font-size: inherit; line-height: normal; }
+.d-row_ib > * { font-family: inherit; color: inherit; }
+
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6,.h0 { margin-bottom: .25em; font-weight: 700; line-height: normal; font-family: "VW-Head",sans-serif; }
+h1,.h1 { font-size: 2em; }
+h2,.h2 { font-size: 1.75em; }
+h3,.h3,.fs_xl { font-size: 1.4em; }
+h4,.h4 { font-size: 1.25em; }
+h5,.h5 { font-size: 1.125em; }
+h6,.h6 { font-size: 1em; }
+
+.ff_head { font-family: "VW-Head",sans-serif; }
+
+.fw_400 { font-weight: 400; }
+
+a { color: #00b0eb; text-decoration: underline; }
+a.d-lnk-js { border-bottom: 1px dotted; }
+a:hover, a.d-lnk-js, .d-lnk-js:hover, a.d-lnk-js:hover, a.d-lnk-tdn, .d-lnk-tdn a { text-decoration: none; }
+a.d-lnk-tdn:hover, .d-lnk-tdn a:hover { text-decoration: underline; }
+a.d-lnk-js:hover { border-bottom-color: transparent; }
+a.d-lnk-txt, .d-lnk-txt a { border-bottom-color: inherit; color: inherit; }
+a[href^='tel:'] { color: inherit !important; text-decoration: none !important; cursor: default; }
+
+p { margin-bottom: 1.5em; }
+dd { padding: 0 0 1em 1em; }
+ol, ul { margin-bottom: 1.5em; }
+ol { margin-left: 1.5em; list-style-type: decimal; }
+ul { margin-left: 1em; list-style: disc; }
+li { margin-bottom: .75em; }
+nav ol, nav ul, nav li, fieldset ol, fieldset ul, fieldset li, .d-plain, .d-plain li, .d-plain dd, input.d-plain, button.d-plain, textarea.d-plain { margin: 0; padding: 0; background: none; border: 0; list-style: none; }
+nav li:before, fieldset li:before, .d-plain li:before { display: none; }
+fieldset li { margin-bottom: 1.5em; }
+
+
+.d-bsbb,.d-grid,.d-col,.d-wrapper,.btn { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.d-wrapper { display: block; position: relative; width: 100%; overflow: hidden; }
+.d-table { display: table; table-layout: fixed; }
+.d-table__row { display: table-row; }
+.d-table__cell { display: table-cell; vertical-align: middle; }
+.d-cb:after,.d-grid:after,.d-row:after { clear: both; display: block; content:''; }
+.d-clear { clear: both; }
+.d-ht { display: block; text-align: left; text-indent: -999em; overflow: hidden; } 
+.d-db { display: block; }
+.d-ib,.btn { display: inline-block; vertical-align: middle; }
+.d-ha:after,.d-hb:before { display: block; height: 0; content: '.'; text-align: left; text-indent: -999em; overflow: hidden; }
+.d-fn { float: none; }
+.d-fl { float: left; }
+.d-fr { float: right; }
+.d-pr { position: relative; }
+.d-tac { text-align: center; }
+.d-tal { text-align: left; }
+.d-tar { text-align: right; }
+.d-taj { text-align: justify; }
+.d-ttu { text-transform: uppercase; }
+.d-ttn { text-transform: none; }
+.d-lhn { line-height: normal; }
+.d-vat { vertical-align: top; }
+.d-vam { vertical-align: middle; }
+.d-vab { vertical-align: bottom; }
+.d-wsnw { white-space: nowrap; }
+.d-hidden,.d-hide-pc { display: none; }
+
+.is-flexbox { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; }
+.is-flexbox_center { -webkit-box-align: center; -moz-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;  }
+.is-flexbox_justify { -webkit-box-pack: justify; -moz-box-pack: justify; -ms-flex-pack: justify; -webkit-justify-content: space-between; justify-content: space-between; }
+.is-flexbox_around { -webkit-box-pack: justify; -moz-box-pack: justify; -ms-flex-pack: justify; -webkit-justify-content: space-around; justify-content: space-around; }
+.is-flexbox_row { -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap; }
+.is-flexbox_stretch { -webkit-box-align: stretch; -moz-box-align: stretch; -ms-flex-align: stretch; -webkit-align-items: stretch; align-items: stretch; }
+
+/* table */
+.page-wrap table { margin: 2em 0; }
+.page-wrap tr { vertical-align: inherit; }
+.page-wrap td, .page-wrap th { padding: .5em 1em; border: 1px solid #999; }
+.page-wrap th { background: #f0f0f0; font-weight: 700; text-align: center; }
+.page-wrap table.d-plain, .page-wrap table.d-plain th, .page-wrap table.d-plain td { margin: 0; padding: 0; background: none; border: 0; }
+
+/*** STYLES ***/
+html, body { min-height: 100%; height: 100%; }
+body { position: relative; background: #fff; -webkit-text-size-adjust: 100%; }
+
+#d-wrap {
+	-webkit-box-orient: vertical;
+	-ms-flex-direction: column;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	position: relative;
+	z-index: 1;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 1176px;
+	min-height: 100%;
+	overflow: hidden;
+}
+#d-wrap:after { display: block; clear: both; height: 0; content:''; }
+
+#d-header { padding: 2em 0; }
+.d-header { height: 8em; }
+.d-header__company {
+	-ms-flex: 1 1 56%;
+	-webkit-flex: 1 1 56%;
+	flex: 1 1 56%;
+	padding: 1em 1.5em;
+	background: #00b0eb;
+	color: #fff;
+}
+.d-header__company h2, .d-header__company h3 { margin: 0; }
+.d-header__manager {
+	-ms-flex: 1 1 44%;
+	-webkit-flex: 1 1 44%;
+	flex: 1 1 44%;
+	padding: 1em 1.5em 1em 13%;
+	background: url(http://dm.vw-servicepool.ru/pdf/img/ico_person.png) 5% 50% no-repeat;
+	background-size: auto 90%;
+	border: 4px solid #bfc2c7;
+	border-left-width: 0;
+}
+.d-header__manager strong { display: block; }
+.d-header_sm .d-header__manager { padding-left: 18%; border-left-width: 4px; }
+.d-header_dealer .d-header__manager {
+	padding-left: 18%;
+	border-left-width: 4px;
+	background: url(http://dm.vw-servicepool.ru/pdf/img/ico_check.png) 5% 50% no-repeat;
+	background-size: auto;
+}
+.d-header_dealer .d-header__manager strong { display: inline; margin-right: 1em; }
+
+#d-content {
+	/*-ms-flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;*/
+	padding: .5em 0;
+	-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
+}
+
+.report-budget { padding-bottom: 1em; }
+.report-budget dt, .report-budget dd { margin: 0; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.report-budget__item { float: left; width: 20%; margin: 0 30px 30px 0; }
+.report-budget__item__header { width: 100%; padding: .375em 1em; background: #00b0eb; font-weight: 700; color: #fff; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.report-budget__item__row {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	-ms-flex-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	padding: .375em 0;
+	border-bottom: 1px solid #d7d9dc;
+}
+.report-budget__item__col {
+	-ms-flex: 1 1 50%;
+	-webkit-flex: 1 1 50%;
+	flex: 1 1 50%;
+}
+.report-budget__item__col dd { padding-right: 13%; }
+.report-budget__item__col + .report-budget__item__col dt { padding-left: 13%; }
+.report-budget__item__col + .report-budget__item__col dd { padding-right: 0; }
+.report-budget__item_annual {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-flow: row wrap;
+	-ms-flex-flow: row wrap;
+	flex-flow: row wrap;
+	width: -webkit-calc(83% + 60px);
+	width: -moz-calc(83% + 60px);
+	width: calc(83% + 60px);
+}
+
+.report-activity dt, .report-activity dd { margin: 0; padding: .375em 0; }
+.report-activity dt {
+	-ms-flex: 0 0 20%;
+	-webkit-flex: 0 0 20%;
+	flex: 0 0 20%;
+	margin-right: 15px;
+}
+.report-activity dd {
+	-ms-flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+.report-activity__col { width: 48%; }
+.report-activity__header {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.report-activity__header dt, .report-activity__header dd { background: #00b0eb; font-weight: 700; color: #fff; }
+.report-activity__row {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	padding-right: 5%;
+	border-bottom: 1px solid #d7d9dc;
+}
+.report-activity__row.is-required { background: url(http://dm.vw-servicepool.ru/pdf/img/ico_required.png) 98% 50% no-repeat; background-size: auto 2em; }
+.report-activity__row dt figure { display: block; margin: .15em auto; width: 2em; height: 2em; border-radius: 100%; }
+.report-activity__row.is-green dt figure { background: #40ae49; }
+.report-activity__row.is-yellow dt figure { background: #fff200; }
+.report-activity__row.is-orange dt figure { background: #f57f20; }
+.report-activity__row.is-red { color: #818285; }
+.report-activity__row.is-red dt figure { background: #d2232a; }
+
+.report-activity__legend dt, .report-activity__legend dd { margin: 0; padding: 0; }
+.report-activity__legend__item {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+.report-activity__legend__item dt figure { display: block; margin-right: 1em; width: 2em; height: 2em; border-radius: 100%; }
+.report-activity__legend__item.is-green dt figure { background: #40ae49; }
+.report-activity__legend__item.is-yellow dt figure { background: #fff200; }
+.report-activity__legend__item.is-orange dt figure { background: #f57f20; }
+.report-activity__legend__item.is-red dt figure { background: #d2232a; }
+.report-activity__legend__item.is-required dt figure { background: url(http://dm.vw-servicepool.ru/pdf/img/ico_required.png) 50% no-repeat; background-size: auto 2em; }
+
+.tbl_campaign_intro { margin: 0 0 1.5em !important; font-size: 1.25em; text-transform: uppercase; }
+.tbl_campaign_intro td { padding: 0 1.5em .25em 0; border: 0; vertical-align: bottom; }
+.tbl_campaign_intro strong { font-size: 1.25em; text-transform: none; }
+
+.report-campaign-stats { position: relative; padding-left: 3.5em; }
+.report-campaign-stats + .report-campaign-stats { margin-top: 2.5em; }
+.report-campaign-stats:before { position: absolute; top: 0; bottom: 4px; left: 0; width: 2.25em; background: #00b0eb; content: ""; }
+.report-campaign-stats__title {
+	position: absolute;
+	z-index: 10;
+	top: 50%;
+	left: 0;
+	margin: -.5em 0 0;
+	padding: .25em 0;
+	font-size: 1.5em;
+	line-height: 1;
+	color: #fff;
+	text-transform: uppercase;
+	-webkit-transform: rotate(-90deg) translate(-50%, 50%);
+	-moz-transform: rotate(-90deg) translate(-50%, 50%);
+	-ms-transform: rotate(-90deg) translate(-50%, 50%);
+	-o-transform: rotate(-90deg) translate(-50%, 50%);
+	transform: rotate(-90deg) translate(-50%, 50%);
+	-webkit-transform-origin: 0 50%;
+	-moz-transform-origin: 0 50%;
+	-ms-transform-origin: 0 50%;
+	-o-transform-origin: 0 50%;
+	transform-origin: 0 50%;
+}
+.report-campaign-stats table { margin: 0; width: 100%; border-collapse: separate; }
+.report-campaign-stats table + table,
+.report-campaign-stats__table + .report-campaign-stats__table { margin-top: 1em; }
+.report-campaign-stats th,
+.report-campaign-stats__caption { padding: 0 1em .25em; background: none; border: 0; border-bottom: 2px solid; font-weight: 700; font-size: 1.25em; text-align: left; }
+.report-campaign-stats__caption {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: end;
+	-moz-box-align: end;
+	-ms-flex-align: end;
+	-webkit-align-items: flex-end;
+	align-items: flex-end;
+}
+.report-campaign-stats__caption__title {
+	-ms-flex: 1 1 80%;
+	-webkit-flex: 1 1 80%;
+	flex: 1 1 80%;
+}
+.report-campaign-stats__caption__subtitle {
+	-ms-flex: 1 1 20%;
+	-webkit-flex: 1 1 20%;
+	flex: 1 1 20%;
+	font-size: .875em;
+	text-align: center;
+}
+.report-campaign-stats td,
+.report-campaign-stats__row { padding: 0; border: solid #fff; border-width: 4px 0; font-size: 1.125em; vertical-align: middle; }
+.report-campaign-stats__row {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.report-campaign-stats__name {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-ms-flex: 1 1 70%;
+	-webkit-flex: 1 1 70%;
+	flex: 1 1 70%;
+	position: relative;
+	padding: .375em 1em .425em;
+	background: #00b0eb;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.report-campaign-stats__name span { display: block; width: 100%; }
+.report-campaign-stats__value {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-ms-flex: 1 1 30%;
+	-webkit-flex: 1 1 30%;
+	flex: 1 1 30%;
+	position: relative;
+	padding: .375em 1em .425em;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.report-campaign-stats__value:before { position: absolute; top: 0; bottom: 0; right: 100%; margin-right: -.925em; width: 1.85em; background: url(http://dm.vw-servicepool.ru/pdf/img/ico_arrow.png) 50% no-repeat; background-size: 100% 100%; content: ""; }
+.report-campaign-stats__value span { display: block; width: 100%; }
+.report-campaign-stats tbody tr, .report-campaign-stats__row { background: #bfc2c7; }
+.report-campaign-stats tbody tr:nth-child(even),
+.report-campaign-stats__table .report-campaign-stats__row:nth-child(odd) { background: #ebedf0; }
+.report-campaign-stats tbody tr:nth-child(even) .report-campaign-stats__name,
+.report-campaign-stats__table .report-campaign-stats__row:nth-child(odd) .report-campaign-stats__name { background: #66d0f3; }
+
+.report-campaign-stats_split .report-campaign-stats__caption { padding-right: 0; }
+.report-campaign-stats_split .report-campaign-stats__name {
+	-ms-flex: 1 1 60%;
+	-webkit-flex: 1 1 60%;
+	flex: 1 1 60%;
+}
+.report-campaign-stats_split .report-campaign-stats__value {
+	-ms-flex: 1 1 20%;
+	-webkit-flex: 1 1 20%;
+	flex: 1 1 20%;
+}
+
+.report-chart { position: relative; margin: 3em 60px 3em 20%; padding-bottom: 15px; border: solid #9e9d9d; border-width: 0 0 1px 1px; }
+.report-chart__axis {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	-ms-flex-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	position: absolute;
+	bottom: 0;
+	left: -1px;
+	right: 0;
+}
+.report-chart__axis div { position: relative; width: 1px; height: 15px; background: #9e9d9d; }
+.report-chart__axis div span { position: absolute; top: 100%; left: 50%; margin-top: 5px; color: #9e9d9d; white-space: nowrap; -webkit-transform: translateX(-50%); -moz-transform: translateX(-50%); -ms-transform: translateX(-50%); -o-transform: translateX(-50%); transform: translateX(-50%); }
+.report-chart__row { position: relative; padding: .5em 0; min-height: 1.5em; }
+.report-chart__caption { position: absolute; top: 50%; right: 100%; margin-right: 1%; width: 24%; color: #9e9d9d; text-align: right; -webkit-transform: translateY(-50%); -moz-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); }
+.report-chart__item { position: relative; margin: 3px 0; height: 1.5em; background: #9e9d9d; }
+.report-chart__item.is-orange { background: #f57f20; }
+.report-chart__item.is-blue { background: #00b0eb; }
+.report-chart__item span { position: absolute; top: .125em; left: 100%; margin-left: 5px; white-space: nowrap; }
+
+.nav_quarts { margin: -.5em 0 .5em; font-size: 2.5em; color: #bfc2c7; text-transform: uppercase; }
+.nav_quarts .active { color: #29abdf; }
+
+.report-campaign-title { margin: 0; padding: 15px; background: #29abdf; color: #fff; text-transform: uppercase; }
+.report-campaign-title + .report-campaign-title { margin-top: 15px; }
+.report-campaign-title span { padding-right: 15px; }
+.report-campaign-title.is-gray { background: #bfc2c7; }
+
+.report-campaign-box { margin-bottom: 15px; border: 4px solid #29abdf; border-top-width: 0; }
+.report-campaign-box.is-gray { border-color: #bfc2c7; }
+.report-campaign-descr { padding: 8px 0; }
+.report-campaign-descr__img {
+	-ms-flex: 0 0 26%;
+	-webkit-flex: 0 0 26%;
+	flex: 0 0 26%;
+	background-position: 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: solid #fff;
+	border-width: 7px 15px;
+}
+.report-campaign-descr__txt {
+	-ms-flex-direction: column;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	-ms-flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+.report-campaign-descr__txt dl {
+	-ms-flex: 1 1 25%;
+	-webkit-flex: 1 1 25%;
+	flex: 1 1 25%;
+	padding: 7px 0;
+}
+.report-campaign-descr__txt dt {
+	-ms-flex: 0 0 27%;
+	-webkit-flex: 0 0 27%;
+	flex: 0 0 27%;
+	padding: .5em 15px;
+	background: #d1d6d9;
+	font-weight: 700;
+}
+.report-campaign-descr__txt dd {
+	-ms-flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;
+	padding: .5em 15px;
+}
+
+.report-campaign-funnel { padding: 5%; }
+.report-campaign-funnel__values {
+	-ms-flex: 1 1 50%;
+	-webkit-flex: 1 1 50%;
+	flex: 1 1 50%;
+	padding: 0 8%;
+}
+.report-campaign-funnel__values__chart, .report-campaign-funnel__values__chart_g { position: relative; padding-bottom: 87.83783783783784%; background: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel.jpg) 50% no-repeat; background-size: 100%; font-weight: 700; font-size: 3em; color: #fff; text-align: center; }
+.report-campaign-funnel__values__chart ul, .report-campaign-funnel__values__chart_g ul {
+	-ms-flex-direction: column;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.report-campaign-funnel__values__chart li, .report-campaign-funnel__values__chart_g li {
+	-ms-flex: 1 1 25%;
+	-webkit-flex: 1 1 25%;
+	flex: 1 1 25%;
+}
+.report-campaign-funnel__values__chart li span { display: block; width: 100%; }
+.report-campaign-funnel__values__chart li:last-child { color: #818285; }
+.report-campaign-funnel_sm .report-campaign-funnel__values__chart { padding-bottom: 82.77777777777778%; background-image: url(http://dm.vw-servicepool.ru/pdf/img/img_funnel_sm.jpg); font-size: 2em; }
+
+.report-campaign-funnel__values__chart_g li div { display: block; width: 100%; }
+.report-campaign-funnel__values__chart_g li:last-child { color: #818285; }
+
+.report-campaign-chart-legend li { position: relative; margin-bottom: 1.25em; padding-left: 1.75em; }
+.report-campaign-chart-legend li:last-child { margin: 0; }
+.report-campaign-chart-legend li:before { display: block; position: absolute; top: .175em; left: 0; width: 1em; height: 1em; content: ""; }
+.report-campaign-chart-legend li.is-blue:before { background: #29abdf; }
+.report-campaign-chart-legend li.is-blue2:before { background: #7ecdec; }
+.report-campaign-chart-legend li.is-gray:before { background: #bfc2c7; }
+.report-campaign-chart-legend li.is-gray2:before { background: #d1d6d9; }
+.report-campaign-chart-legend li.is-gray3:before { background: #ebedf0; }
+
+.report-campaign-chart-legend li.is-amaranth:before { background: #E52B50; }
+.report-campaign-chart-legend li.is-amber:before { background: #FFBF00; }
+.report-campaign-chart-legend li.is-amethyst:before { background: #9966CC; }
+.report-campaign-chart-legend li.is-apricot:before { background: #FBCEB1; }
+.report-campaign-chart-legend li.is-aquamarine:before { background: #7FFFD4; }
+.report-campaign-chart-legend li.is-azure:before { background: #007FFF; }
+.report-campaign-chart-legend li.is-baby-blue:before { background: #89CFF0; }
+.report-campaign-chart-legend li.is-beige:before { background: #F5F5DC; }
+.report-campaign-chart-legend li.is-blue:before { background: #0000FF; }
+.report-campaign-chart-legend li.is-blue-green:before { background: #0095B6; }
+.report-campaign-chart-legend li.is-blue-violet:before { background: #8A2BE2; }
+.report-campaign-chart-legend li.is-blush:before { background: #DE5D83; }
+.report-campaign-chart-legend li.is-bronze:before { background: #CD7F32; }
+.report-campaign-chart-legend li.is-brown:before { background: #964B00; }
+.report-campaign-chart-legend li.is-burgundy:before { background: #800020; }
+.report-campaign-chart-legend li.is-byzantium:before { background: #702963; }
+
+.report-campaign-chart-legend li.is-carmine:before { background: #960018; }
+.report-campaign-chart-legend li.is-cerise:before { background: #DE3163; }
+.report-campaign-chart-legend li.is-cerulean:before { background: #007BA7; }
+.report-campaign-chart-legend li.is-champagne:before { background: #F7E7CE; }
+.report-campaign-chart-legend li.is-chartreuse-green:before { background: #7FFF00; }
+.report-campaign-chart-legend li.is-chocolate:before { background: #7B3F00; }
+.report-campaign-chart-legend li.is-cobalt-blue:before { background: #0047AB; }
+.report-campaign-chart-legend li.is-coffee:before { background: #6F4E37; }
+.report-campaign-chart-legend li.is-copper:before { background: #B87333; }
+.report-campaign-chart-legend li.is-coral:before { background: #F88379; }
+.report-campaign-chart-legend li.is-crimson:before { background: #DC143C; }
+.report-campaign-chart-legend li.is-cyan:before { background: #00FFFF; }
+.report-campaign-chart-legend li.is-desert-sand:before { background: #EDC9Af; }
+.report-campaign-chart-legend li.is-electric-blue:before { background: #7DF9FF; }
+.report-campaign-chart-legend li.is-emerald:before { background: #50C878; }
+.report-campaign-chart-legend li.is-erin:before { background: #00FF3F; }
+
+.report-campaign-chart-legend_cols li { display: inline-block; vertical-align: top; padding-right: 30px; width: 45%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+.report-campaign-funnel__legend {
+	-ms-flex: 1 1 50%;
+	-webkit-flex: 1 1 50%;
+	flex: 1 1 50%;
+}
+
+.report-campaign-effsum { padding: 3% 8%; font-size: 1.5em; }
+.report-campaign-effsum dd { font-weight: 700; font-size: 2em; color: #ed1c24; }
+
+.report-campaign-chart-row { padding: 3.5% 5% 0; }
+.report-campaign-chart-row__body {
+	-ms-flex: 0 0 18%;
+	-webkit-flex: 0 0 18%;
+	flex: 0 0 18%;
+	margin-right: 40px;
+}
+.report-campaign-chart-row__body .report-campaign-funnel,
+.report-campaign-chart-row__body .report-campaign-funnel__values { padding: 0; }
+.report-campaign-chart-row__legend {
+	-ms-flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+.report-campaign-chart-row__legend h3 { margin: 0 0 .75em 1.25em; }
+
+.report-campaign-sum { padding: 2em 5% 0; }
+.report-campaign-sum + .report-campaign-sum { padding-top: 1em; }
+.report-campaign-sum dt {
+	-ms-flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+.report-campaign-sum dd {
+	-ms-flex: 0 0 auto;
+	-webkit-flex: 0 0 auto;
+	flex: 0 0 auto;
+	padding: .25em 0;
+	font-weight: 700;
+	font-size: 2em;
+	color: #29abdf;
+}
+.report-campaign-sum dd.is-green { color: #40ae49; }
+.report-campaign-sum dl + dl { border-top: 1px solid; }
+
+.report-dealers {}
+.report-dealers table { margin: 0; width: 50%; }
+.report-dealers table td { padding: .5em 10px .5em 0; border: 0; border-bottom: 1px solid #d3d5d8; }
+.report-dealers__num { font-weight: 700; color: #29abdf; }
+.report-dealers__title { width: 100%; }
+.report-dealers__icons { white-space: nowrap; }
+.report-dealers__icons img { display: inline-block; vertical-align: middle; margin-left: 5px; max-width: none; }
+.report-dealers table .is-empty { color: #818285; }
+.report-dealers table .is-empty .report-dealers__num { color: inherit; }
+
+.report-dealers__legend { margin: 1em -15px; }
+.report-dealers__legend li {
+	-ms-flex: 0 0 50%;
+	-webkit-flex: 0 0 50%;
+	flex: 0 0 50%;
+	padding: .5em 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.report-dealers__legend figure {
+	-ms-flex: 0 0 50px;
+	-webkit-flex: 0 0 50px;
+	flex: 0 0 50px;
+	font-weight: 700;
+	font-size: 1.25em;
+	color: #818285;
+}
+
+#d-footer { padding: 1em 0 1.5em; }
+.d-footer { position: relative; margin-top: 1.5em; padding-top: .5em; border-top: 3px solid #29abdf; font-size: 1.25em; }
+.d-footer__title { position: absolute; bottom: 100%; left: 0; padding-right: .5em; background: #fff; font-weight: 700; line-height: 1; color: #29abdf; text-transform: uppercase; }
+
+@page {
+	margin: 0cm;
+}
+
+/*** PRINT STYLES ***/
+@media print {
+	@page { margin: 0; }
+	body { font-size: 12px; }
+	pre, blockquote { border: 1px solid #333; page-break-inside: avoid; }
+	thead { display: table-header-group; }
+	tr, img { page-break-inside: avoid; }
+	p, h2, h3 { orphans: 3; widows: 3; }
+	h2, h3{ page-break-after: avoid; }
+	.report-activity__legend { font-size: 10px; }
+}
+</style>
+</head>
+
+<body>
+<div id="d-wrap" class="page-wrap is-flexbox">
+    <header id="d-header">
+
+        <div class="d-grid">
+            <h1 class="d-ttu">4 квартал</h1>
+            <div class="d-header is-flexbox">
+                <div class="d-header__company d-bsbb">
+                    <h2 class="h1">АвтоКлаус Центр</h2>
+                    <h3>93500191</h3>
+                </div>
+                <div class="d-header__manager d-bsbb fs_xl">
+                    <strong>Региональный менеджер</strong>
+                    Базанов Юрий                </div>
+            </div>
+
+        </div>
+
+    </header>
+<br/>
+<main id="d-content">
+
+    <div class="d-grid">
+
+        <h2 class="h1 d-ttu">Маркетинговый бюджет</h2>
+        <div class="report-budget d-cb">
+
+                            <div class="report-budget__item">
+                    <div class="report-budget__item__header ff_head">I квартал</div>
+                    <dl class="report-budget__item__row">
+                        <dt>План:</dt>
+                        <dd>338 405.00 руб.</dd>
+                    </dl>
+                    <dl class="report-budget__item__row">
+                        <dt>Факт:</dt>
+                        <dd>338 405.00 руб.</dd>
+                    </dl>
+                </div>
+                            <div class="report-budget__item">
+                    <div class="report-budget__item__header ff_head">II квартал</div>
+                    <dl class="report-budget__item__row">
+                        <dt>План:</dt>
+                        <dd>484 127.00 руб.</dd>
+                    </dl>
+                    <dl class="report-budget__item__row">
+                        <dt>Факт:</dt>
+                        <dd>484 127.00 руб.</dd>
+                    </dl>
+                </div>
+                            <div class="report-budget__item">
+                    <div class="report-budget__item__header ff_head">III квартал</div>
+                    <dl class="report-budget__item__row">
+                        <dt>План:</dt>
+                        <dd>505 647.00 руб.</dd>
+                    </dl>
+                    <dl class="report-budget__item__row">
+                        <dt>Факт:</dt>
+                        <dd>505 647.00 руб.</dd>
+                    </dl>
+                </div>
+                            <div class="report-budget__item">
+                    <div class="report-budget__item__header ff_head">IV квартал</div>
+                    <dl class="report-budget__item__row">
+                        <dt>План:</dt>
+                        <dd>512 598.00 руб.</dd>
+                    </dl>
+                    <dl class="report-budget__item__row">
+                        <dt>Факт:</dt>
+                        <dd>78 158.56 руб.</dd>
+                    </dl>
+                </div>
+            
+            <div class="report-budget__item report-budget__item_annual">
+                <div class="report-budget__item__header ff_head">Годовой бюджет</div>
+                <div class="report-budget__item__col">
+                    <dl class="report-budget__item__row">
+                        <dt>План:</dt>
+                        <dd>1 840 777.00 руб.</dd>
+                    </dl>
+                    <dl class="report-budget__item__row">
+                        <dt>Выполнено:</dt>
+                        <dd>1 406 337.56 руб.</dd>
+                    </dl>
+                </div>
+                <div class="report-budget__item__col">
+                    <dl class="report-budget__item__row">
+                        <dt>Выполнено:</dt>
+                        <dd><strong>76%</strong></dd>
+                    </dl>
+                    <dl class="report-budget__item__row">
+                        <dt>Осталось выполнить:</dt>
+                        <dd>434 439.44 руб.</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        
+        <h2 class="h1 d-ttu">Участие в активностях</h2>
+        <div class="report-activity is-flexbox is-flexbox_justify">
+
+                        <div class="report-activity__col">
+                <dl class="report-activity__header ff_head d-tac">
+                    <dt>Статус</dt>
+                    <dd>Кампания</dd>
+                </dl>
+
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Зимняя сервисная кампания</dd>
+                </dl>
+                                <dl class="report-activity__row is-red ">
+                    <dt><figure></figure></dt>
+                    <dd>Наполнение сервисных страниц на сайте</dd>
+                </dl>
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Сезонная кампания с ваучерами</dd>
+                </dl>
+                                <dl class="report-activity__row is-orange is-required">
+                    <dt><figure></figure></dt>
+                    <dd>Дилерская кампания (собственная) </dd>
+                </dl>
+                                <dl class="report-activity__row is-orange is-required">
+                    <dt><figure></figure></dt>
+                    <dd>Масляный сервис по специальной цене</dd>
+                </dl>
+                                <dl class="report-activity__row is-red ">
+                    <dt><figure></figure></dt>
+                    <dd>Социальные сети</dd>
+                </dl>
+                                <dl class="report-activity__row is-red ">
+                    <dt><figure></figure></dt>
+                    <dd>Кампания по продвижению оригинальных аксессуаров</dd>
+                </dl>
+                                <dl class="report-activity__row is-red ">
+                    <dt><figure></figure></dt>
+                    <dd>Кампания «2 года гарантии на оригинальные детали Volkswagen»</dd>
+                </dl>
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Volkswagen Народный Сервис</dd>
+                </dl>
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Собственные имиджевые дилерские активности</dd>
+                </dl>
+                            </div>
+                        <div class="report-activity__col">
+                <dl class="report-activity__header ff_head d-tac">
+                    <dt>Статус</dt>
+                    <dd>Кампания</dd>
+                </dl>
+
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Программа «Гарантия мобильности»</dd>
+                </dl>
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Первичная идентификация дилера</dd>
+                </dl>
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Оклейка автомобилей</dd>
+                </dl>
+                                <dl class="report-activity__row is-red ">
+                    <dt><figure></figure></dt>
+                    <dd>Продвижение пакетов Economy</dd>
+                </dl>
+                                <dl class="report-activity__row is-orange ">
+                    <dt><figure></figure></dt>
+                    <dd>Собственные сервисные дилерские активности</dd>
+                </dl>
+                                <dl class="report-activity__row is-green is-required">
+                    <dt><figure></figure></dt>
+                    <dd>Service Clinic</dd>
+                </dl>
+                            </div>
+                    </div>
+    </div>
+
+</main>
+
+<footer id="d-footer">
+    <div class="d-grid">
+
+        <div class="report-activity__legend is-flexbox is-flexbox_justify">
+
+            <dl class="report-activity__legend__item is-green">
+                <dt><figure></figure></dt>
+                <dd>Активность выполнена, <br/>статистика заполнена</dd>
+            </dl>
+
+            <dl class="report-activity__legend__item is-yellow">
+                <dt><figure></figure></dt>
+                <dd>Активность выполнена, <br/>статистика не заполнена</dd>
+            </dl>
+
+            <dl class="report-activity__legend__item is-orange">
+                <dt><figure></figure></dt>
+                <dd>Заведена заявка <br/>на согласование</dd>
+            </dl>
+
+            <dl class="report-activity__legend__item is-red">
+                <dt><figure></figure></dt>
+                <dd>В активности участия <br/>не принимал</dd>
+            </dl>
+
+            <dl class="report-activity__legend__item is-required">
+                <dt><figure></figure></dt>
+                <dd>Обязательные <br/>активности</dd>
+            </dl>
+
+        </div>
+
+    </div>
+</footer>
+<br/>
+</div><!-- /#d-wrap -->
+
+</body></html>

@@ -256,7 +256,7 @@ class Utils
             ->orderBy('id DESC');;
     }
 
-    static function checkModelsCompleted(Activity $activity, Dealer $dealer, $year, $quarter)
+    static function checkModelsCompleted(Activity $activity, Dealer $dealer, $year, $quarter, $concept_id = 0, $return_models_list = false)
     {
         $complete = false;
 
@@ -273,12 +273,20 @@ class Utils
             ->andWhere('am.is_deleted = ?', false)
             ->orderBy('am.id ASC');
 
+        if ($concept_id != 0) {
+            $query->andWhere('am.concept_id = ?', $concept_id);
+        }
+
         //Спец. согласование по рег. менеджеру и импортеру
         if (!$activity->getAllowSpecialAgreement()) {
             $query->andWhere('model_type_id != ?', Activity::CONCEPT_MODEL_TYPE_ID);
         }
 
         $activityModelsComplete = $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+        if ($return_models_list) {
+            return $activityModelsComplete;
+        }
 
         foreach ($activityModelsComplete as $model) {
             $date = Utils::getModelDateFromLogEntryWithYear($model['id']);

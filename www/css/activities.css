@@ -1172,6 +1172,15 @@ table.models img.delete-model, table.models img.undo-delete-model { position: ab
 .grid-activities__link__action {
     position: absolute; top: 0; right: 0; margin: 0; width: 32px; height: 32px; background: url(../img/icon_status.png) 50% 32px no-repeat;
 }
+
+.grid-activities__link__title {
+    width: 290px; float: left;
+}
+
+.grid-activities__link__preview {
+    float: left;
+}
+
 .grid-activities__link__action_completed { background-position: 50% 0; }
 .grid-activities__link__action_wait { background-position: 50% -32px; }
 .grid-activities__link__action_progress { background-position: 50% -64px; }
