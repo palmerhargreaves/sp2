@@ -76,7 +76,7 @@ class mailingComponents extends sfComponents
 //        $this->year = $year;
         $dealer_number = $this->getDealerNumber($request);
 //        $this->display_filter = false;
-        $this->display_load_panel = date('n') == 1 ? date('d') <= 12 ? true : false : date('d') <= 10 ? true : false;
+        $this->display_load_panel = date('n') == 1 ? (date('d') <= 12 ? true : false) : date('d') <= 10 ? true : false;
 
         $dealer = $this->getDealer();
 

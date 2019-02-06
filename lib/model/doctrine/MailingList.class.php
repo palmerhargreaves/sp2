@@ -88,6 +88,8 @@ class MailingList extends BaseMailingList
 //        echo "<pre>" . print_r($data, 1) . "</pre>"; die();
         if (!empty($data) && count($data) >= 10) {
             $tmp = array();
+
+            $has_error = false;
             foreach ($data as $key => $item) {
                 if ($key == 0) {
                     $tmp['number'] = $dealer->getNumber();
@@ -100,7 +102,7 @@ class MailingList extends BaseMailingList
                 } elseif ($key == 4) {
                     if (empty($item)) {
                         $tmp['gender'] = null;
-                        $total_result['total_incorrect']++;
+                        $has_error = true;
                         self::logger('../log/mailing-errors.log', date('Y-m-d H:i:s') . " dealer number - " . $dealer->getNumber() . " - GENDER field EMPTY. He was not added to the database\n", FILE_APPEND);
                     } else {
                         $tmp['gender'] = self::decodeString($item);
@@ -110,7 +112,7 @@ class MailingList extends BaseMailingList
                 } elseif ($key == 6) {
                     if (empty($item)) {
                         $tmp['vin'] = null;
-                        $total_result['total_incorrect']++;
+                        $has_error = true;
                         self::logger('../log/mailing-errors.log', date('Y-m-d H:i:s') . " dealer number - " . $dealer->getNumber() . " - VIN field EMPTY. He was not added to the database\n", FILE_APPEND);
                     } else {
                         $tmp['vin'] = trim(str_replace(" ", "", $item));
@@ -120,7 +122,7 @@ class MailingList extends BaseMailingList
                         $tmp['email'] = trim(str_replace(" ", "", $item));
                     } else {
                         $tmp['email'] = null;
-                        $total_result['total_incorrect']++;
+                        $has_error = true;
                         self::logger('../log/mailing-errors.log', date('Y-m-d H:i:s') . " dealer number - " . $dealer->getNumber() . " - Email address '" . $item . "' He was not added to the database\n", FILE_APPEND);
 //                        throw new Exception(self::EXCEPTION_FILE);
                     }
@@ -141,6 +143,11 @@ class MailingList extends BaseMailingList
 
                     $tmp['added_date'] = $date->format('Y-m-d');
                 }
+            }
+
+            //Если есть незаполненные поля в строке, учитываем
+            if ($has_error) {
+                $total_result['total_incorrect']++;
             }
 
             if (!empty($tmp['email']) && self::checkDuplicate($tmp['email'], $dealer)) { // Проверяем на дубликаты в базе
