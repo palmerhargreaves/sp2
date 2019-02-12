@@ -30,7 +30,6 @@ class comment_statActions extends sfActions
     
     private $start_date = null;
     private $end_date;
-    private $by_designer = null;
     private $make_changes = null;
 
     function executeIndex(sfWebRequest $request)
@@ -40,11 +39,11 @@ class comment_statActions extends sfActions
 
     function executeShow(sfWebRequest $request)
     {
-        $start_date = $request->getParameter('start_date');
-        $end_date = $request->getParameter('end_date');
+        $start_date = $start_orig_date = $request->getParameter('start_date');
+        $end_date = $end_orig_date = $request->getParameter('end_date');
         $this->by_designer = $request->getParameter('sb_filter_by_designer');
         $this->make_changes = $request->getParameter('make_changes');
-        
+
         if (preg_match('#^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$#', $start_date)) {
             $start_date = D::fromRus($start_date);
         } else {
@@ -74,8 +73,10 @@ class comment_statActions extends sfActions
 
         //Определяем общее количество прокомментированных заявок
         $this->getTotalCommentedModelsBySpecialists();
-
         $this->getItems();
+
+        $this->start_date_orig = $start_orig_date;
+        $this->end_date_orig = $end_orig_date;
 
         $this->setTemplate('index');
     }

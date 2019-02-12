@@ -40,10 +40,10 @@
                         <li>
                             Период:<br/>
                             <input type="text" id="start_date" name="start_date" placeholder="от"
-                                   value="<?php echo isset($start_date) ? $start_date : '' ?>" class="input-small date">
+                                   value="<?php echo isset($start_date_orig) ? $start_date_orig : '' ?>" class="input-small date">
                             -
                             <input type="text" id="end_date" name="end_date" placeholder="до"
-                                   value="<?php echo isset($end_date) ? $end_date : '' ?>" class="input-small date">
+                                   value="<?php echo isset($end_date_orig) ? $end_date_orig : '' ?>" class="input-small date">
                         </li>
                         <li>
                             Дизайнер:<br/>
@@ -51,7 +51,7 @@
                                 <option value="">Все</option>
 
                                 <?php foreach (UserTable::getInstance()->createQuery()->where('group_id = ?', User::DESIGNER_ID)->orderBy('name ASC')->execute() as $user): ?>
-                                    <option value="<?php echo $user->getId(); ?>"><?php echo $user->selectName(); ?></option>
+                                    <option value="<?php echo $user->getId(); ?>" <?php echo !empty($by_designer) ? ($user->getId() == $by_designer ? "selected" : "") : ""  ?> ><?php echo $user->selectName(); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </li>
