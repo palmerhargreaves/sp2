@@ -86,33 +86,40 @@ $summFoQ4 = 0;
                                         Обязательные активности
                                     </li>
 
-                                    <?php foreach ($quarters_statistics[$n]['mandatory_activities']['list'] as $activity): ?>
-                                        <li class="mandatory-activity-item-<?php echo $n; ?>">
-                                            <a class="tooltip-line" href="javascript:;">
-                                                <div class="activity-work-info <?php echo $activity['work_status']; ?>-circle">&nbsp;</div>
-                                                <div class="tooltip-line-content">
-                                                    <div class="tooltip-line-text" style="border-bottom: 2px solid <?php echo $activity['work_status']; ?>">
-                                                        <div class="tooltip-line-inner"><?php echo $activity['work_status_msg']; ?></div>
-                                                    </div>
+                                    <?php foreach ($quarters_statistics[$n]['mandatory_activities']['list'] as $slot_id => $slots): ?>
+                                        <li class="row-mandatory-activity-item mandatory-activity-item-<?php echo $n; ?>">
+                                            <?php foreach ($slots as $activity): ?>
+                                                <div>
+                                                    <span>
+                                                        <a class="tooltip-line" href="javascript:;">
+                                                            <div class="activity-work-info <?php echo $activity['work_status']; ?>-circle">&nbsp;</div>
+                                                            <div class="tooltip-line-content">
+                                                                <div class="tooltip-line-text" style="border-bottom: 2px solid <?php echo $activity['work_status']; ?>">
+                                                                    <div class="tooltip-line-inner"><?php echo $activity['work_status_msg']; ?></div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </span>
+
+                                                    <span>
+                                                        <?php if ($activity['can_redirect']): ?>
+                                                            <a href="<?php echo url_for("@activity_quarter_data?activity=".$activity['id']."&current_q=".$n."&current_year=".$quarters_statistics[$n]['year']); ?>" style="font-weight: normal;">
+                                                                <?php echo $activity['name']; ?>
+                                                                <span><?php echo $activity['id']; ?></span>
+                                                            </a>
+                                                        <?php else: ?>
+                                                            <?php echo $activity['name']; ?>
+                                                            <span><?php echo $activity['id']; ?></span>
+                                                        <?php endif; ?>
+
+                                                    <!--<li class="<?php if ($show_icons): ?>mandatory-activity-item-<?php echo $activity['completed'] ? 'completed' : 'in-work'; ?> <?php endif; ?> mandatory-activity-item-<?php echo $n; ?>">
+                                                        <?php echo $activity['name']; ?>
+                                                        <span><?php echo $activity['id']; ?></span>
+                                                    </li>-->
+                                                    </span>
                                                 </div>
-                                            </a>
-
-                                            <?php if ($activity['can_redirect']): ?>
-                                                <a href="<?php echo url_for("@activity_quarter_data?activity=".$activity['id']."&current_q=".$n."&current_year=".$quarters_statistics[$n]['year']); ?>" style="font-weight: normal;">
-                                                    <?php echo $activity['name']; ?>
-                                                    <span><?php echo $activity['id']; ?></span>
-                                                </a>
-                                            <?php else: ?>
-                                                <?php echo $activity['name']; ?>
-                                                <span><?php echo $activity['id']; ?></span>
-                                            <?php endif; ?>
+                                            <?php endforeach; ?>
                                         </li>
-
-                                        <!--<li class="<?php if ($show_icons): ?>mandatory-activity-item-<?php echo $activity['completed'] ? 'completed' : 'in-work'; ?> <?php endif; ?> mandatory-activity-item-<?php echo $n; ?>">
-                                            <?php echo $activity['name']; ?>
-                                            <span><?php echo $activity['id']; ?></span>
-                                        </li>-->
-
                                     <?php endforeach; ?>
                                 <?php endif; ?>
 

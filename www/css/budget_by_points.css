@@ -46,6 +46,12 @@ div.budget { position: relative; font-family: 'vw',sans-serif; width: 100%; }
 .caption_overdraft { margin-top: .5em; font-size: 14px; text-align: right; }
 .caption_quart { position: absolute; bottom: 12px; left: 50%; }
 
-.budget .quarter-pane-points {
+.budget .quarter-pane-points { }
 
+.row-mandatory-activity-item:nth-child(odd) {
+    background: #e7ecef;
 }
+
+.row-mandatory-activity-item div { display: inline-block; margin-bottom: 5px; }
+.row-mandatory-activity-item div span:first-child { float: left; width: 10%; }
+.row-mandatory-activity-item div span:last-child { float: left; width: 90%; }

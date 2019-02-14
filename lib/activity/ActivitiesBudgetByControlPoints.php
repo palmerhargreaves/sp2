@@ -74,8 +74,8 @@ class ActivitiesBudgetByControlPoints
     {
         //Вычисляем выполнение по кварталам
         if (!empty($this->_real_budget) && !empty($this->_fact_budget)) {
-            $quarters_real_sum = array();
-            $quarters_fact_sum = array();
+            $quarters_real_sum = array(1 => 0, 2 => 0, 3 => 0, 4 => 0);
+            $quarters_fact_sum = array(1 => 0, 2 => 0, 3 => 0, 4 => 0);
 
             for ($q = 1; $q <= 4; $q++) {
                 $this->_quarters_statistics[ $q ][ 'quarter_plan_completed' ] = $this->_fact_budget[ $q ]->getPlan() == 0 ? true :
@@ -83,8 +83,8 @@ class ActivitiesBudgetByControlPoints
 
                 //Вычисляем по кварталам общие суммы
                 for ($q_ind = 1; $q_ind <= $q; $q_ind++) {
-                    $quarters_real_sum[$q] += $this->_real_budget[ $q_ind ];
-                    $quarters_fact_sum[$q] += $this->_fact_budget[ $q_ind ]->getPlan();
+                    $quarters_real_sum[$q] += $this->_real_budget[$q_ind];
+                    $quarters_fact_sum[$q] += $this->_fact_budget[$q_ind]->getPlan();
                 }
             }
 
@@ -144,7 +144,11 @@ class ActivitiesBudgetByControlPoints
                             }
                         }
 
-                        $this->_quarters_statistics[$q]['mandatory_activities']['list'][] = array
+                        if (!array_key_exists($slot->getId(), $this->_quarters_statistics[$q]['mandatory_activities']['list'])) {
+                            $this->_quarters_statistics[$q]['mandatory_activities']['list'][$slot->getId()] = array();
+                        }
+
+                        $this->_quarters_statistics[$q]['mandatory_activities']['list'][$slot->getId()][] = array
                         (
                             'id' => $activity->getId(),
                             'name' => $activity->getName(),
